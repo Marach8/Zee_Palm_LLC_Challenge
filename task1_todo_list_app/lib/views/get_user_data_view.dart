@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lottie/lottie.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
+import 'package:task1_todo_list_app/constants/strings.dart';
 
 class GetUserDataView extends StatelessWidget {
   const GetUserDataView({super.key});
@@ -15,7 +17,26 @@ class GetUserDataView extends StatelessWidget {
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
       child: Scaffold(
-        backgroundColor: Colors.yellow,
+        backgroundColor: whiteColor,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_rounded),
+            onPressed: (){},
+          ),
+          backgroundColor: whiteColor,
+        ),
+        body: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                LottieBuilder.asset(
+                  lottie1Path,
+                  fit: BoxFit.contain,
+                )
+              ]
+            )
+          )
+        )
       )
     );
 }

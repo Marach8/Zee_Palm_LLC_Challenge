@@ -25,9 +25,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.light
         ),
         home: BlocConsumer<AppBloc, AppState>(
-          listener: (context1, appState){
-      
-          },
+          listener: (context1, appState){},
           // listenWhen: (initialState, newState) 
           //   => initialState != newState,
       

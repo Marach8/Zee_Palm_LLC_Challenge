@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
+import 'package:task1_todo_list_app/bloc/app_bloc.dart';
+import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
-import 'package:task1_todo_list_app/custom_widgets/divider.dart';
+import 'package:task1_todo_list_app/custom_widgets/divider_widget.dart';
+import 'package:task1_todo_list_app/custom_widgets/elevatedbutton_widget.dart';
+import 'package:task1_todo_list_app/custom_widgets/stepper_widget.dart';
 import 'package:task1_todo_list_app/custom_widgets/text_widget.dart';
 
 
@@ -67,33 +72,21 @@ class LandingView extends StatelessWidget {
                 const Gap(20),
                 const DividerWidget(color: blackColor),
                 const Gap(40),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: (){}, 
-                    style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(whiteColor),
-                      foregroundColor: MaterialStatePropertyAll(blackColor),
-                      side: MaterialStatePropertyAll(
-                        BorderSide(
-                          color: purpleColor,
-                          width: 1,
-                        )
-                      ) 
-                    ),
-                    child: const DecoratedText(
-                      text: getStarted, 
-                      color: blackColor, 
-                      fontSize: fontSize2, 
-                      fontWeight: fontWeight7
-                    )
+                ElevatedButtonWidget(
+                  backgroundColor: whiteColor,
+                  borderColor: purpleColor,
+                  buttonWidth: double.infinity,
+                  foregroundColor: blackColor,
+                  text: getStarted,
+                  function: () => context.read<AppBloc>().add(
+                    const GoToGetUserDataViewAppEvent()
                   ),
-                ),
+                )
               ],
             ),
           ),
-        )
+        ),
+        bottomSheet: const StepperWidget(inStep1: false)
       ),
     );
 }

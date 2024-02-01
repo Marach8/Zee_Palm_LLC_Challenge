@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task1_todo_list_app/views/home_view.dart';
+import 'package:task1_todo_list_app/views/landing_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         brightness: Brightness.light
       ),
-      home: const TodoHome()
+      home: const LandingView()
     );
   }
 }

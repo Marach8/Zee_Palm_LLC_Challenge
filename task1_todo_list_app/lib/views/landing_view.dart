@@ -20,8 +20,9 @@ class LandingView extends StatelessWidget {
   const  LandingView({super.key});
 
   @override
-  Widget build(BuildContext context) =>
-    AnnotatedRegion<SystemUiOverlayStyle>(
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: whiteColor,
         statusBarIconBrightness: Brightness.dark,
@@ -44,7 +45,7 @@ class LandingView extends StatelessWidget {
                     ),
                     Gap(10),
                     DecoratedText(
-                      text: manageTodosText, 
+                      text: appName, 
                       color: blackColor, 
                       fontSize: fontSize5, 
                       fontWeight: fontWeight7
@@ -72,21 +73,28 @@ class LandingView extends StatelessWidget {
                 const Gap(20),
                 const DividerWidget(color: blackColor),
                 const Gap(40),
-                ElevatedButtonWidget(
-                  backgroundColor: whiteColor,
-                  borderColor: purpleColor,
-                  buttonWidth: double.infinity,
-                  foregroundColor: blackColor,
-                  text: getStarted,
-                  function: () => context.read<AppBloc>().add(
-                    const GoToGetUserDataViewAppEvent()
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  width: screenWidth,
+                  child: ElevatedButtonWidget(
+                    backgroundColor: whiteColor,
+                    borderColor: purpleColor,
+                    foregroundColor: blackColor,
+                    text: getStarted,
+                    function: () => context.read<AppBloc>().add(
+                      const GoToGetUserDataViewAppEvent()
+                    ),
                   ),
                 )
               ],
             ),
           ),
         ),
-        bottomSheet: const StepperWidget(inStep1: false)
+        bottomSheet: const StepperWidget(
+          color1: whiteColor,
+          color2: whiteColor
+        )
       ),
     );
+  }
 }

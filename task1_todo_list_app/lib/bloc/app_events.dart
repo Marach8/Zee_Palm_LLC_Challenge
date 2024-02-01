@@ -9,3 +9,8 @@ abstract class AppEvents{
 class GoToGetUserDataViewAppEvent extends AppEvents{
   const GoToGetUserDataViewAppEvent();
 }
+
+@immutable 
+class GoToLandingPageAppEvent extends AppEvents{
+  const GoToLandingPageAppEvent();
+}

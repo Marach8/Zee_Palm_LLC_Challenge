@@ -17,10 +17,7 @@ class InGetUserDataViewAppState extends AppState{
 
 @immutable 
 class InLandingPageViewAppState extends AppState{
-  final bool inStep1;
-
   const InLandingPageViewAppState({
-    required this.inStep1,
     required bool isLoading
   }): super(isLoading: isLoading);
 }

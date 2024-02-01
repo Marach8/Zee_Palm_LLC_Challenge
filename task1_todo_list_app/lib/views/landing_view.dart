@@ -8,15 +8,15 @@ import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
 import 'package:task1_todo_list_app/custom_widgets/divider.dart';
-import 'package:task1_todo_list_app/custom_widgets/textfield.dart';
+import 'package:task1_todo_list_app/custom_widgets/text_widget.dart';
 
 
 class LandingView extends StatelessWidget {
   const  LandingView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
+  Widget build(BuildContext context) =>
+    AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: whiteColor,
         statusBarIconBrightness: Brightness.dark,
@@ -96,5 +96,4 @@ class LandingView extends StatelessWidget {
         )
       ),
     );
-  }
 }

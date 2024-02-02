@@ -44,7 +44,7 @@ class LoadingScreen{
     
     final overlay = OverlayEntry(
       builder: (_) => Material(
-        color: blackColor.withAlpha(150),
+        color: blackColor.withAlpha(50),
         child: Center(
           child: Container(
             constraints: BoxConstraints(
@@ -65,7 +65,7 @@ class LoadingScreen{
                   children: [
                     const Gap(10),
                     const CircularProgressIndicator(
-                      color: blackColor
+                      color: whiteColor
                     ),
                     const Gap(15),
                     StreamBuilder(

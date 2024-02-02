@@ -9,4 +9,5 @@ const enterUsername = 'Enter your username';
 const addPhoto = 'Add Photo';
 const save = 'Save';
 const skip = 'Skip';
-const usernameCannotBeEmpty = 'Username field cannot be empty! You might want to "Skip"';
+const usernameCannotBeEmpty = 'Username field cannot be empty! You might want to "Skip".';
+const saving = 'Saving...';

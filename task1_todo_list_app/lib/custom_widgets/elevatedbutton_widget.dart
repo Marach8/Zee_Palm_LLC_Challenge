@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
+import 'package:task1_todo_list_app/bloc/app_bloc.dart';
+import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
+import 'package:task1_todo_list_app/constants/strings.dart';
 import 'package:task1_todo_list_app/custom_widgets/text_widget.dart';
 
 class ElevatedButtonWidget extends StatelessWidget {
@@ -39,6 +44,55 @@ class ElevatedButtonWidget extends StatelessWidget {
         fontSize: fontSize2, 
         fontWeight: fontWeight7
       )
+    );
+  }
+}
+
+
+
+
+class SaveAndSkipButtons extends StatelessWidget {
+  final TextEditingController controller;
+
+  const SaveAndSkipButtons({
+    super.key,
+    required this.controller
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Expanded(
+          flex: 1,
+          child: ElevatedButtonWidget(
+            backgroundColor: whiteColor, 
+            foregroundColor: blackColor, 
+            borderColor: purpleColor, 
+            text: save, 
+            function: () => context.read<AppBloc>().add(
+              SaveUserDetailsAndGoToTodoHomeAppEvent(
+                username: controller.text
+              )
+            )
+          ),
+        ),
+        const Gap(10),
+        Expanded(
+          flex: 1,
+          child: ElevatedButtonWidget(
+            backgroundColor: whiteColor, 
+            foregroundColor: blackColor, 
+            borderColor: purpleColor, 
+            text: skip, 
+            function: () => context.read<AppBloc>().add(
+              const SkipUserDetailsAndGoToTodoHomeAppEvent()
+            )
+          ),
+        )
+      ]
     );
   }
 }

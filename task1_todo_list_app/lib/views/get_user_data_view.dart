@@ -104,37 +104,7 @@ class GetUserDataView extends HookWidget {
                     fit: BoxFit.contain,
                   ),
                   const Gap(40),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: ElevatedButtonWidget(
-                          backgroundColor: whiteColor, 
-                          foregroundColor: blackColor, 
-                          borderColor: purpleColor, 
-                          text: save, 
-                          function: () => context.read<AppBloc>().add(
-                            SaveUserDetailsAndGoToTodoHomeAppEvent(
-                              username: controller.text
-                            )
-                          )
-                        ),
-                      ),
-                      const Gap(10),
-                      Expanded(
-                        flex: 1,
-                        child: ElevatedButtonWidget(
-                          backgroundColor: whiteColor, 
-                          foregroundColor: blackColor, 
-                          borderColor: purpleColor, 
-                          text: skip, 
-                          function: (){}
-                        ),
-                      )
-                    ]
-                  )
+                  SaveAndSkipButtons(controller: controller)
                 ]
               )
             )

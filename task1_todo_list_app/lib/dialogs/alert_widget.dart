@@ -19,7 +19,7 @@ Future<void> showNotification(
       maxLines: 4,
     ).decorateWithGoogleFont(
       whiteColor,
-      fontWeight1,
+      fontWeight5,
       fontSize2,
     ), 
     actions: [
@@ -31,14 +31,14 @@ Future<void> showNotification(
         }, 
         child: const Text('Ok')
           .decorateWithGoogleFont(
-            buttonColor, 
-            fontWeight4,
+            whiteColor, 
+            fontWeight5,
             fontSize3,
           )
       )
     ],
     dividerColor: blackColor,
-    backgroundColor: whiteColor,
+    backgroundColor: blackColor,
     padding: const EdgeInsets.all(10),
     // leading: CountDownTimerView(
     //   duration: 4,

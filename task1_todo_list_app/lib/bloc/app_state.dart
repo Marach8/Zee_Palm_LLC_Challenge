@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 abstract class AppState {
   final bool isLoading;
   final String? error;
+  final String? operation;
 
   const AppState({
     required this.isLoading,
-    this.error
+    this.error,
+    this.operation
   });
 }
 
@@ -19,24 +21,29 @@ class InGetUserDataViewAppState extends AppState{
   final String? username,
   fileNameToDisplay;
   final File? imageFile;
+  final int? counter;
 
   const InGetUserDataViewAppState({
     required bool isLoading,
     this.username,
     this.fileNameToDisplay,
     this.imageFile,
-    String? error
+    String? error,
+    String? operation,
+    this.counter
   }): super(
     isLoading: isLoading,
-    error: error
+    error: error,
+    operation: operation
   );
 }
 
 
 @immutable 
 class InLandingPageViewAppState extends AppState{
+
   const InLandingPageViewAppState({
-    required bool isLoading
+    required bool isLoading,   
   }): super(isLoading: isLoading);
 }
 
@@ -48,11 +55,13 @@ class InTodoHomeViewAppState extends AppState{
 
   const InTodoHomeViewAppState({
     required bool isLoading,
-    required this.username,
-    required this.imageFile,
-    String? error
+    this.username,
+    this.imageFile,
+    String? error,
+    String? operation
   }): super(
     isLoading: isLoading,
-    error: error
+    error: error,
+    operation: operation
   );
 }

@@ -6,13 +6,15 @@ class DecoratedText extends StatelessWidget {
   final double fontSize;
   final Color color; 
   final FontWeight fontWeight;
+  final bool? controlOverflow;
 
   const DecoratedText({
     super.key,
     required this.text,
     required this.color,
     required this.fontSize,
-    required this.fontWeight
+    required this.fontWeight,
+    this.controlOverflow
   });
 
   @override
@@ -20,7 +22,8 @@ class DecoratedText extends StatelessWidget {
     return Text(text).decorateWithGoogleFont(
       color, 
       fontWeight, 
-      fontSize
+      fontSize,
+      controlOverflow 
     );
   }
 }

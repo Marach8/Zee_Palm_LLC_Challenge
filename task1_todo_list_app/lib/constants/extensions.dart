@@ -5,15 +5,17 @@ extension ModifyText on Text{
   Text decorateWithGoogleFont(
     Color color, 
     FontWeight fontWeight,
-    double fontSize
+    double fontSize,
+    [bool? controlOverflow]
   ) => Text(
     data ?? '', 
     style: GoogleFonts.getFont(
       'Quicksand',
       fontSize: fontSize,
-      fontWeight: fontWeight
+      fontWeight: fontWeight,
+      color: color
     ),
-    overflow: TextOverflow.ellipsis,
+    overflow: controlOverflow ?? false ? TextOverflow.ellipsis : null,
   );
 }
 

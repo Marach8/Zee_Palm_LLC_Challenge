@@ -3,6 +3,7 @@ import 'package:task1_todo_list_app/bloc/app_backend.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
+import 'dart:developer' as marach show log;
 
 class AppBloc extends Bloc<AppEvents, AppState>{
   AppBloc(): super(
@@ -14,9 +15,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       emit(
         const InGetUserDataViewAppState(
           isLoading: false,
-          username: null,
-          fileNameToDisplay: null,
-          imageFile: null
         )
       );
     });
@@ -47,21 +45,29 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     on<SaveUserDetailsAndGoToTodoHomeAppEvent>((event, emit) async{
       final currentState = state as InGetUserDataViewAppState;
       final imageFile = currentState.imageFile;
+      final fileNameToDisplay = currentState.fileNameToDisplay;
       final username = event.username;
+      //This count variable functions to just effect a change of state.
+      int count = 0;
       if(username.isEmpty){
+        count ++;
         emit(
-          const InGetUserDataViewAppState(
+          InGetUserDataViewAppState(
             isLoading: false,
-            error: usernameCannotBeEmpty
+            error: usernameCannotBeEmpty,
+            fileNameToDisplay: fileNameToDisplay,
+            counter: count
           )
         );
         return;
       }
       
       emit(
-        const InGetUserDataViewAppState(
-          isLoading: true,  
-          // fileNameToDisplay: fileNameToDisplay, 
+        InGetUserDataViewAppState(
+          isLoading: true,
+          operation: saving,
+          username: username,
+          fileNameToDisplay: fileNameToDisplay, 
           // imageFile: imageFile
         )
       );
@@ -76,6 +82,12 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           username: username, 
           imageFile: imageFile
         )
+      );
+    });
+
+    on<SkipUserDetailsAndGoToTodoHomeAppEvent>((event, emit){
+      emit(
+        const InTodoHomeViewAppState(isLoading: false,)
       );
     });
   }

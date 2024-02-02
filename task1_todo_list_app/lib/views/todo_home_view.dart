@@ -15,7 +15,8 @@ class TodoHomeView extends StatelessWidget {
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
       child: Scaffold(
-        body: Container()
+        backgroundColor: whiteColor,
+        body: Center(child: Text('hell0'))
       )
     );
   }

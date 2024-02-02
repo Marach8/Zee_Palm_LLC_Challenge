@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:task1_todo_list_app/constants/colors.dart';
 
 extension ModifyText on Text{
   Text decorateWithGoogleFont(
@@ -13,7 +12,8 @@ extension ModifyText on Text{
       'Quicksand',
       fontSize: fontSize,
       fontWeight: fontWeight
-    )
+    ),
+    overflow: TextOverflow.ellipsis,
   );
 }
 

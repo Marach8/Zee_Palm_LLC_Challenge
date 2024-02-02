@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 @immutable
@@ -13,4 +15,9 @@ class GoToGetUserDataViewAppEvent extends AppEvents{
 @immutable 
 class GoToLandingPageAppEvent extends AppEvents{
   const GoToLandingPageAppEvent();
+}
+
+@immutable 
+class AddPhotoAppEvent extends AppEvents{
+  const AddPhotoAppEvent();
 }

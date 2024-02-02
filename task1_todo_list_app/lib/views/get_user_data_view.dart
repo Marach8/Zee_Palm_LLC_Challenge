@@ -6,6 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
 import 'package:task1_todo_list_app/bloc/app_bloc.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';
+import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/constants/extensions.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
@@ -22,6 +23,9 @@ class GetUserDataView extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final controller = useTextEditingController();
+    final currentState = context.watch<AppBloc>().state as InGetUserDataViewAppState;
+    final fileNameToDisplay = currentState.fileNameToDisplay;
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: whiteColor,
@@ -47,53 +51,52 @@ class GetUserDataView extends HookWidget {
           ),
           backgroundColor: whiteColor,
         ),
-        body: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: AddTodoTextFields(
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  AddTodoTextFields(
                     title: enterUsername, 
                     controller: controller
                   ),
-                ),
-                const Gap(20),
-                GestureDetector(
-                  onTap: (){},
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      border: const Border().modify(purpleColor, 1),
-                      borderRadius: BorderRadius.circular(10),
+                  const Gap(20),
+                  GestureDetector(
+                    onTap: () => context.read<AppBloc>().add(
+                      const AddPhotoAppEvent()
                     ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Gap(15),
-                        DecoratedText(
-                          color: blackColor,
-                          fontSize: fontSize3,
-                          fontWeight: fontWeight5,
-                          text: addPhoto,
-                        ),
-                        Gap(10),
-                        Icon(Icons.photo_camera_outlined),
-                        Gap(15),
-                      ]
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        border: const Border().modify(purpleColor, 1),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Gap(15),
+                          DecoratedText(
+                            color: blackColor,
+                            fontSize: fontSize3,
+                            fontWeight: fontWeight5,
+                            text: fileNameToDisplay ?? addPhoto,
+                          ),
+                          const Gap(10),
+                          const Icon(Icons.photo_camera_outlined),
+                          const Gap(15),
+                        ]
+                      ),
                     ),
                   ),
-                ),
-                const Gap(20),
-
-                Lottie.asset(
-                  lottie1Path,
-                  fit: BoxFit.contain,
-                ),
-                const Gap(40),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: Row(
+                  const Gap(20),
+          
+                  Lottie.asset(
+                    lottie1Path,
+                    fit: BoxFit.contain,
+                  ),
+                  const Gap(40),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -121,11 +124,11 @@ class GetUserDataView extends HookWidget {
                         ),
                       )
                     ]
-                  ),
-                )
-              ]
+                  )
+                ]
+              )
             )
-          )
+          ),
         ),
         bottomSheet: const StepperWidget(
           color1: purpleColor,

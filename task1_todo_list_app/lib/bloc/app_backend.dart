@@ -4,11 +4,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:developer' as marach show log;
 
 
 class AppBackend {
   AppBackend._sharedInstance();
-  static final _shared = AppBackend._sharedInstance();
+  static final AppBackend _shared = AppBackend._sharedInstance();
   factory AppBackend() => _shared;
 
   Future<SharedPreferences> get preferences async 
@@ -24,20 +25,26 @@ class AppBackend {
     return pref.getString(username);
   }
 
-  Future<File> pickImage() async{
+  Future<List<dynamic>?> pickImage() async{
     final imagePicker = ImagePicker();
     final file = await imagePicker.pickImage(
       source: ImageSource.gallery
     );
-    return File(file!.path);
+    if(file != null){
+      final imageFile = File(file.path);
+      final fileNameToDisplay = imageFile.path.split('/').last;
+      marach.log(imageFile.path);
+      return [imageFile, fileNameToDisplay];
+    }
+    return null;
   }
 
   Future<void> saveToLocalDirectory(File file) async{
     final prefs = await preferences;
-    final deviceDirectory = await getApplicationDocumentsDirectory();
+    final appDocDirectory = await getApplicationDocumentsDirectory();
     final fileExtension = file.path.split('.').last;
-    final newFilePath = join(deviceDirectory.path, 'dp.$fileExtension');
-    prefs.setString('newFilePath', newFilePath);
+    final newFilePath = join(appDocDirectory.path, 'dp.$fileExtension');
+    await prefs.setString('newFilePath', newFilePath);
     await file.copy(newFilePath);
   }
 

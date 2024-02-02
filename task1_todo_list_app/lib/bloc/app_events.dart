@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 @immutable
@@ -20,4 +18,17 @@ class GoToLandingPageAppEvent extends AppEvents{
 @immutable 
 class AddPhotoAppEvent extends AppEvents{
   const AddPhotoAppEvent();
+}
+
+@immutable 
+class SaveUserDetailsAndGoToTodoHomeAppEvent extends AppEvents{
+  final String username;
+  const SaveUserDetailsAndGoToTodoHomeAppEvent({
+    required this.username
+  });
+}
+
+@immutable 
+class SkipUserDetailsAndGoToTodoHomeAppEvent extends AppEvents{
+  const SkipUserDetailsAndGoToTodoHomeAppEvent();
 }

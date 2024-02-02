@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:task1_todo_list_app/bloc/app_backend.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
+import 'package:task1_todo_list_app/constants/strings.dart';
 
 class AppBloc extends Bloc<AppEvents, AppState>{
   AppBloc(): super(
@@ -36,9 +37,43 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
       emit(
         InGetUserDataViewAppState(
-          isLoading: false, 
-          username: null, 
+          isLoading: false,  
           fileNameToDisplay: fileNameToDisplay, 
+          imageFile: imageFile
+        )
+      );
+    });
+
+    on<SaveUserDetailsAndGoToTodoHomeAppEvent>((event, emit) async{
+      final currentState = state as InGetUserDataViewAppState;
+      final imageFile = currentState.imageFile;
+      final username = event.username;
+      if(username.isEmpty){
+        emit(
+          const InGetUserDataViewAppState(
+            isLoading: false,
+            error: usernameCannotBeEmpty
+          )
+        );
+        return;
+      }
+      
+      emit(
+        const InGetUserDataViewAppState(
+          isLoading: true,  
+          // fileNameToDisplay: fileNameToDisplay, 
+          // imageFile: imageFile
+        )
+      );
+      await backend.saveUsername(username);
+      if(imageFile != null){
+        await backend.saveToLocalDirectory(imageFile);
+      }
+
+      emit(
+        InTodoHomeViewAppState(
+          isLoading: false, 
+          username: username, 
           imageFile: imageFile
         )
       );

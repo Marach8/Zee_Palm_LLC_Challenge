@@ -71,21 +71,29 @@ class GetUserDataView extends HookWidget {
                         border: const Border().modify(purpleColor, 1),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Row(
+                      child: fileNameToDisplay == null ? const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Gap(15),
+                          Gap(15),
                           DecoratedText(
                             color: blackColor,
                             fontSize: fontSize3,
                             fontWeight: fontWeight5,
-                            text: fileNameToDisplay ?? addPhoto,
+                            text: addPhoto,
                           ),
-                          const Gap(10),
-                          const Icon(Icons.photo_camera_outlined),
-                          const Gap(15),
+                          Gap(10),
+                          Icon(Icons.photo_camera_outlined),
+                          Gap(15),
                         ]
+                      ) : Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: DecoratedText(
+                          color: blackColor,
+                          fontSize: fontSize3,
+                          fontWeight: fontWeight5,
+                          text: fileNameToDisplay,
+                        ),
                       ),
                     ),
                   ),
@@ -107,9 +115,11 @@ class GetUserDataView extends HookWidget {
                           foregroundColor: blackColor, 
                           borderColor: purpleColor, 
                           text: save, 
-                          function: (){
-                            
-                          }
+                          function: () => context.read<AppBloc>().add(
+                            SaveUserDetailsAndGoToTodoHomeAppEvent(
+                              username: controller.text
+                            )
+                          )
                         ),
                       ),
                       const Gap(10),

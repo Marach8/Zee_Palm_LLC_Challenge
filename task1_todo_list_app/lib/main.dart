@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.black,
+            backgroundColor: blackColor,
           ),
           useMaterial3: true,
           brightness: Brightness.light
@@ -36,6 +36,9 @@ class MyApp extends StatelessWidget {
               loadingScreen.showOverlay(
                 context1, operation
               );
+            } 
+            else{
+              loadingScreen.hideOverlay();
             }
 
             final error = appState.error ?? '';

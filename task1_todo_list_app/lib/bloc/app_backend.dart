@@ -4,7 +4,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:developer' as marach show log;
 
 
 class AppBackend {
@@ -15,7 +14,7 @@ class AppBackend {
   Future<SharedPreferences> get preferences async 
     => await SharedPreferences.getInstance();
 
-  Future<void> saveUsername(String username) async{
+  Future<void> setUsername(String username) async{
     final pref = await preferences;
     await pref.setString('username', username);
   }
@@ -33,7 +32,6 @@ class AppBackend {
     if(file != null){
       final imageFile = File(file.path);
       final fileNameToDisplay = imageFile.path.split('/').last;
-      marach.log(imageFile.path);
       return [imageFile, fileNameToDisplay];
     }
     return null;

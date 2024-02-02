@@ -3,7 +3,7 @@ import 'package:task1_todo_list_app/bloc/app_backend.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
-import 'dart:developer' as marach show log;
+
 
 class AppBloc extends Bloc<AppEvents, AppState>{
   AppBloc(): super(
@@ -68,19 +68,18 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           operation: saving,
           username: username,
           fileNameToDisplay: fileNameToDisplay, 
-          // imageFile: imageFile
         )
       );
-      await backend.saveUsername(username);
+      await backend.setUsername(username);
       if(imageFile != null){
         await backend.saveToLocalDirectory(imageFile);
       }
-
+      final imageBytes = await imageFile!.readAsBytes();
       emit(
         InTodoHomeViewAppState(
           isLoading: false, 
           username: username, 
-          imageFile: imageFile
+          imageBytes: imageBytes
         )
       );
     });

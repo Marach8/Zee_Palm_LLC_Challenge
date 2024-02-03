@@ -60,11 +60,11 @@ with SingleTickerProviderStateMixin{
       child: SlideTransition(
         position: sliderAnimation,
         textDirection: TextDirection.rtl,
-        child: const DecoratedText(
+        child: DecoratedText(
             color: blackColor,
             fontSize: fontSize2,
             fontWeight: fontWeight4,
-            text: '0 $todosAdded',
+            text: '${widget.numberOfTodos} $todosAdded',
           ),
       ),
     );

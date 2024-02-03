@@ -163,6 +163,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
             alertContent: addAgain
           )
         );
+        return;
       }
 
       count++;

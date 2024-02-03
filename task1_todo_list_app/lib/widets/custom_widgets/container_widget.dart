@@ -32,7 +32,7 @@ class ContainerWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: children
-      )
+      ),
     );
   }
 }

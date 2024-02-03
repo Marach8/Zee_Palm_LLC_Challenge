@@ -37,6 +37,8 @@ Future<void> showNotification(
           )
       )
     ],
+
+    margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
     dividerColor: purpleColor,
     backgroundColor: blackColor,
     padding: const EdgeInsets.all(10),

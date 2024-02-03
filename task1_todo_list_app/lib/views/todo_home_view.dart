@@ -42,9 +42,9 @@ class TodoHomeView extends StatelessWidget {
               child: Column(
                 children: [
                   // RowWithProfilePicture(
-                  //       imageBytes: imageBytes,
-                  //       username: username ?? newUser
-                  //     ),
+                  //    imageBytes: imageBytes,
+                  //    username: username ?? newUser
+                  // ),
                   ContainerWidget(
                     children: [
                       RowWithProfilePicture(

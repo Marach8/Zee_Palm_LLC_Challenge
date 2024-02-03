@@ -99,13 +99,18 @@ class AddTodoView extends HookWidget {
               foregroundColor: whiteColor, 
               borderColor: purpleColor, 
               text: save, 
-              function: () => context.read<AppBloc>().add(
-                SaveTodoAppEvent(
-                  title: titleController.text, 
-                  dueDateTime: dueDateTimeController.text, 
-                  content: contentController.text
-                )
-              )
+              function: () {
+                context.read<AppBloc>().add(
+                  SaveTodoAppEvent(
+                    title: titleController.text, 
+                    dueDateTime: dueDateTimeController.text, 
+                    content: contentController.text
+                  )
+                );
+                titleController.clear();
+                dueDateTimeController.clear();
+                contentController.clear();
+              }
             ),
           )
         ),

@@ -33,74 +33,82 @@ class AddTodoView extends HookWidget {
         systemNavigationBarColor: whiteColor,
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
-      child: Scaffold(
-        backgroundColor: whiteColorWithOpacity,
-        appBar: AppBar(
-          title: const DecoratedText(
-            color: blackColor,
-            fontSize: fontSize4,
-            fontWeight: fontWeight7,
-            text: appName,
-          ),
-          centerTitle: true,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_rounded),
-            onPressed: () => context.read<AppBloc>().add(
-              const GoToTodoHomeAppEvent()
-            ),
-          ),
+      child: SafeArea(
+        child: Scaffold(
           backgroundColor: whiteColorWithOpacity,
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  ContainerWidget(
-                    children: [
-                      const Gap(10),
-                      CustomTextField(
-                        title: enterTitle, 
-                        controller: titleController
-                      ),
-                      const Gap(10),
-                      const DividerWidget(color: purpleColor),
-                      const Gap(10),
-
-                      CustomTextField(
-                        title: enterDueDateTime, 
-                        controller: dueDateTimeController
-                      ),
-                      const Gap(10),
-                      const DividerWidget(color: purpleColor),
-                      const Gap(10),
-
-                      CustomTextField(
-                        title: enterContent, 
-                        controller: contentController
-                      ),
-                      const Gap(10),
-                      const DividerWidget(color: purpleColor),
-                      const Gap(10),
-                    ]
-                  )
-                ],
+          appBar: AppBar(
+            title: const DecoratedText(
+              color: blackColor,
+              fontSize: fontSize4,
+              fontWeight: fontWeight7,
+              text: 'Add Todo',
+            ),
+            centerTitle: true,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back_rounded),
+              onPressed: () => context.read<AppBloc>().add(
+                const GoToTodoHomeAppEvent()
+              ),
+            ),
+            backgroundColor: transparentColor,
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ContainerWidget(
+                      children: [
+                        const Gap(10),
+                        CustomTextField(
+                          title: enterTitle, 
+                          controller: titleController
+                        ),
+                        const Gap(10),
+                        const DividerWidget(color: purpleColor),
+                        const Gap(10),
+        
+                        CustomTextField(
+                          title: enterDueDateTime, 
+                          controller: dueDateTimeController
+                        ),
+                        const Gap(10),
+                        const DividerWidget(color: purpleColor),
+                        const Gap(10),
+        
+                        CustomTextField(
+                          title: enterContent, 
+                          controller: contentController
+                        ),
+                        const Gap(10),
+                        const DividerWidget(color: purpleColor),
+                        const Gap(10),
+                      ]
+                    )
+                  ],
+                ),
               ),
             ),
           ),
+          bottomSheet: Container(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+            width: screenWidth,
+            child: ElevatedButtonWidget(
+              backgroundColor: blackColor, 
+              foregroundColor: whiteColor, 
+              borderColor: purpleColor, 
+              text: save, 
+              function: () => context.read<AppBloc>().add(
+                SaveTodoAppEvent(
+                  title: titleController.text, 
+                  dueDateTime: dueDateTimeController.text, 
+                  content: contentController.text
+                )
+              )
+            ),
+          )
         ),
-        bottomSheet: Container(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-          width: screenWidth,
-          child: ElevatedButtonWidget(
-            backgroundColor: whiteColor, 
-            foregroundColor: blackColor, 
-            borderColor: blackColor, 
-            text: save, 
-            function: (){}
-          ),
-        )
       )
     );
   }

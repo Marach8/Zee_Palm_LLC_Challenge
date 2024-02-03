@@ -24,7 +24,7 @@ class TodoHomeView extends StatelessWidget {
     final currentState = context.watch<AppBloc>().state as InTodoHomeViewAppState;
     final imageBytes = currentState.imageBytes;
     final username = currentState.username;
-    final numberOfTodos = currentState.retrievedTodos.length;
+    final retrievedTodos = currentState.retrievedTodos;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
@@ -52,18 +52,18 @@ class TodoHomeView extends StatelessWidget {
                         username: username 
                       ),
                       SliderAnimationView(
-                        numberOfTodos: numberOfTodos.toString()
+                        numberOfTodos: retrievedTodos.length.toString()
                       )
                     ]
                   ),
                   const Gap(20),
                   ContainerWidget(
-                    children: numberOfTodos == 0 ? [
+                    children: retrievedTodos.isEmpty ? [
                       const SizeAnimation(),
                       const Gap(20),
                       Lottie.asset(lottie2Path)
                     ] : [
-                      const TodoListView()
+                      TodoListView(userTodos: retrievedTodos,)
                     ]
                   ),
                 ]
@@ -72,7 +72,7 @@ class TodoHomeView extends StatelessWidget {
           ),
         ),
         bottomSheet: Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
           width: screenWidth,
           child: ElevatedButtonWidget(
             backgroundColor: purpleColor, 

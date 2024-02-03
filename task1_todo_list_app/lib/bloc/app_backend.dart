@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +23,23 @@ class AppBackend {
   Future<String?> getUsername(String username) async{
     final pref = await preferences;
     return pref.getString(username);
+  }
+
+  Future<void> setTodo(List<String> todoDetails) async{
+    final prefs = await preferences;
+    await getTodods().then((storedTodos) async{
+      final newIndex = storedTodos.length + 1;
+      final currentDateTime = DateTime.now();
+      final creationDateTime = DateFormat('yyyy-MMM-dd, hh:MM a')
+        .format(currentDateTime);
+      todoDetails.addAll(['false', creationDateTime, '$newIndex']);
+      await prefs.setStringList('Todo$newIndex', todoDetails);
+    });
+  }
+
+  Future<void> updateTodo(List<String> newTodo, String index) async{
+    final prefs = await preferences;
+    await prefs.setStringList('Todo$index', newTodo);
   }
 
   Future<Iterable<List<String>?>> getTodods() async{
@@ -46,7 +64,8 @@ class AppBackend {
     return null;
   }
 
-  Future<void> saveToLocalDirectory(File file) async{
+  //Save image file to local directory
+  Future<void> saveImageFile(File file) async{
     final prefs = await preferences;
     final appDocDirectory = await getApplicationDocumentsDirectory();
     final fileExtension = file.path.split('.').last;
@@ -55,7 +74,8 @@ class AppBackend {
     await file.copy(newFilePath);
   }
 
-  Future<Uint8List?> retrieveFromLocalDirectory() async{
+  //Retrieve image data from local directory
+  Future<Uint8List?> retrieveImageData() async{
     final prefs = await preferences;
     final newFilePath = prefs.getString('newFilePath');
     if(newFilePath != null){

@@ -37,3 +37,15 @@ class InitializationAppEvent extends AppEvents{
 class GoToAddTodoViewAppEvent extends AppEvents{
   const GoToAddTodoViewAppEvent();
 }
+
+@immutable 
+class SaveTodoAppEvent extends AppEvents{
+  final String title, 
+  dueDateTime, content;
+
+  const SaveTodoAppEvent({
+    required this.title,
+    required this.dueDateTime,
+    required this.content
+  });
+}

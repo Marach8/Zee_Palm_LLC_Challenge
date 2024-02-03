@@ -6,13 +6,15 @@ import 'package:flutter/material.dart';
 @immutable 
 abstract class AppState {
   final bool isLoading;
-  final String? error;
-  final String? operation;
+  final String? operation,
+  alertContent, alert, error;
 
   const AppState({
     required this.isLoading,
     this.error,
-    this.operation
+    this.operation,
+    this.alert,
+    this.alertContent
   });
 }
 
@@ -74,16 +76,22 @@ class InTodoHomeViewAppState extends AppState{
 
 @immutable 
 class InAddTodoViewAppState extends AppState{
-  final bool isInEditMode;
+  final bool? isInEditMode;
+  final int? counter;
   
   const InAddTodoViewAppState({
-    required this.isInEditMode,
+    this.isInEditMode,
+    this.counter,
     required bool isLoading,
     String? error,
-    String? operation
-  }):super(
+    String? operation,
+    String? alert,
+    String? alertContent
+  }): super(
     isLoading: isLoading,
     error: error,
-    operation: operation
+    operation: operation,
+    alert: alert,
+    alertContent: alertContent
   );
 }

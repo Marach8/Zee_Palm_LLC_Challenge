@@ -5,6 +5,7 @@ import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/dialogs/alert_widget.dart';
+import 'package:task1_todo_list_app/dialogs/generic_dialog.dart';
 import 'package:task1_todo_list_app/dialogs/loading_screen/loading_screen.dart';
 import 'package:task1_todo_list_app/views/add_todo_view.dart';
 import 'package:task1_todo_list_app/views/get_user_data_view.dart';
@@ -36,13 +37,13 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.light
         ),
         home: BlocConsumer<AppBloc, AppState>(
-          listener: (context1, appState){
+          listener: (context1, appState) async{
             final loadingScreen = LoadingScreen();
-            final operation = appState.operation ?? '';
+            final operation = appState.operation;
             if(appState.isLoading){
               //WidgetsBinding.instance.addPostFrameCallback((_) =>
                loadingScreen.showOverlay(
-                  context1, operation
+                  context1, operation!
                 );
               //);
             } 
@@ -50,14 +51,27 @@ class MyApp extends StatelessWidget {
               loadingScreen.hideOverlay();
             }
 
-            final error = appState.error ?? '';
-            if(appState.error != null){
-              showNotification(
+            final error = appState.error;
+            if(error != null){
+              await showNotification(
                 context1, 
                 error, 
                 Icons.warning_rounded, 
                 purpleColor
               );
+            }
+
+            final title = appState.alert;
+            final content = appState.alertContent;
+            if(title != null && content != null){
+              await showGenericDialog<bool>(
+                context: context1, 
+                title: title, 
+                content: content, 
+                options: {'No': false, 'Yes': true}
+              ).then((value){
+                
+              });
             }
           },
           listenWhen: (initialState, newState) 

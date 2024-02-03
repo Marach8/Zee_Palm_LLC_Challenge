@@ -11,13 +11,15 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     const InLandingPageViewAppState(isLoading: false)
   ){
     final backend = AppBackend();
+    //This count variable functions to just effect a change of state.
+    int count = 0;
 
     on<InitializationAppEvent>((_, emit) async{
       emit(
         const InLandingPageViewAppState(isLoading: false)
       );
       final username = await backend.getUsername('username');
-      final userImageData = await backend.retrieveFromLocalDirectory();
+      final userImageData = await backend.retrieveImageData();
       final retrievedTodos = await backend.getTodods();
 
       if(username != null && userImageData != null){
@@ -67,7 +69,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       //A case whereby we are coming into the TodoHomeView from the AddTodoView
       if(state is InAddTodoViewAppState){
         final username = await backend.getUsername('username');
-        final userImageData = await backend.retrieveFromLocalDirectory();
+        final userImageData = await backend.retrieveImageData();
         final retrievedTodos = await backend.getTodods();
 
         if(username != null && userImageData != null){
@@ -88,8 +90,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         final imageFile = currentState.imageFile;
         final fileNameToDisplay = currentState.fileNameToDisplay;
         final username = event.username;
-        //This count variable functions to just effect a change of state.
-        int count = 0;
         if(username != null && username.isEmpty){
           count ++;
           emit(
@@ -115,7 +115,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           await backend.setUsername(username);
         }
         if(imageFile != null){
-          await backend.saveToLocalDirectory(imageFile);
+          await backend.saveImageFile(imageFile);
         }
         final imageBytes = await imageFile?.readAsBytes();
         final retrievedTodos = await backend.getTodods();
@@ -130,21 +130,47 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       }
     });
 
-    // on<GoToTodoHomeAppEvent>((_, emit) async{
-    //   final retrievedTodos = await backend.getTodods();
-    //   emit(
-    //     InTodoHomeViewAppState(
-    //       isLoading: false,
-    //       retrievedTodos : retrievedTodos,
-    //     )
-    //   );
-    // });
-
     on<GoToAddTodoViewAppEvent>((_, emit){
       emit(
         const InAddTodoViewAppState(
           isLoading: false,
           isInEditMode: false
+        )
+      );
+    });
+
+    on<SaveTodoAppEvent>((event, emit) async{
+      final title = event.title.trim();
+      final dueDateTime = event.dueDateTime.trim();
+      final content = event.content.trim();
+      final fieldsNotEmpty = [title, dueDateTime, content]
+        .every((field) => field.isNotEmpty);
+
+      if(fieldsNotEmpty){
+        emit(
+          const InAddTodoViewAppState(
+            isLoading: true,
+            operation: saving
+          )
+        );
+        final todoDetails = [title, dueDateTime, content];
+        await backend.setTodo(todoDetails);
+        
+        emit(
+          const InAddTodoViewAppState(
+            isLoading: false,
+            alert: todoSaved,
+            alertContent: addAgain
+          )
+        );
+      }
+
+      count++;
+      emit(
+        InAddTodoViewAppState(
+          isLoading: false,
+          error: fieldsEmpty,
+          counter: count
         )
       );
     });

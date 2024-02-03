@@ -20,6 +20,7 @@ class TodoHomeView extends StatelessWidget {
     final currentState = context.watch<AppBloc>().state as InTodoHomeViewAppState;
     final imageBytes = currentState.imageBytes;
     final username = currentState.username;
+    final numberOfTodos = currentState.retrievedTodos!.length;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
@@ -46,8 +47,8 @@ class TodoHomeView extends StatelessWidget {
                         imageBytes: imageBytes,
                         username: username ?? newUser
                       ),
-                      const SliderAnimationView(
-                        numberOfTodos: '0'
+                      SliderAnimationView(
+                        numberOfTodos: numberOfTodos.toString()
                       )
                     ]
                   ),

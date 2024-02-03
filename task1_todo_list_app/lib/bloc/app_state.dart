@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
+
 
 @immutable 
 abstract class AppState {
@@ -53,12 +53,12 @@ class InLandingPageViewAppState extends AppState{
 class InTodoHomeViewAppState extends AppState{
   final String? username;
   final File? imageFile;
-  final Iterable<List<String>?>? retrievedTodos;
+  final Iterable<List<String>?> retrievedTodos;
   final Uint8List? imageBytes;
 
   const InTodoHomeViewAppState({
     required bool isLoading,
-    this.retrievedTodos,
+    required this.retrievedTodos,
     this.imageBytes,
     this.username,
     this.imageFile,

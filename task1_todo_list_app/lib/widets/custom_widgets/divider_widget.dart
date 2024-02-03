@@ -10,12 +10,9 @@ class DividerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-      child: Divider(
-        color: color,
-        thickness: 0.1
-      ),
+    return Divider(
+      color: color,
+      thickness: 0.1
     );
   }
 }

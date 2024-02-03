@@ -70,3 +70,20 @@ class InTodoHomeViewAppState extends AppState{
     operation: operation
   );
 }
+
+
+@immutable 
+class InAddTodoViewAppState extends AppState{
+  final bool isInEditMode;
+  
+  const InAddTodoViewAppState({
+    required this.isInEditMode,
+    required bool isLoading,
+    String? error,
+    String? operation
+  }):super(
+    isLoading: isLoading,
+    error: error,
+    operation: operation
+  );
+}

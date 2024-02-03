@@ -10,7 +10,7 @@ import 'package:task1_todo_list_app/widets/custom_widgets/decorated_text_widget.
 
 class RowWithProfilePicture extends StatelessWidget {
   final Uint8List? imageBytes;
-  final String username;
+  final String? username;
 
   const RowWithProfilePicture({
     super.key,
@@ -46,7 +46,7 @@ class RowWithProfilePicture extends StatelessWidget {
             color: blackColor,
             fontSize: fontSize4,
             fontWeight: fontWeight7,
-            text: '$hello $username',          
+            text: '$hello ${username ?? newUser}',          
           ),
         ),
       ],

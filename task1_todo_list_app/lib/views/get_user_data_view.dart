@@ -49,7 +49,7 @@ class GetUserDataView extends HookWidget {
               const GoToLandingPageAppEvent()
             ),
           ),
-          backgroundColor: whiteColor,
+          backgroundColor: whiteColorWithOpacity,
         ),
         body: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -57,7 +57,7 @@ class GetUserDataView extends HookWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  AddTodoTextFields(
+                  CustomTextField(
                     title: enterUsername, 
                     controller: controller
                   ),

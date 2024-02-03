@@ -3,12 +3,12 @@ import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
 
-class AddTodoTextFields extends StatelessWidget {
+class CustomTextField extends StatelessWidget {
   final String title;
   final TextEditingController controller;
   final Function(String)? onChanged;
 
-  const AddTodoTextFields({
+  const CustomTextField({
     required this.title,
     required this.controller,
     this.onChanged,
@@ -46,7 +46,7 @@ class AddTodoTextFields extends StatelessWidget {
       ),
       style: const TextStyle(
         fontSize: fontSize3,
-        fontWeight: fontWeight4,
+        fontWeight: fontWeight3,
         textBaseline: TextBaseline.ideographic,
         decoration: TextDecoration.none
       ), 

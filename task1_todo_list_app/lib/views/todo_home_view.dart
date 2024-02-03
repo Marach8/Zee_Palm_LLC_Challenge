@@ -5,22 +5,26 @@ import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
 import 'package:task1_todo_list_app/animations/size_animation.dart';
 import 'package:task1_todo_list_app/animations/slider_animation.dart';
+import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
 import 'package:task1_todo_list_app/bloc/app_bloc.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/widets/custom_widgets/container_widget.dart';
+import 'package:task1_todo_list_app/widets/custom_widgets/elevatedbutton_widget.dart';
 import 'package:task1_todo_list_app/widets/other_widgets/row_with_profile_picture.dart';
+import 'package:task1_todo_list_app/widets/other_widgets/todo_listview.dart';
 
 class TodoHomeView extends StatelessWidget {
   const TodoHomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     final currentState = context.watch<AppBloc>().state as InTodoHomeViewAppState;
     final imageBytes = currentState.imageBytes;
     final username = currentState.username;
-    final numberOfTodos = currentState.retrievedTodos!.length;
+    final numberOfTodos = currentState.retrievedTodos.length;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
@@ -45,7 +49,7 @@ class TodoHomeView extends StatelessWidget {
                     children: [
                       RowWithProfilePicture(
                         imageBytes: imageBytes,
-                        username: username ?? newUser
+                        username: username 
                       ),
                       SliderAnimationView(
                         numberOfTodos: numberOfTodos.toString()
@@ -54,17 +58,32 @@ class TodoHomeView extends StatelessWidget {
                   ),
                   const Gap(20),
                   ContainerWidget(
-                    children: [
+                    children: numberOfTodos == 0 ? [
                       const SizeAnimation(),
                       const Gap(20),
                       Lottie.asset(lottie2Path)
+                    ] : [
+                      const TodoListView()
                     ]
-                  )
+                  ),
                 ]
               ),
             ),
           ),
-        )
+        ),
+        bottomSheet: Container(
+          padding: const EdgeInsets.all(20),
+          width: screenWidth,
+          child: ElevatedButtonWidget(
+            backgroundColor: purpleColor, 
+            foregroundColor: whiteColor, 
+            borderColor: blackColor, 
+            text: addTodo, 
+            function: () => context.read<AppBloc>().add(
+              const GoToAddTodoViewAppEvent()
+            )
+          ),
+        ),
       )
     );
   }

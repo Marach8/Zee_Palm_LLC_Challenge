@@ -21,19 +21,19 @@ class AddPhotoAppEvent extends AppEvents{
 }
 
 @immutable 
-class SaveUserDetailsAndGoToTodoHomeAppEvent extends AppEvents{
-  final String username;
-  const SaveUserDetailsAndGoToTodoHomeAppEvent({
-    required this.username
+class GoToTodoHomeAppEvent extends AppEvents{
+  final String? username;
+  const GoToTodoHomeAppEvent({
+    this.username
   });
-}
-
-@immutable 
-class SkipUserDetailsAndGoToTodoHomeAppEvent extends AppEvents{
-  const SkipUserDetailsAndGoToTodoHomeAppEvent();
 }
 
 @immutable 
 class InitializationAppEvent extends AppEvents{
   const InitializationAppEvent();
+}
+
+@immutable 
+class GoToAddTodoViewAppEvent extends AppEvents{
+  const GoToAddTodoViewAppEvent();
 }

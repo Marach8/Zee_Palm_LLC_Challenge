@@ -6,6 +6,7 @@ import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/dialogs/alert_widget.dart';
 import 'package:task1_todo_list_app/dialogs/loading_screen/loading_screen.dart';
+import 'package:task1_todo_list_app/views/add_todo_view.dart';
 import 'package:task1_todo_list_app/views/get_user_data_view.dart';
 import 'package:task1_todo_list_app/views/landing_view.dart';
 import 'package:task1_todo_list_app/views/todo_home_view.dart';
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          bottomSheetTheme: BottomSheetThemeData(
+            backgroundColor: whiteColorWithOpacity
+          ),
           appBarTheme: const AppBarTheme(
             backgroundColor: blackColor,
           ),
@@ -68,6 +72,9 @@ class MyApp extends StatelessWidget {
             }
             else if(appState is InTodoHomeViewAppState){
               return const TodoHomeView();
+            }
+            else if(appState is InAddTodoViewAppState){
+              return const AddTodoView();
             }
             //This should never happen
             else {

@@ -40,7 +40,7 @@ class ElevatedButtonWidget extends StatelessWidget {
       ),
       child: DecoratedText(
         text: text, 
-        color: blackColor, 
+        color: foregroundColor, 
         fontSize: fontSize2, 
         fontWeight: fontWeight7
       )
@@ -73,7 +73,7 @@ class SaveAndSkipButtons extends StatelessWidget {
             borderColor: purpleColor, 
             text: save, 
             function: () => context.read<AppBloc>().add(
-              SaveUserDetailsAndGoToTodoHomeAppEvent(
+              GoToTodoHomeAppEvent(
                 username: controller.text
               )
             )
@@ -88,7 +88,7 @@ class SaveAndSkipButtons extends StatelessWidget {
             borderColor: purpleColor, 
             text: skip, 
             function: () => context.read<AppBloc>().add(
-              const SkipUserDetailsAndGoToTodoHomeAppEvent()
+              const GoToTodoHomeAppEvent()
             )
           ),
         )

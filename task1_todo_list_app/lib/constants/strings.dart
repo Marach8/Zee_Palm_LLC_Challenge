@@ -11,3 +11,6 @@ const save = 'Save';
 const skip = 'Skip';
 const usernameCannotBeEmpty = 'Username field cannot be empty! You might want to "Skip".';
 const saving = 'Saving...';
+const newUser = 'New User';
+const hello = 'Hello';
+const noTodos = 'No Todos to display...';

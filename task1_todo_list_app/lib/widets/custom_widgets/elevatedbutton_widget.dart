@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:task1_todo_list_app/bloc/app_bloc.dart';
-import 'package:task1_todo_list_app/bloc/app_events.dart';
+import 'package:task1_todo_list_app/functions/bloc/app_bloc.dart';
+import 'package:task1_todo_list_app/functions/bloc/app_events.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
-import 'package:task1_todo_list_app/custom_widgets/text_widget.dart';
+import 'package:task1_todo_list_app/widets/custom_widgets/decorated_text_widget.dart';
 
 class ElevatedButtonWidget extends StatelessWidget {
   final Color backgroundColor, 

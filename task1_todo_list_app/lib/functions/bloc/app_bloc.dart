@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:task1_todo_list_app/bloc/app_backend.dart';
-import 'package:task1_todo_list_app/bloc/app_events.dart';
-import 'package:task1_todo_list_app/bloc/app_state.dart';
+import 'package:task1_todo_list_app/functions/bloc/app_backend.dart';
+import 'package:task1_todo_list_app/functions/bloc/app_events.dart';
+import 'package:task1_todo_list_app/functions/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
 
 

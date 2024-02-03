@@ -16,27 +16,13 @@ extension ModifyText on Text{
       color: color
     ),
     overflow: controlOverflow ?? false ? TextOverflow.ellipsis : null,
+    softWrap: true,   
   );
 }
 
 
 extension ModifyBorder on Border{
-  Border modify(Color color, double width) => Border(
-    bottom: BorderSide(
-      color: color,
-      width: width
-    ),
-    top: BorderSide(
-      color: color,
-      width: width
-    ),
-    left: BorderSide(
-      color: color,
-      width: width
-    ),
-    right: BorderSide(
-      color: color,
-      width: width
-    )
+  Border modify(Color color, double width) => Border.all(
+    color: color, width: width,
   );
 }

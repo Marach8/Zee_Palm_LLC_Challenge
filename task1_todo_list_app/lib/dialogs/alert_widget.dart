@@ -37,7 +37,7 @@ Future<void> showNotification(
           )
       )
     ],
-    dividerColor: blackColor,
+    dividerColor: purpleColor,
     backgroundColor: blackColor,
     padding: const EdgeInsets.all(10),
     // leading: CountDownTimerView(

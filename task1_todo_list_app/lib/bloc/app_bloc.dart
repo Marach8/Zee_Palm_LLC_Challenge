@@ -10,8 +10,26 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     const InLandingPageViewAppState(isLoading: false)
   ){
     final backend = AppBackend();
+
+    on<InitializationAppEvent>((_, emit) async{
+      emit(
+        const InLandingPageViewAppState(isLoading: false)
+      );
+      final username = await backend.getUsername('username');
+      final userImageData = await backend.retrieveFromLocalDirectory();
+
+      if(username != null && userImageData != null){
+        emit(
+          InTodoHomeViewAppState(
+            isLoading: false, 
+            username: username, 
+            imageBytes: userImageData
+          )
+        );
+      }
+    });
     
-    on<GoToGetUserDataViewAppEvent>((event, emit){
+    on<GoToGetUserDataViewAppEvent>((_, emit){
       emit(
         const InGetUserDataViewAppState(
           isLoading: false,
@@ -19,13 +37,13 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       );
     });
 
-    on<GoToLandingPageAppEvent>((event, emit){
+    on<GoToLandingPageAppEvent>((_, emit){
       emit(
         const InLandingPageViewAppState(isLoading: false)
       );
     });
 
-    on<AddPhotoAppEvent>((event, emit) async{
+    on<AddPhotoAppEvent>((_, emit) async{
       final imageData = await backend.pickImage();
       if(imageData == null){
         return;
@@ -84,7 +102,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       );
     });
 
-    on<SkipUserDetailsAndGoToTodoHomeAppEvent>((event, emit){
+    on<SkipUserDetailsAndGoToTodoHomeAppEvent>((_, emit){
       emit(
         const InTodoHomeViewAppState(isLoading: false,)
       );

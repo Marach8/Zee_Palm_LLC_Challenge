@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:task1_todo_list_app/bloc/app_bloc.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
@@ -12,6 +13,8 @@ class TodoHomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentState = context.watch<AppBloc>().state as InTodoHomeViewAppState;
     final imageBytes = currentState.imageBytes;
+    final username = currentState.username;
+    
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: whiteColor,
@@ -25,6 +28,8 @@ class TodoHomeView extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                Text(username ?? ''),
+                const Gap(20),
                 Image.memory(imageBytes!)
               ]
             ),

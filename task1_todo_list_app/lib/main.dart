@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task1_todo_list_app/bloc/app_bloc.dart';
+import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/dialogs/alert_widget.dart';
@@ -18,7 +19,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AppBloc>(
-      create: (_) => AppBloc(),
+      create: (_) => AppBloc()..add(
+        const InitializationAppEvent()
+      ),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(

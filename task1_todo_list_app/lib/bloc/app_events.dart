@@ -32,3 +32,8 @@ class SaveUserDetailsAndGoToTodoHomeAppEvent extends AppEvents{
 class SkipUserDetailsAndGoToTodoHomeAppEvent extends AppEvents{
   const SkipUserDetailsAndGoToTodoHomeAppEvent();
 }
+
+@immutable 
+class InitializationAppEvent extends AppEvents{
+  const InitializationAppEvent();
+}

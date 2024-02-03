@@ -14,3 +14,4 @@ const saving = 'Saving...';
 const newUser = 'New User';
 const hello = 'Hello';
 const noTodos = 'No Todos to display...';
+const todosAdded = 'Todos added ✍️';

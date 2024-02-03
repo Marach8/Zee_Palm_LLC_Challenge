@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:task1_todo_list_app/functions/bloc/app_backend.dart';
-import 'package:task1_todo_list_app/functions/bloc/app_events.dart';
-import 'package:task1_todo_list_app/functions/bloc/app_state.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:task1_todo_list_app/bloc/app_backend.dart';
+import 'package:task1_todo_list_app/bloc/app_events.dart';
+import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
 
 
@@ -17,11 +18,13 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       );
       final username = await backend.getUsername('username');
       final userImageData = await backend.retrieveFromLocalDirectory();
+      final retrievedTodos = await backend.getTodods();
 
       if(username != null && userImageData != null){
         emit(
           InTodoHomeViewAppState(
             isLoading: false, 
+            retrievedTodos: retrievedTodos,
             username: username, 
             imageBytes: userImageData
           )
@@ -93,18 +96,24 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         await backend.saveToLocalDirectory(imageFile);
       }
       final imageBytes = await imageFile!.readAsBytes();
+      final retrievedTodos = await backend.getTodods();
       emit(
         InTodoHomeViewAppState(
-          isLoading: false, 
+          isLoading: false,
+          retrievedTodos: retrievedTodos,
           username: username, 
           imageBytes: imageBytes
         )
       );
     });
 
-    on<SkipUserDetailsAndGoToTodoHomeAppEvent>((_, emit){
+    on<SkipUserDetailsAndGoToTodoHomeAppEvent>((_, emit) async{
+      final retrievedTodos = await backend.getTodods();
       emit(
-        const InTodoHomeViewAppState(isLoading: false,)
+        InTodoHomeViewAppState(
+          isLoading: false,
+          retrievedTodos : retrievedTodos,
+        )
       );
     });
   }

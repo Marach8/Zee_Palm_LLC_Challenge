@@ -24,6 +24,15 @@ class AppBackend {
     return pref.getString(username);
   }
 
+  Future<Iterable<List<String>?>> getTodods() async{
+    final prefs = await preferences;
+    final listOfTodos = Iterable.generate(
+      1000000,
+      (index) => prefs.getStringList('Todo${index + 1}')
+    ).takeWhile((todo) => todo != null);
+    return listOfTodos;
+  }
+
   Future<List<dynamic>?> pickImage() async{
     final imagePicker = ImagePicker();
     final file = await imagePicker.pickImage(

@@ -27,12 +27,12 @@ with SingleTickerProviderStateMixin{
     super.initState();
     sliderController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 20)
+      duration: const Duration(seconds: 10)
     )..repeat();
 
     sliderAnimation = Tween<Offset> (
       begin: const Offset(0, 0), 
-      end: const Offset(3, 0)
+      end: const Offset(5, 0)
     ).animate(sliderController);
 
     sliderAnimation.addStatusListener((status) {
@@ -56,15 +56,15 @@ with SingleTickerProviderStateMixin{
     return Transform(
       //alignment: Alignment.centerLeft,
       transform: Matrix4.identity()
-        ..translate(screenWidth/4),
+        ..translate(screenWidth),
       child: SlideTransition(
         position: sliderAnimation,
         textDirection: TextDirection.rtl,
         child: const DecoratedText(
             color: blackColor,
-            fontSize: fontSize1,
-            fontWeight: fontWeight6,
-            text: noTodos,
+            fontSize: fontSize2,
+            fontWeight: fontWeight4,
+            text: '0 $todosAdded',
           ),
       ),
     );

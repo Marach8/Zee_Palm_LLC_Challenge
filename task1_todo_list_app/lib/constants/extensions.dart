@@ -26,3 +26,27 @@ extension ModifyBorder on Border{
     color: color, width: width,
   );
 }
+
+
+extension ControlHeight on SizedBox{
+  SizedBox dynamicHeight(int variable){
+    double height = 0;
+
+    if(variable == 1){
+      height = 100.0;
+    }
+    else if(variable == 2){
+      height = 200;
+    }
+    else if(variable == 3){
+      height = 300;
+    }
+    else if(variable == 4){
+      height = 400;
+    }
+    return SizedBox(
+      height: height,
+      child: child,
+    );
+  }
+}

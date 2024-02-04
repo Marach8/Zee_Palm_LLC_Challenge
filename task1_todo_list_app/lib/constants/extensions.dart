@@ -31,7 +31,7 @@ extension ModifyBorder on Border{
 extension ControlHeight on SizedBox{
   SizedBox dynamicHeight(int variable){
     double height = 0;
-
+    
     if(variable == 1){
       height = 100.0;
     }
@@ -41,7 +41,7 @@ extension ControlHeight on SizedBox{
     else if(variable == 3){
       height = 300;
     }
-    else if(variable == 4){
+    else {
       height = 400;
     }
     return SizedBox(

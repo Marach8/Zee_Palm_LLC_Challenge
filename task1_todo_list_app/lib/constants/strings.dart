@@ -23,3 +23,4 @@ const todo = 'Todo';
 const todoSaved = 'Todo Saved!';
 const addAgain = 'Your todo has been saved successfully. Do you want to add another?';
 const fieldsEmpty = 'Field(s) cannot be empty!';
+const initializing = 'Initializing...';

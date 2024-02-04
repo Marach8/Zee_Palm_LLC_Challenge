@@ -40,13 +40,13 @@ class GoToAddTodoViewAppEvent extends AppEvents{
 
 @immutable 
 class SaveTodoAppEvent extends AppEvents{
-  final String title, 
-  dueDateTime, content;
+  final TextEditingController titleController, 
+  dueDateTimeController, contentController;
 
   const SaveTodoAppEvent({
-    required this.title,
-    required this.dueDateTime,
-    required this.content
+    required this.titleController,
+    required this.dueDateTimeController,
+    required this.contentController
   });
 }
 

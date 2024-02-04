@@ -46,8 +46,12 @@ class InGetUserDataViewAppState extends AppState{
 class InLandingPageViewAppState extends AppState{
 
   const InLandingPageViewAppState({
+    String? operation,
     required bool isLoading,   
-  }): super(isLoading: isLoading);
+  }): super(
+    isLoading: isLoading,
+    operation: operation
+  );
 }
 
 

@@ -4,7 +4,7 @@ import 'package:task1_todo_list_app/bloc/app_bloc.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
-import 'package:task1_todo_list_app/dialogs/alert_widget.dart';
+import 'package:task1_todo_list_app/dialogs/material_banner_alert.dart';
 import 'package:task1_todo_list_app/dialogs/generic_dialog.dart';
 import 'package:task1_todo_list_app/dialogs/loading_screen/loading_screen.dart';
 import 'package:task1_todo_list_app/views/add_todo_view.dart';
@@ -41,11 +41,11 @@ class MyApp extends StatelessWidget {
             final loadingScreen = LoadingScreen();
             final operation = appState.operation;
             if(appState.isLoading){
-              //WidgetsBinding.instance.addPostFrameCallback((_) =>
+              WidgetsBinding.instance.addPostFrameCallback((_) =>
                loadingScreen.showOverlay(
                   context1, operation!
-                );
-              //);
+                )
+              );
             } 
             else{
               loadingScreen.hideOverlay();
@@ -64,14 +64,23 @@ class MyApp extends StatelessWidget {
             final title = appState.alert;
             final content = appState.alertContent;
             if(title != null && content != null){
-              await showGenericDialog<bool>(
-                context: context1, 
-                title: title, 
-                content: content, 
-                options: {'No': false, 'Yes': true}
-              ).then((value){
-                
-              });
+              //I had to use Future.delayed here because I was avoiding using 
+              //BuildContexts across async Gaps.
+              await Future.delayed(
+                const Duration(seconds: 0)).then((_) async{
+                  await showGenericDialog<bool>(
+                    context: context1, 
+                    title: title, 
+                    content: content, 
+                    options: {'No': false, 'Yes': true}
+                  ).then((result){
+                    result != null && result == false ?
+                      context1.read<AppBloc>().add(
+                        const GoToTodoHomeAppEvent()
+                      ) : {};
+                  });
+                }
+              );
             }
           },
           listenWhen: (initialState, newState) 

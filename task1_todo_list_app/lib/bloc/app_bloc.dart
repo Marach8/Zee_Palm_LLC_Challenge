@@ -16,13 +16,19 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
     on<InitializationAppEvent>((_, emit) async{
       emit(
-        const InLandingPageViewAppState(isLoading: false)
+        const InLandingPageViewAppState(
+          isLoading: true,
+          operation: initializing
+        )
       );
       final username = await backend.getUsername('username');
       final userImageData = await backend.retrieveImageData();
       final retrievedTodos = await backend.getTodods();
 
       if(username != null || userImageData != null){
+        emit(
+          const InLandingPageViewAppState(isLoading: false)
+        );
         emit(
           InTodoHomeViewAppState(
             isLoading: false, 
@@ -31,7 +37,12 @@ class AppBloc extends Bloc<AppEvents, AppState>{
             imageBytes: userImageData
           )
         );
+        return;
       }
+      
+      emit(
+        const InLandingPageViewAppState(isLoading: false)
+      );
     });
     
     on<GoToGetUserDataViewAppEvent>((_, emit){
@@ -138,13 +149,17 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     });
 
     on<SaveTodoAppEvent>((event, emit) async{
-      final title = event.title.trim();
-      final dueDateTime = event.dueDateTime.trim();
-      final content = event.content.trim();
+      final title = event.titleController.text.trim();
+      final dueDateTime = event.dueDateTimeController.text.trim();
+      final content = event.contentController.text.trim();
       final fieldsNotEmpty = [title, dueDateTime, content]
         .every((field) => field.isNotEmpty);
 
       if(fieldsNotEmpty){
+        event.titleController.clear();
+        event.dueDateTimeController.clear();
+        event.contentController.clear();
+
         emit(
           const InAddTodoViewAppState(
             isLoading: true,

@@ -103,14 +103,11 @@ class AddTodoView extends HookWidget {
               function: () {
                 context.read<AppBloc>().add(
                   SaveTodoAppEvent(
-                    title: titleController.text, 
-                    dueDateTime: dueDateTimeController.text, 
-                    content: contentController.text
+                    titleController: titleController, 
+                    dueDateTimeController: dueDateTimeController, 
+                    contentController: contentController
                   )
                 );
-                titleController.clear();
-                dueDateTimeController.clear();
-                contentController.clear();
               }
             ),
           )

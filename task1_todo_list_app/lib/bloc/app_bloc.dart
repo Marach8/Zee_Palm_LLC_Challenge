@@ -9,9 +9,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
   AppBloc(): super(
     const InLandingPageViewAppState(isLoading: false)
   ){
-    emitUpdateHomeState(){
-      
-    }
+    
     final backend = AppBackend();
     //This count variable functions to just effect a change of state.
     int count = 0;

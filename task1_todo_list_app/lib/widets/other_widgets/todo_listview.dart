@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task1_todo_list_app/bloc/app_bloc.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
+import 'package:task1_todo_list_app/constants/extensions.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/widets/custom_widgets/decorated_text_widget.dart';
+import 'package:task1_todo_list_app/widets/other_widgets/dismissible_background.dart';
 
 class TodoListView extends StatelessWidget {
   final Iterable<List<String>?> userTodos;
@@ -47,6 +49,7 @@ class TodoListView extends StatelessWidget {
                 );
               }
             },
+            background: const BackgroundOfDissmissible(),
             child: Card(
               elevation: 0,
               color: blackColor.withOpacity(0.05),
@@ -87,6 +90,6 @@ class TodoListView extends StatelessWidget {
           );
         }
       ),
-    );
+    ).dynamicHeight(userTodos.length);
   }
 }

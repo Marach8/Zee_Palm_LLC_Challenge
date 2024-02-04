@@ -26,7 +26,7 @@ class ContainerWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: whiteColor,
         borderRadius: BorderRadius.circular(20),
-        // border: const Border().modify(blackColor, 0.1)
+        //border: const Border().modify(purpleColor, 0.5)
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

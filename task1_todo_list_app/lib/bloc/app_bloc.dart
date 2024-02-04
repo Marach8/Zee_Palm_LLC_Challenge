@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:task1_todo_list_app/bloc/app_backend.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
@@ -172,6 +171,26 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           isLoading: false,
           error: fieldsEmpty,
           counter: count
+        )
+      );
+    });
+
+    on<DeleteTodoAppEvent>((event, emit) async{
+      final currentState = state as InTodoHomeViewAppState;
+      final username = currentState.username;
+      final imageBytes = currentState.imageBytes;
+      final indexToDelete = event.indexToDelete;
+      final todoToDelete = todo+indexToDelete;
+      
+      await backend.deleteTodo(todoToDelete);
+      final retrievedTodos = await backend.getTodods();
+
+      emit(
+        InTodoHomeViewAppState(
+          isLoading: false,
+          retrievedTodos: retrievedTodos,
+          username: username, 
+          imageBytes: imageBytes
         )
       );
     });

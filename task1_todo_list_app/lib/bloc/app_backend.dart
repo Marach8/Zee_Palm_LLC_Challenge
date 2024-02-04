@@ -15,31 +15,36 @@ class AppBackend {
   Future<SharedPreferences> get preferences async 
     => await SharedPreferences.getInstance();
 
-  Future<void> setUsername(String username) async{
-    final pref = await preferences;
-    await pref.setString('username', username);
+  Future<bool> setUsername(String username) async{
+    final prefs = await preferences;
+    return await prefs.setString('username', username);
   }
 
   Future<String?> getUsername(String username) async{
-    final pref = await preferences;
-    return pref.getString(username);
+    final prefs = await preferences;
+    return prefs.getString(username);
   }
 
-  Future<void> setTodo(List<String> todoDetails) async{
+  Future<bool> setTodo(List<String> todoDetails) async{
     final prefs = await preferences;
-    await getTodods().then((storedTodos) async{
+    return await getTodods().then((storedTodos) async{
       final newIndex = storedTodos.length + 1;
       final currentDateTime = DateTime.now();
       final creationDateTime = DateFormat('yyyy-MMM-dd, hh:MM a')
         .format(currentDateTime);
       todoDetails.addAll(['false', creationDateTime, '$newIndex']);
-      await prefs.setStringList('Todo$newIndex', todoDetails);
+      return await prefs.setStringList('Todo$newIndex', todoDetails);
     });
   }
 
-  Future<void> updateTodo(List<String> newTodo, String index) async{
+  Future<bool> updateTodo(List<String> newTodo, String index) async{
     final prefs = await preferences;
-    await prefs.setStringList('Todo$index', newTodo);
+    return await prefs.setStringList('Todo$index', newTodo);
+  }
+
+  Future<bool> deleteTodo(String todoToDelete) async{
+    final prefs = await preferences;
+    return prefs.remove(todoToDelete);
   }
 
   Future<Iterable<List<String>?>> getTodods() async{

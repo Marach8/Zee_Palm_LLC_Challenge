@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task1_todo_list_app/bloc/app_bloc.dart';
+import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
@@ -15,12 +18,10 @@ class TodoListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
   final screenHeight = MediaQuery.of(context).size.height;
-  final screenWidth = MediaQuery.of(context).size.width;
 
     return SizedBox(
       height: 300,
       child: ListView.builder(
-        //padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
         itemCount: userTodos.length,
         itemBuilder: (_, listIndex){
           final eachTodo = userTodos.elementAt(listIndex);
@@ -33,25 +34,38 @@ class TodoListView extends StatelessWidget {
           final content = eachTodo[2];
           final isCompleted = eachTodo[3];
           final creationDateTime = eachTodo[4];
+          final todoIndex = eachTodo.last;
       
-          return CheckboxListTile.adaptive(
-            //activeColor: Colors.blue,
-            title: DecoratedText(
-              color: blackColor,
-              fontSize: fontSize2,
-              fontWeight: fontWeight2,
-              text: title
+          return Dismissible(
+            key: UniqueKey(),
+            onDismissed: (direction) {
+              if(
+                direction == DismissDirection.endToStart || 
+                direction == DismissDirection.startToEnd
+              ){
+                context.read<AppBloc>().add(
+                  DeleteTodoAppEvent(indexToDelete: todoIndex)
+                );
+              }
+            },
+            child: CheckboxListTile.adaptive(
+              //activeColor: Colors.blue,
+              title: DecoratedText(
+                color: blackColor,
+                fontSize: fontSize2,
+                fontWeight: fontWeight2,
+                text: title
+              ),
+              subtitle: DecoratedText(
+                color: blackColor,
+                fontSize: fontSize2,
+                fontWeight: fontWeight2,
+                controlOverflow: true,
+                text: content
+              ),
+              value: true,
+              onChanged: (value){},
             ),
-            subtitle: DecoratedText(
-              color: blackColor,
-              fontSize: fontSize2,
-              fontWeight: fontWeight2,
-              controlOverflow: true,
-              text: content
-            ),
-            value: true,
-            onChanged: (value){},
-            //tileColor: Colors.red,
           );
         }
       ),

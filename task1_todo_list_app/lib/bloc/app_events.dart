@@ -49,3 +49,11 @@ class SaveTodoAppEvent extends AppEvents{
     required this.content
   });
 }
+
+@immutable 
+class DeleteTodoAppEvent extends AppEvents{
+  final String indexToDelete;
+  const DeleteTodoAppEvent({
+    required this.indexToDelete
+  });
+}

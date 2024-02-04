@@ -25,9 +25,9 @@ class CustomTextField extends StatelessWidget {
       cursorColor: blackColor,              
       cursorWidth: 0.5,
       decoration: InputDecoration(
-        labelStyle: const TextStyle(
-          color: blackColor,
-          fontSize: fontSize3,
+        labelStyle: TextStyle(
+          color: blackColor.withOpacity(0.5),
+          fontSize: fontSize2,
           fontWeight: fontWeight3
         ),
         focusedBorder: OutlineInputBorder(
@@ -46,8 +46,7 @@ class CustomTextField extends StatelessWidget {
       ),
       style: const TextStyle(
         fontSize: fontSize3,
-        fontWeight: fontWeight3,
-        textBaseline: TextBaseline.ideographic,
+        fontWeight: fontWeight4,
         decoration: TextDecoration.none
       ), 
     );

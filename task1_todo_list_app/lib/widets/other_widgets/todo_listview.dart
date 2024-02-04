@@ -14,9 +14,13 @@ class TodoListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  final screenHeight = MediaQuery.of(context).size.height;
+  final screenWidth = MediaQuery.of(context).size.width;
 
-    return Expanded(
+    return SizedBox(
+      height: 300,
       child: ListView.builder(
+        //padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
         itemCount: userTodos.length,
         itemBuilder: (_, listIndex){
           final eachTodo = userTodos.elementAt(listIndex);
@@ -31,6 +35,7 @@ class TodoListView extends StatelessWidget {
           final creationDateTime = eachTodo[4];
       
           return CheckboxListTile.adaptive(
+            //activeColor: Colors.blue,
             title: DecoratedText(
               color: blackColor,
               fontSize: fontSize2,
@@ -46,7 +51,7 @@ class TodoListView extends StatelessWidget {
             ),
             value: true,
             onChanged: (value){},
-            tileColor: whiteColor,
+            //tileColor: Colors.red,
           );
         }
       ),

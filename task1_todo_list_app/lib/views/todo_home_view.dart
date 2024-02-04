@@ -35,6 +35,7 @@ class TodoHomeView extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: whiteColorWithOpacity,
+        appBar: AppBar(title: const Text('Hello')),
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Center(
@@ -56,7 +57,8 @@ class TodoHomeView extends StatelessWidget {
                       )
                     ]
                   ),
-                  const Gap(20),
+                  const Gap(100),
+                    
                   ContainerWidget(
                     children: retrievedTodos.isEmpty ? [
                       const SizeAnimation(),
@@ -66,6 +68,7 @@ class TodoHomeView extends StatelessWidget {
                       TodoListView(userTodos: retrievedTodos,)
                     ]
                   ),
+                  const Gap(50)
                 ]
               ),
             ),

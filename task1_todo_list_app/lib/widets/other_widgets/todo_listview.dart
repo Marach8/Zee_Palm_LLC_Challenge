@@ -27,12 +27,11 @@ class TodoListView extends StatelessWidget {
           final eachTodo = userTodos.elementAt(listIndex);
           if(eachTodo == null){
             return const SizedBox.shrink();
-          }
-      
+          }      
           final title = eachTodo[0];
           final dueDateTime = eachTodo[1];
           final content = eachTodo[2];
-          final isCompleted = eachTodo[3];
+          final isCompleted = bool.tryParse(eachTodo[3]);
           final creationDateTime = eachTodo[4];
           final todoIndex = eachTodo.last;
       
@@ -48,23 +47,42 @@ class TodoListView extends StatelessWidget {
                 );
               }
             },
-            child: CheckboxListTile.adaptive(
-              //activeColor: Colors.blue,
-              title: DecoratedText(
-                color: blackColor,
-                fontSize: fontSize2,
-                fontWeight: fontWeight2,
-                text: title
+            child: Card(
+              elevation: 0,
+              color: blackColor.withOpacity(0.05),
+              child: CheckboxListTile.adaptive(
+                activeColor: purpleColor,
+                title: DecoratedText(
+                  color: blackColor,
+                  fontSize: fontSize2,
+                  fontWeight: fontWeight2,
+                  text: title
+                ),
+                subtitle: DecoratedText(
+                  color: blackColor,
+                  fontSize: fontSize2,
+                  fontWeight: fontWeight2,
+                  controlOverflow: true,
+                  text: content
+                ),
+                value: isCompleted,
+                onChanged: (value){
+                  final newTodo = [
+                    title, 
+                    dueDateTime,
+                    content,
+                    value.toString(),
+                    creationDateTime,
+                    todoIndex
+                  ];
+                  context.read<AppBloc>().add(
+                    UpdateTodoIsCompletedState(
+                      indexToUpdate: todoIndex,
+                      newTodo: newTodo
+                    )
+                  );
+                },
               ),
-              subtitle: DecoratedText(
-                color: blackColor,
-                fontSize: fontSize2,
-                fontWeight: fontWeight2,
-                controlOverflow: true,
-                text: content
-              ),
-              value: true,
-              onChanged: (value){},
             ),
           );
         }

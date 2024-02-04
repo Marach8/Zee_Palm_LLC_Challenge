@@ -57,3 +57,14 @@ class DeleteTodoAppEvent extends AppEvents{
     required this.indexToDelete
   });
 }
+
+@immutable 
+class UpdateTodoIsCompletedState extends AppEvents{
+  final String indexToUpdate;
+  final List<String> newTodo;
+
+  const UpdateTodoIsCompletedState({
+    required this.indexToUpdate,
+    required this.newTodo
+  });
+}

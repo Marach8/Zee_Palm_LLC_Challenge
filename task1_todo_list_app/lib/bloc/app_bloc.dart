@@ -9,6 +9,9 @@ class AppBloc extends Bloc<AppEvents, AppState>{
   AppBloc(): super(
     const InLandingPageViewAppState(isLoading: false)
   ){
+    emitUpdateHomeState(){
+      
+    }
     final backend = AppBackend();
     //This count variable functions to just effect a change of state.
     int count = 0;
@@ -21,7 +24,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       final userImageData = await backend.retrieveImageData();
       final retrievedTodos = await backend.getTodods();
 
-      if(username != null && userImageData != null){
+      if(username != null || userImageData != null){
         emit(
           InTodoHomeViewAppState(
             isLoading: false, 
@@ -71,16 +74,14 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         final userImageData = await backend.retrieveImageData();
         final retrievedTodos = await backend.getTodods();
 
-        if(username != null && userImageData != null){
-          emit(
-            InTodoHomeViewAppState(
-              isLoading: false, 
-              retrievedTodos: retrievedTodos,
-              username: username, 
-              imageBytes: userImageData
-            )
-          );
-        }
+        emit(
+          InTodoHomeViewAppState(
+            isLoading: false, 
+            retrievedTodos: retrievedTodos,
+            username: username, 
+            imageBytes: userImageData
+          )
+        );
       }
 
       //A case whereby we are comming into the TodoHomeView from the GetUserDataView
@@ -181,8 +182,28 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       final imageBytes = currentState.imageBytes;
       final indexToDelete = event.indexToDelete;
       final todoToDelete = todo+indexToDelete;
-      
+
       await backend.deleteTodo(todoToDelete);
+      final retrievedTodos = await backend.getTodods();
+
+      emit(
+        InTodoHomeViewAppState(
+          isLoading: false,
+          retrievedTodos: retrievedTodos,
+          username: username, 
+          imageBytes: imageBytes
+        )
+      );
+    });
+
+    on<UpdateTodoIsCompletedState>((event, emit) async{
+      final currentState = state as InTodoHomeViewAppState;
+      final username = currentState.username;
+      final imageBytes = currentState.imageBytes;
+      final indexToUpdate = event.indexToUpdate;
+      final newTodo = event.newTodo;
+
+      await backend.updateTodo(newTodo, indexToUpdate);
       final retrievedTodos = await backend.getTodods();
 
       emit(

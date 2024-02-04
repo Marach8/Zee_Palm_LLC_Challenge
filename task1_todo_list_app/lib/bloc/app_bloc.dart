@@ -129,6 +129,14 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         final imageBytes = await imageFile?.readAsBytes();
         final retrievedTodos = await backend.getTodods();
         emit(
+          InGetUserDataViewAppState(
+            isLoading: false,
+            username: username,
+            fileNameToDisplay: fileNameToDisplay, 
+          )
+        );
+        
+        emit(
           InTodoHomeViewAppState(
             isLoading: false,
             retrievedTodos: retrievedTodos,

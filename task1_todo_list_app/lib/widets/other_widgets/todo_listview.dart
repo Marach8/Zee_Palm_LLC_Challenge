@@ -39,6 +39,17 @@ class TodoListView extends StatelessWidget {
       
           return Dismissible(
             key: UniqueKey(),
+            // confirmDismiss: (direction){
+            //   if(
+            //     direction == DismissDirection.endToStart || 
+            //     direction == DismissDirection.startToEnd
+            //   ){
+            //     final shouldDelete = context.read<AppBloc>().add(
+            //       const ContinueToDismissAppEvent()
+            //     );
+            //   }
+            //   return null;
+            // },
             onDismissed: (direction) {
               if(
                 direction == DismissDirection.endToStart || 
@@ -58,7 +69,7 @@ class TodoListView extends StatelessWidget {
                 title: DecoratedText(
                   color: blackColor,
                   fontSize: fontSize2,
-                  fontWeight: fontWeight2,
+                  fontWeight: fontWeight6,
                   text: title
                 ),
                 subtitle: DecoratedText(

@@ -75,7 +75,7 @@ class LoadingScreen{
                           return Text(snapshot.data!)
                             .decorateWithGoogleFont(
                               whiteColor,
-                              fontWeight1,
+                              fontWeight4,
                               fontSize2, 
                             );
                         } else{

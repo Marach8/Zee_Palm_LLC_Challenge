@@ -68,3 +68,8 @@ class UpdateTodoIsCompletedState extends AppEvents{
     required this.newTodo
   });
 }
+
+@immutable 
+class ContinueToDismissAppEvent extends AppEvents{
+  const ContinueToDismissAppEvent();
+}

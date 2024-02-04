@@ -33,8 +33,8 @@ Future<T?> showGenericDialog<T>({
           : Navigator.of(context).pop(optionValue),
         child: Text(optionKey).decorateWithGoogleFont(
           purpleColor, 
-          fontWeight1,
-          fontSize2, 
+          fontWeight5,
+          fontSize3, 
         ),        
       );
     }).toList(),

@@ -50,3 +50,17 @@ extension ControlHeight on SizedBox{
     );
   }
 }
+
+
+extension CheckEquality on List{
+  bool listsAreEqual(List other){
+    if(
+      [0] == other[0] &&
+      [1] == other[1] &&
+      [2] == other[2]
+    ){
+      return true;
+    }
+    return false;
+  }
+}

@@ -80,12 +80,14 @@ class InTodoHomeViewAppState extends AppState{
 
 @immutable 
 class InAddTodoViewAppState extends AppState{
-  final bool? isInEditMode;
+  final bool? isInUpdateMode;
   final int? counter;
+  final List<String>? initialTodo;
   
   const InAddTodoViewAppState({
-    this.isInEditMode,
+    this.isInUpdateMode,
     this.counter,
+    this.initialTodo,
     required bool isLoading,
     String? error,
     String? operation,

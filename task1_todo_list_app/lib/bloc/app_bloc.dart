@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:task1_todo_list_app/bloc/app_backend.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
+import 'package:task1_todo_list_app/constants/extensions.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
 
 
@@ -151,12 +152,13 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       emit(
         const InAddTodoViewAppState(
           isLoading: false,
-          isInEditMode: false
+          isInUpdateMode: false
         )
       );
     });
 
-    on<SaveTodoAppEvent>((event, emit) async{
+    on<SaveOrUpdateTodoAppEvent>((event, emit) async{
+      final currentState = state as InAddTodoViewAppState;
       final title = event.titleController.text.trim();
       final dueDateTime = event.dueDateTimeController.text.trim();
       final content = event.contentController.text.trim();
@@ -164,6 +166,25 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         .every((field) => field.isNotEmpty);
 
       if(fieldsNotEmpty){
+        //We want to Update Existing Todo
+        if(currentState.isInUpdateMode ?? false){
+          final newTodo = [title, dueDateTime, content];
+          final oldTodo = currentState.initialTodo!;
+          final theyAreEqual = newTodo.listsAreEqual(oldTodo);
+          if(theyAreEqual){
+            count++;
+            emit(
+              InAddTodoViewAppState(
+                isLoading: false,
+                error: noChange,
+                counter: count
+              )
+            );
+            
+          }
+          return;
+        }
+
         event.titleController.clear();
         event.dueDateTimeController.clear();
         event.contentController.clear();
@@ -235,6 +256,22 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           imageBytes: imageBytes
         )
       );
+    });
+
+    on<StartTodoUpdateAppEvent>((event, emit) async{
+      final indexToDelete = event.indexToUpdate;
+      final todoToUpdate = await backend.getTodo(indexToDelete);
+      
+      emit(
+        InAddTodoViewAppState(
+          isLoading: false,
+          isInUpdateMode: true,
+          initialTodo: todoToUpdate
+        )
+      );
+      todoToUpdate!.first = event.titleController.text;
+      todoToUpdate[1] = event.dueDateTimeController.text;
+      todoToUpdate[2] = event.contentController.text;
     });
   }
 }

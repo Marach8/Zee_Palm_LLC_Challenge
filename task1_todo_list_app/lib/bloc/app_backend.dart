@@ -47,6 +47,11 @@ class AppBackend {
     return prefs.remove(todoToDelete);
   }
 
+  Future<List<String>?> getTodo(String index) async{
+    final prefs = await preferences;
+    return prefs.getStringList('Todo$index');
+  }
+
   Future<Iterable<List<String>?>> getTodods() async{
     final prefs = await preferences;
     final listOfTodos = Iterable.generate(

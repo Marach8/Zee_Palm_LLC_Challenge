@@ -64,8 +64,9 @@ class TodoListView extends StatelessWidget {
             child: Card(
               elevation: 0,
               color: blackColor.withOpacity(0.05),
-              child: CheckboxListTile.adaptive(
-                activeColor: purpleColor,
+              child: ListTile(
+                // selectedTileColor: purpleColor,
+                // activeColor: purpleColor,
                 title: DecoratedText(
                   color: blackColor,
                   fontSize: fontSize2,
@@ -79,23 +80,26 @@ class TodoListView extends StatelessWidget {
                   controlOverflow: true,
                   text: content
                 ),
-                value: isCompleted,
-                onChanged: (value){
-                  final newTodo = [
-                    title, 
-                    dueDateTime,
-                    content,
-                    value.toString(),
-                    creationDateTime,
-                    todoIndex
-                  ];
-                  context.read<AppBloc>().add(
-                    UpdateTodoIsCompletedState(
-                      indexToUpdate: todoIndex,
-                      newTodo: newTodo
-                    )
-                  );
+                onLongPress: (){
+                  
                 },
+                // value: isCompleted,
+                // onChanged: (value){
+                //   final newTodo = [
+                //     title, 
+                //     dueDateTime,
+                //     content,
+                //     value.toString(),
+                //     creationDateTime,
+                //     todoIndex
+                //   ];
+                //   context.read<AppBloc>().add(
+                //     UpdateTodoIsCompletedState(
+                //       indexToUpdate: todoIndex,
+                //       newTodo: newTodo
+                //     )
+                //   );
+                // },
               ),
             ),
           );

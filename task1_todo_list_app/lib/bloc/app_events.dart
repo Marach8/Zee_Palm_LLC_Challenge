@@ -39,11 +39,11 @@ class GoToAddTodoViewAppEvent extends AppEvents{
 }
 
 @immutable 
-class SaveTodoAppEvent extends AppEvents{
+class SaveOrUpdateTodoAppEvent extends AppEvents{
   final TextEditingController titleController, 
   dueDateTimeController, contentController;
 
-  const SaveTodoAppEvent({
+  const SaveOrUpdateTodoAppEvent({
     required this.titleController,
     required this.dueDateTimeController,
     required this.contentController
@@ -72,4 +72,18 @@ class UpdateTodoIsCompletedState extends AppEvents{
 @immutable 
 class ContinueToDismissAppEvent extends AppEvents{
   const ContinueToDismissAppEvent();
+}
+
+@immutable 
+class StartTodoUpdateAppEvent extends AppEvents{
+  final String indexToUpdate;
+  final TextEditingController titleController, 
+  dueDateTimeController, contentController;
+
+  const StartTodoUpdateAppEvent({
+    required this.indexToUpdate,
+    required this. titleController,
+    required this.contentController,
+    required this.dueDateTimeController
+  });
 }

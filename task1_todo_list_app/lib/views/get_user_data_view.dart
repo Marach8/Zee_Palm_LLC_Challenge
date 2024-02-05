@@ -112,7 +112,7 @@ class GetUserDataView extends HookWidget {
         ),
         bottomSheet: const StepperWidget(
           color1: purpleColor,
-          color2: whiteColor
+          color2: purpleColor
         )
       )
     );

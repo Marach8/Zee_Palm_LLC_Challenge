@@ -94,7 +94,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         );
       }
 
-      //A case whereby we are comming into the TodoHomeView from the GetUserDataView
+      //A case whereby we are coming into the TodoHomeView from the GetUserDataView
       else if(state is InGetUserDataViewAppState){
         final currentState = state as InGetUserDataViewAppState;
         final imageFile = currentState.imageFile;
@@ -162,16 +162,21 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       final title = event.titleController.text.trim();
       final dueDateTime = event.dueDateTimeController.text.trim();
       final content = event.contentController.text.trim();
+      
       final fieldsNotEmpty = [title, dueDateTime, content]
         .every((field) => field.isNotEmpty);
 
       if(fieldsNotEmpty){
         //I want to Update Existing Todo
         if(currentState.isInUpdateMode ?? false){
-          final newTodo = [title, dueDateTime, content];
           final oldTodo = currentState.initialTodo!;
+          final newTodo = [...oldTodo];
+          newTodo.replaceRange(0, 3, [title, dueDateTime, content]);
+          
+          // final theyAreEqual = DeepCollectionEquality
           final theyAreEqual = newTodo.listsAreEqual(oldTodo);
           //A case where the user did not actually change any of the fields
+
           if(theyAreEqual){
             count++;
             emit(
@@ -201,6 +206,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
               )
             );
           }
+
           final retrievedTodos = await backend.getTodods();
           emit(
             InTodoHomeViewAppState(
@@ -211,9 +217,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           return;
         }
 
-        event.titleController.clear();
-        event.dueDateTimeController.clear();
-        event.contentController.clear();
 
         emit(
           const InAddTodoViewAppState(
@@ -223,6 +226,10 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         );
         final todoDetails = [title, dueDateTime, content];
         await backend.setTodo(todoDetails);
+        
+        event.titleController.clear();
+        event.dueDateTimeController.clear();
+        event.contentController.clear();
         
         emit(
           const InAddTodoViewAppState(
@@ -245,9 +252,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     });
 
     on<DeleteTodoAppEvent>((event, emit) async{
-      // final currentState = state as InTodoHomeViewAppState;
-      // final username = currentState.username;
-      // final imageBytes = currentState.imageBytes;
       final indexToDelete = event.indexToDelete;
       final todoToDelete = todo+indexToDelete;
 
@@ -258,8 +262,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         InTodoHomeViewAppState(
           isLoading: false,
           retrievedTodos: retrievedTodos,
-          // username: username, 
-          // imageBytes: imageBytes
         )
       );
     });

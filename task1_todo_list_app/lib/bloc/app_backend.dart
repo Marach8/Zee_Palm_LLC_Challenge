@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:developer' as marach show log;
 
 
 class AppBackend {
@@ -22,6 +23,7 @@ class AppBackend {
 
   Future<String?>? getUsername(String username) async{
     final prefs = await preferences;
+    marach.log('I come to username');
     return prefs.getString(username);
   }
 
@@ -82,19 +84,22 @@ class AppBackend {
     final newFilePath = join(appDocDirectory.path, 'dp.$fileExtension');
     await prefs.setString('newFilePath', newFilePath);
     await file.copy(newFilePath);
+    marach.log('I copied the file');
   }
 
   //Retrieve image data from local directory
-  Future<Uint8List?> retrieveImageData() async{
+  Future<Uint8List?>? retrieveImageData() async{
     final prefs = await preferences;
     final newFilePath = prefs.getString('newFilePath');
     if(newFilePath != null){
       final newFile = File(newFilePath);
       if(await newFile.exists()){
         final imageBytes = await newFile.readAsBytes();
+        marach.log('I have the bytes');
         return imageBytes;
       }
     }
+    marach.log('I have null');
     return null;
   }
 }

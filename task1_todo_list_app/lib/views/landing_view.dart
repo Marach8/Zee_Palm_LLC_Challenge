@@ -91,7 +91,7 @@ class LandingView extends StatelessWidget {
           ),
         ),
         bottomSheet: const StepperWidget(
-          color1: whiteColor,
+          color1: purpleColor,
           color2: whiteColor
         )
       ),

@@ -81,7 +81,11 @@ class TodoListView extends StatelessWidget {
                   text: content
                 ),
                 onLongPress: (){
-                  
+                  context.read<AppBloc>().add(
+                    StartTodoUpdateAppEvent(
+                      indexToUpdate: todoIndex,
+                    )
+                  );
                 },
                 // value: isCompleted,
                 // onChanged: (value){

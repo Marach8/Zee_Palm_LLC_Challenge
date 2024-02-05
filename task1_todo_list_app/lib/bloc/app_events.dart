@@ -77,13 +77,8 @@ class ContinueToDismissAppEvent extends AppEvents{
 @immutable 
 class StartTodoUpdateAppEvent extends AppEvents{
   final String indexToUpdate;
-  final TextEditingController titleController, 
-  dueDateTimeController, contentController;
 
   const StartTodoUpdateAppEvent({
     required this.indexToUpdate,
-    required this. titleController,
-    required this.contentController,
-    required this.dueDateTimeController
   });
 }

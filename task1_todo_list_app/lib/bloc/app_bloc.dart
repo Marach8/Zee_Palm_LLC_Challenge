@@ -166,11 +166,12 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         .every((field) => field.isNotEmpty);
 
       if(fieldsNotEmpty){
-        //We want to Update Existing Todo
+        //I want to Update Existing Todo
         if(currentState.isInUpdateMode ?? false){
           final newTodo = [title, dueDateTime, content];
           final oldTodo = currentState.initialTodo!;
           final theyAreEqual = newTodo.listsAreEqual(oldTodo);
+          //A case where the user did not actually change any of the fields
           if(theyAreEqual){
             count++;
             emit(
@@ -180,8 +181,33 @@ class AppBloc extends Bloc<AppEvents, AppState>{
                 counter: count
               )
             );
-            
           }
+          //A case where the user actually changed any of the fields
+          else{
+            emit(
+              const InAddTodoViewAppState(
+                isLoading: true,
+                operation: updating,
+              )
+            );
+
+            final index = oldTodo.last;
+            await backend.updateTodo(newTodo, index);
+
+            emit(
+              const InAddTodoViewAppState(
+                isLoading: false,
+                error: todoUpdated
+              )
+            );
+          }
+          final retrievedTodos = await backend.getTodods();
+          emit(
+            InTodoHomeViewAppState(
+              isLoading: false,
+              retrievedTodos: retrievedTodos,
+            )
+          );
           return;
         }
 
@@ -219,9 +245,9 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     });
 
     on<DeleteTodoAppEvent>((event, emit) async{
-      final currentState = state as InTodoHomeViewAppState;
-      final username = currentState.username;
-      final imageBytes = currentState.imageBytes;
+      // final currentState = state as InTodoHomeViewAppState;
+      // final username = currentState.username;
+      // final imageBytes = currentState.imageBytes;
       final indexToDelete = event.indexToDelete;
       final todoToDelete = todo+indexToDelete;
 
@@ -232,8 +258,8 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         InTodoHomeViewAppState(
           isLoading: false,
           retrievedTodos: retrievedTodos,
-          username: username, 
-          imageBytes: imageBytes
+          // username: username, 
+          // imageBytes: imageBytes
         )
       );
     });
@@ -259,8 +285,8 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     });
 
     on<StartTodoUpdateAppEvent>((event, emit) async{
-      final indexToDelete = event.indexToUpdate;
-      final todoToUpdate = await backend.getTodo(indexToDelete);
+      final indexToUpdate = event.indexToUpdate;
+      final todoToUpdate = await backend.getTodo(indexToUpdate);
       
       emit(
         InAddTodoViewAppState(
@@ -269,9 +295,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           initialTodo: todoToUpdate
         )
       );
-      todoToUpdate!.first = event.titleController.text;
-      todoToUpdate[1] = event.dueDateTimeController.text;
-      todoToUpdate[2] = event.contentController.text;
     });
   }
 }

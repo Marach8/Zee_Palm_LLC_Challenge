@@ -20,7 +20,7 @@ class AppBackend {
     return await prefs.setString('username', username);
   }
 
-  Future<String?> getUsername(String username) async{
+  Future<String?>? getUsername(String username) async{
     final prefs = await preferences;
     return prefs.getString(username);
   }

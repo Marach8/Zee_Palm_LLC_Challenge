@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:task1_todo_list_app/bloc/app_bloc.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';
+import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
@@ -22,9 +23,15 @@ class AddTodoView extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final titleController = useTextEditingController();
-    final dueDateTimeController = useTextEditingController();
-    final contentController = useTextEditingController();
+    final currentState = context.watch<AppBloc>().state as InAddTodoViewAppState;
+    final isInUpdateMode = currentState.isInUpdateMode ?? false;
+    final oldtitle = currentState.initialTodo?[0];
+    final oldDueDateTime = currentState.initialTodo?[1];
+    final oldContent = currentState.initialTodo?[2];
+    
+    final titleController = useTextEditingController(text: oldtitle);
+    final dueDateTimeController = useTextEditingController(text: oldDueDateTime);
+    final contentController = useTextEditingController(text: oldContent);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
@@ -37,11 +44,11 @@ class AddTodoView extends HookWidget {
         child: Scaffold(
           backgroundColor: whiteColorWithOpacity,
           appBar: AppBar(
-            title: const DecoratedText(
+            title: DecoratedText(
               color: blackColor,
               fontSize: fontSize4,
               fontWeight: fontWeight7,
-              text: 'Add Todo',
+              text: isInUpdateMode ? updateTodo : addTodo,
             ),
             centerTitle: true,
             leading: IconButton(
@@ -99,10 +106,10 @@ class AddTodoView extends HookWidget {
               backgroundColor: blackColor, 
               foregroundColor: whiteColor, 
               borderColor: purpleColor, 
-              text: save, 
+              text: isInUpdateMode ? update : save, 
               function: () {
                 context.read<AppBloc>().add(
-                  SaveTodoAppEvent(
+                  SaveOrUpdateTodoAppEvent(
                     titleController: titleController, 
                     dueDateTimeController: dueDateTimeController, 
                     contentController: contentController

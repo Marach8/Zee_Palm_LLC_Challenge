@@ -22,6 +22,24 @@ extension ModifyText on Text{
 }
 
 
+extension DecorateTextSpan on TextSpan{
+  TextSpan decorateTextSpan(
+    Color color, 
+    double fontSize, 
+    FontWeight fontWeight,
+    [bool? controlOverflow]
+  ) => TextSpan(
+    text: text,
+    style: TextStyle(
+      color: color, 
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      overflow: controlOverflow ?? false ? TextOverflow.ellipsis : null,
+    )
+  );
+}
+
+
 extension ModifyBorder on Border{
   Border modify(Color color, double width) => Border.all(
     color: color, width: width,

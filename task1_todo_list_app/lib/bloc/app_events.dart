@@ -70,24 +70,19 @@ class UpdateTodoIsCompletedStateAppEvent extends AppEvents{
 }
 
 @immutable 
-class ShouldDismissAppEvent extends AppEvents{
-  const ShouldDismissAppEvent();
-}
-
-@immutable 
-class ShouldDismissResultAppEvent extends AppEvents{
-  final bool? shouldDelete;
-
-  const ShouldDismissResultAppEvent({
-    required this.shouldDelete
-  });
-}
-
-@immutable 
 class StartTodoUpdateAppEvent extends AppEvents{
   final String indexToUpdate;
 
   const StartTodoUpdateAppEvent({
     required this.indexToUpdate,
+  });
+}
+
+@immutable 
+class ShowFullTodoDetailsAppEvent extends AppEvents{
+  final String indexToShow;
+  
+  const ShowFullTodoDetailsAppEvent({
+    required this.indexToShow
   });
 }

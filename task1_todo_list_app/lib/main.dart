@@ -8,6 +8,7 @@ import 'package:task1_todo_list_app/constants/maps.dart';
 import 'package:task1_todo_list_app/dialogs/material_banner_alert.dart';
 import 'package:task1_todo_list_app/dialogs/generic_dialog.dart';
 import 'package:task1_todo_list_app/dialogs/loading_screen/loading_screen.dart';
+import 'package:task1_todo_list_app/dialogs/show_todo_details.dart';
 import 'package:task1_todo_list_app/views/add_todo_view.dart';
 import 'package:task1_todo_list_app/views/get_user_data_view.dart';
 import 'package:task1_todo_list_app/views/landing_view.dart';
@@ -44,6 +45,8 @@ class MyApp extends StatelessWidget {
         ),
         home: BlocConsumer<AppBloc, AppState>(
           listener: (context1, appState) async{
+
+            //For Loading indicator
             final loadingScreen = LoadingScreen();
             final operation = appState.operation;
             if(appState.isLoading){
@@ -56,7 +59,8 @@ class MyApp extends StatelessWidget {
             else{
               loadingScreen.hideOverlay();
             }
-
+            
+            //For MaterialBanner alert
             final error = appState.error;
             if(error != null){
               await showNotification(
@@ -67,6 +71,7 @@ class MyApp extends StatelessWidget {
               );
             }
 
+            //For AlertDialog pop-up
             final title = appState.alert;
             final content = appState.alertContent;
             if(title != null && content != null){
@@ -87,6 +92,34 @@ class MyApp extends StatelessWidget {
                   });
                 }
               );
+            }
+
+            //For snackbar display            
+            if(appState is InTodoHomeViewAppState){
+              final indexToShow = appState.indexToShow;
+
+              if(indexToShow != null){
+                final retrievedTodos = appState.retrievedTodos;
+                final todoToShow = retrievedTodos.firstWhere(
+                  (todo) => todo?.last == indexToShow, orElse: () => []
+                );
+                final title = todoToShow?[0];
+                final dueDateTime = todoToShow?[1];
+                final content = todoToShow?[2];
+                final isCompleted = todoToShow?[3];
+                final datetimeOfCreation = todoToShow?[4];
+
+                await Future.delayed(const Duration(seconds: 0)).then(
+                  (value) => showFullTodoDetails(
+                    context1,
+                    title!,
+                    content!,
+                    dueDateTime!,
+                    datetimeOfCreation!,
+                    isCompleted!
+                  )
+                );
+              }
             }
           },
           listenWhen: (initialState, newState) 

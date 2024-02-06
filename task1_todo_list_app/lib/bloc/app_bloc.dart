@@ -289,29 +289,16 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     });
 
 
-    on<ShouldDismissAppEvent>((_, emit) async{
-      final retrievedTodos = await backend.getTodods();
+    on<ShowFullTodoDetailsAppEvent>((event, emit){
+      final currentState = state as InTodoHomeViewAppState;
+      final retrievedTodos = currentState.retrievedTodos;
+      final indexToShow = event.indexToShow;
 
       emit(
         InTodoHomeViewAppState(
           isLoading: false, 
           retrievedTodos: retrievedTodos,
-          alert: deleteTodo,
-          alertContent: confirmDeleteTodo
-        )
-      );
-    });
-
-
-    on<ShouldDismissResultAppEvent>((event, emit) async{
-      final retrievedTodos = await backend.getTodods();
-      final shouldDelete = event.shouldDelete;
-
-      emit(
-        InTodoHomeViewAppState(
-          isLoading: false, 
-          retrievedTodos: retrievedTodos,
-          shouldDelete: shouldDelete
+          indexToShow: indexToShow
         )
       );
     });

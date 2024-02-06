@@ -65,8 +65,8 @@ class InLandingPageViewAppState extends AppState{
 
 @immutable 
 class InTodoHomeViewAppState extends AppState{
-  final String? username;
-  final File? imageFile;
+  final String? username,
+  indexToShow;
   final Iterable<List<String>?> retrievedTodos;
   final Uint8List? imageBytes;
   final bool? shouldDelete;
@@ -76,7 +76,7 @@ class InTodoHomeViewAppState extends AppState{
     required this.retrievedTodos,
     this.imageBytes,
     this.username,
-    this.imageFile,
+    this.indexToShow,
     this.shouldDelete,
     String? error,
     String? operation,

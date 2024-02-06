@@ -45,7 +45,7 @@ class TodoListView extends StatelessWidget {
         
             return Dismissible(
               key: UniqueKey(),
-              confirmDismiss: (direction) async {
+              confirmDismiss: (_) async {
                 //Yet to find a way to have this functionality handled 
                 //by the bloc listener. For the moment, it is hardcoded here.
                 return showGenericDialog<bool>(
@@ -70,8 +70,6 @@ class TodoListView extends StatelessWidget {
                 elevation: 0,
                 color: blackColor.withOpacity(0.05),
                 child: ListTile(
-                  // selectedTileColor: purpleColor,
-                  // activeColor: purpleColor,
                   title: DecoratedText(
                     color: blackColor,
                     fontSize: fontSize2,
@@ -96,14 +94,16 @@ class TodoListView extends StatelessWidget {
                       todoIndex
                     ],
                   ),
-                  onLongPress: (){
-                    context.read<AppBloc>().add(
-                      StartTodoUpdateAppEvent(
-                        indexToUpdate: todoIndex,
-                      )
-                    );
-                  },
-                  
+                  onLongPress: () => context.read<AppBloc>().add(
+                    StartTodoUpdateAppEvent(
+                      indexToUpdate: todoIndex,
+                    )
+                  ),
+                  onTap: () => context.read<AppBloc>().add(
+                    ShowFullTodoDetailsAppEvent(
+                      indexToShow: todoIndex
+                    )
+                  )
                 ),
               ),
             );

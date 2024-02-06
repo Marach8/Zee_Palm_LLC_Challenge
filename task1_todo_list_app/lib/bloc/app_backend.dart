@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:developer' as marach show log;
+import 'package:task1_todo_list_app/constants/strings.dart';
 
 
 class AppBackend {
@@ -18,12 +18,11 @@ class AppBackend {
 
   Future<bool> setUsername(String username) async{
     final prefs = await preferences;
-    return await prefs.setString('username', username);
+    return await prefs.setString(usernameString, username);
   }
 
   Future<String?>? getUsername(String username) async{
     final prefs = await preferences;
-    marach.log('I come to username');
     return prefs.getString(username);
   }
 
@@ -31,17 +30,23 @@ class AppBackend {
     final prefs = await preferences;
     return await getTodods().then((storedTodos) async{
       final newIndex = storedTodos.length + 1;
+      await prefs.setInt(numberOfTodos, newIndex);
       final currentDateTime = DateTime.now();
-      final creationDateTime = DateFormat('yyyy-MMM-dd, hh:MM a')
+      final creationDateTime = DateFormat(dateFormatString)
         .format(currentDateTime);
-      todoDetails.addAll(['false', creationDateTime, '$newIndex']);
-      return await prefs.setStringList('Todo$newIndex', todoDetails);
+      todoDetails.addAll(
+        [falseString, creationDateTime, '$newIndex']
+      );
+      return await prefs.setStringList(
+        todoString+newIndex.toString(), 
+        todoDetails
+      );
     });
   }
 
   Future<bool> updateTodo(List<String> newTodo, String index) async{
     final prefs = await preferences;
-    return await prefs.setStringList('Todo$index', newTodo);
+    return await prefs.setStringList(todoString+index, newTodo);
   }
 
   Future<bool> deleteTodo(String todoToDelete) async{
@@ -51,15 +56,21 @@ class AppBackend {
 
   Future<List<String>?> getTodo(String index) async{
     final prefs = await preferences;
-    return prefs.getStringList('Todo$index');
+    return prefs.getStringList(todoString+index);
   }
 
   Future<Iterable<List<String>?>> getTodods() async{
     final prefs = await preferences;
+    final totalTodos = prefs.getInt(numberOfTodos) ?? 0;
     final listOfTodos = Iterable.generate(
-      1000000,
-      (index) => prefs.getStringList('Todo${index + 1}')
-    ).takeWhile((todo) => todo != null);
+      totalTodos,
+      (index) {
+        final stringIndex = '${index + 1}';
+        return prefs.getStringList(todoString+stringIndex);
+      }
+    )
+    .where((todo) => todo != null)
+    .takeWhile((todo) => todo != null);
     return listOfTodos;
   }
 
@@ -70,7 +81,7 @@ class AppBackend {
     );
     if(file != null){
       final imageFile = File(file.path);
-      final fileNameToDisplay = imageFile.path.split('/').last;
+      final fileNameToDisplay = imageFile.path.split(slashString).last;
       return [imageFile, fileNameToDisplay];
     }
     return null;
@@ -80,26 +91,26 @@ class AppBackend {
   Future<void> saveImageFile(File file) async{
     final prefs = await preferences;
     final appDocDirectory = await getApplicationDocumentsDirectory();
-    final fileExtension = file.path.split('.').last;
-    final newFilePath = join(appDocDirectory.path, 'dp.$fileExtension');
-    await prefs.setString('newFilePath', newFilePath);
+    final fileExtension = file.path.split(dotString).last;
+    final newFilePath = join(
+      appDocDirectory.path, 
+      hello+dotString+fileExtension
+    );
+    await prefs.setString(newFilePathString, newFilePath);
     await file.copy(newFilePath);
-    marach.log('I copied the file');
   }
 
   //Retrieve image data from local directory
   Future<Uint8List?>? retrieveImageData() async{
     final prefs = await preferences;
-    final newFilePath = prefs.getString('newFilePath');
+    final newFilePath = prefs.getString(newFilePathString);
     if(newFilePath != null){
       final newFile = File(newFilePath);
       if(await newFile.exists()){
         final imageBytes = await newFile.readAsBytes();
-        marach.log('I have the bytes');
         return imageBytes;
       }
     }
-    marach.log('I have null');
     return null;
   }
 }

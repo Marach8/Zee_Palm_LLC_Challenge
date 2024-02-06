@@ -8,6 +8,7 @@ import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/widets/custom_widgets/decorated_text_widget.dart';
 
+
 class ListTileTrailingWiget extends StatelessWidget {
   final bool? isCompleted;
   final List<String> todoToUpdate;
@@ -38,8 +39,8 @@ class ListTileTrailingWiget extends StatelessWidget {
         ),
         const Gap(15),
         SizedBox(
-          height: 1,
-          width: 1,
+          height: 20,
+          width: 20,
           child: Checkbox(
             activeColor: purpleColor,
             value: isCompleted, 
@@ -59,20 +60,3 @@ class ListTileTrailingWiget extends StatelessWidget {
     );
   }
 }
-// value: isCompleted,
-                  // onChanged: (value){
-                  //   final newTodo = [
-                  //     title, 
-                  //     dueDateTime,
-                  //     content,
-                  //     value.toString(),
-                  //     creationDateTime,
-                  //     todoIndex
-                  //   ];
-                  //   context.read<AppBloc>().add(
-                  //     UpdateTodoIsCompletedState(
-                  //       indexToUpdate: todoIndex,
-                  //       newTodo: newTodo
-                  //     )
-                  //   );
-                  // },

@@ -12,6 +12,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
   ){
     final backend = AppBackend();
 
+
     on<InitializationAppEvent>((_, emit) async{
       emit(
         InLandingPageViewAppState(
@@ -19,7 +20,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           operation: initializing
         )
       );
-      final username = await backend.getUsername('username');
+      final username = await backend.getUsername(usernameString);
       final userImageData = await backend.retrieveImageData();
       final retrievedTodos = await backend.getTodods();
 
@@ -41,6 +42,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       );
     });
     
+
     on<GoToGetUserDataViewAppEvent>((_, emit){
       emit(
         InGetUserDataViewAppState(
@@ -49,11 +51,13 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       );
     });
 
+
     on<GoToLandingPageAppEvent>((_, emit){
       emit(
         InLandingPageViewAppState(isLoading: false)
       );
     });
+
 
     on<AddPhotoAppEvent>((_, emit) async{
       final imageData = await backend.pickImage();
@@ -71,6 +75,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         )
       );
     });
+
 
     on<GoToTodoHomeAppEvent>((event, emit) async{
       //A case whereby we are coming into the TodoHomeView from the AddTodoView
@@ -134,6 +139,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       }
     });
 
+
     on<GoToAddTodoViewAppEvent>((_, emit){
       emit(
         InAddTodoViewAppState(
@@ -142,6 +148,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         )
       );
     });
+
 
     on<SaveOrUpdateTodoAppEvent>((event, emit) async{
       final currentState = state as InAddTodoViewAppState;
@@ -232,12 +239,15 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       );
     });
 
+
     on<DeleteTodoAppEvent>((event, emit) async{
       final indexToDelete = event.indexToDelete;
-      final todoToDelete = todo+indexToDelete;
+      final todoToDelete = todoString+indexToDelete;
 
-      await backend.deleteTodo(todoToDelete);
-      final retrievedTodos = await backend.getTodods();
+      final retrievedTodos = await backend.deleteTodo(todoToDelete)
+      .then((_) async{
+        return await backend.getTodods();
+      });  
 
       emit(
         InTodoHomeViewAppState(
@@ -246,6 +256,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         )
       );
     });
+
 
     on<UpdateTodoIsCompletedStateAppEvent>((event, emit) async{
       final currentState = state as InTodoHomeViewAppState;
@@ -266,6 +277,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         )
       );
     });
+
 
     on<StartTodoUpdateAppEvent>((event, emit) async{
       final indexToUpdate = event.indexToUpdate;

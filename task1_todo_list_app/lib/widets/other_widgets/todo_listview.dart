@@ -9,6 +9,7 @@ import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/widets/custom_widgets/decorated_text_widget.dart';
 import 'package:task1_todo_list_app/widets/other_widgets/dismissible_background.dart';
 import 'package:task1_todo_list_app/widets/other_widgets/list_tile_trailing_widget.dart';
+import 'dart:developer' as marach show log;
 
 class TodoListView extends StatelessWidget {
   final Iterable<List<String>?> userTodos;
@@ -62,9 +63,12 @@ class TodoListView extends StatelessWidget {
                   direction == DismissDirection.endToStart || 
                   direction == DismissDirection.startToEnd
                 ){
+                  marach.log('$userTodos');
                   context.read<AppBloc>().add(
                     DeleteTodoAppEvent(indexToDelete: todoIndex)
                   );
+                  print('Hello');
+                  marach.log('$userTodos');
                 }
               },
               background: const BackgroundOfDissmissible(),
@@ -78,14 +82,15 @@ class TodoListView extends StatelessWidget {
                     color: blackColor,
                     fontSize: fontSize2,
                     fontWeight: fontWeight6,
-                    text: title
+                    text: title,
+                    controlOverflow: true,
                   ),
                   subtitle: DecoratedText(
                     color: blackColor,
                     fontSize: fontSize2,
                     fontWeight: fontWeight2,
                     controlOverflow: true,
-                    text: content
+                    text: content,
                   ),
                   trailing: ListTileTrailingWiget(
                     isCompleted: isCompleted,

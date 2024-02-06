@@ -1,23 +1,20 @@
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart';
 import 'package:task1_todo_list_app/bloc/app_backend.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
-import 'package:task1_todo_list_app/constants/extensions.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
 
 
 class AppBloc extends Bloc<AppEvents, AppState>{
   AppBloc(): super(
-    const InLandingPageViewAppState(isLoading: false)
+    InLandingPageViewAppState(isLoading: false)
   ){
-    
     final backend = AppBackend();
-    //This count variable functions to just effect a change of state.
-    int count = 0;
 
     on<InitializationAppEvent>((_, emit) async{
       emit(
-        const InLandingPageViewAppState(
+        InLandingPageViewAppState(
           isLoading: true,
           operation: initializing
         )
@@ -28,27 +25,25 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
       if(username != null || userImageData != null){
         emit(
-          const InLandingPageViewAppState(isLoading: false)
+          InLandingPageViewAppState(isLoading: false)
         );
         emit(
           InTodoHomeViewAppState(
             isLoading: false, 
             retrievedTodos: retrievedTodos,
-            username: username, 
-            imageBytes: userImageData
           )
         );
         return;
       }
       
       emit(
-        const InLandingPageViewAppState(isLoading: false)
+        InLandingPageViewAppState(isLoading: false)
       );
     });
     
     on<GoToGetUserDataViewAppEvent>((_, emit){
       emit(
-        const InGetUserDataViewAppState(
+        InGetUserDataViewAppState(
           isLoading: false,
         )
       );
@@ -56,7 +51,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
     on<GoToLandingPageAppEvent>((_, emit){
       emit(
-        const InLandingPageViewAppState(isLoading: false)
+        InLandingPageViewAppState(isLoading: false)
       );
     });
 
@@ -80,16 +75,12 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     on<GoToTodoHomeAppEvent>((event, emit) async{
       //A case whereby we are coming into the TodoHomeView from the AddTodoView
       if(state is InAddTodoViewAppState){
-        final username = await backend.getUsername('username');
-        final userImageData = await backend.retrieveImageData();
         final retrievedTodos = await backend.getTodods();
 
         emit(
           InTodoHomeViewAppState(
             isLoading: false, 
             retrievedTodos: retrievedTodos,
-            username: username, 
-            imageBytes: userImageData
           )
         );
       }
@@ -101,13 +92,11 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         final fileNameToDisplay = currentState.fileNameToDisplay;
         final username = event.username;
         if(username != null && username.isEmpty){
-          count ++;
           emit(
             InGetUserDataViewAppState(
               isLoading: false,
               error: usernameCannotBeEmpty,
               fileNameToDisplay: fileNameToDisplay,
-              counter: count
             )
           );
           return;
@@ -127,7 +116,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         if(imageFile != null){
           await backend.saveImageFile(imageFile);
         }
-        final imageBytes = await imageFile?.readAsBytes();
         final retrievedTodos = await backend.getTodods();
         emit(
           InGetUserDataViewAppState(
@@ -141,8 +129,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           InTodoHomeViewAppState(
             isLoading: false,
             retrievedTodos: retrievedTodos,
-            username: username, 
-            imageBytes: imageBytes
           )
         );
       }
@@ -150,7 +136,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
     on<GoToAddTodoViewAppEvent>((_, emit){
       emit(
-        const InAddTodoViewAppState(
+        InAddTodoViewAppState(
           isLoading: false,
           isInUpdateMode: false
         )
@@ -173,24 +159,21 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           final newTodo = [...oldTodo];
           newTodo.replaceRange(0, 3, [title, dueDateTime, content]);
           
-          // final theyAreEqual = DeepCollectionEquality
-          final theyAreEqual = newTodo.listsAreEqual(oldTodo);
-          //A case where the user did not actually change any of the fields
+          final theyAreEqual = const DeepCollectionEquality().equals(newTodo, oldTodo);
 
+          //A case where the user did not actually change any of the fields
           if(theyAreEqual){
-            count++;
             emit(
               InAddTodoViewAppState(
                 isLoading: false,
                 error: noChange,
-                counter: count
               )
             );
           }
           //A case where the user actually changed any of the fields
           else{
             emit(
-              const InAddTodoViewAppState(
+              InAddTodoViewAppState(
                 isLoading: true,
                 operation: updating,
               )
@@ -200,7 +183,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
             await backend.updateTodo(newTodo, index);
 
             emit(
-              const InAddTodoViewAppState(
+              InAddTodoViewAppState(
                 isLoading: false,
                 error: todoUpdated
               )
@@ -219,7 +202,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
 
         emit(
-          const InAddTodoViewAppState(
+          InAddTodoViewAppState(
             isLoading: true,
             operation: saving
           )
@@ -232,7 +215,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         event.contentController.clear();
         
         emit(
-          const InAddTodoViewAppState(
+          InAddTodoViewAppState(
             isLoading: false,
             alert: todoSaved,
             alertContent: addAgain
@@ -241,12 +224,10 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         return;
       }
 
-      count++;
       emit(
         InAddTodoViewAppState(
           isLoading: false,
           error: fieldsEmpty,
-          counter: count
         )
       );
     });

@@ -16,7 +16,7 @@ Future<T?> showGenericDialog<T>({
   builder: (_) => AlertDialog(
     title: Text(title).decorateWithGoogleFont(
       whiteColor,
-      fontWeight2, 
+      fontWeight5, 
       fontSize4, 
     ),
     content: DecoratedText(
@@ -33,8 +33,8 @@ Future<T?> showGenericDialog<T>({
           : Navigator.of(context).pop(optionValue),
         child: Text(optionKey).decorateWithGoogleFont(
           purpleColor, 
-          fontWeight5,
-          fontSize3, 
+          fontWeight7,
+          fontSize2, 
         ),        
       );
     }).toList(),

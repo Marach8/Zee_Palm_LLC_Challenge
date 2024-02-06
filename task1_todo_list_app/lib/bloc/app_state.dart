@@ -1,22 +1,32 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 
 @immutable 
 abstract class AppState {
+  final String id;
   final bool isLoading;
   final String? operation,
   alertContent, alert, error;
 
-  const AppState({
+  AppState({
     required this.isLoading,
     this.error,
     this.operation,
     this.alert,
     this.alertContent
-  });
-}
+  }): id = const Uuid().v4();
+
+  @override 
+  bool operator ==(covariant AppState other)
+    => identical(this, other) &&
+      id == other.id;
+
+  @override 
+  int get hashCode => id.hashCode;
+  }
 
 
 @immutable 
@@ -24,16 +34,14 @@ class InGetUserDataViewAppState extends AppState{
   final String? username,
   fileNameToDisplay;
   final File? imageFile;
-  final int? counter;
 
-  const InGetUserDataViewAppState({
+  InGetUserDataViewAppState({
     required bool isLoading,
     this.username,
     this.fileNameToDisplay,
     this.imageFile,
     String? error,
     String? operation,
-    this.counter
   }): super(
     isLoading: isLoading,
     error: error,
@@ -45,7 +53,7 @@ class InGetUserDataViewAppState extends AppState{
 @immutable 
 class InLandingPageViewAppState extends AppState{
 
-  const InLandingPageViewAppState({
+  InLandingPageViewAppState({
     String? operation,
     required bool isLoading,   
   }): super(
@@ -62,7 +70,7 @@ class InTodoHomeViewAppState extends AppState{
   final Iterable<List<String>?> retrievedTodos;
   final Uint8List? imageBytes;
 
-  const InTodoHomeViewAppState({
+  InTodoHomeViewAppState({
     required bool isLoading,
     required this.retrievedTodos,
     this.imageBytes,
@@ -81,12 +89,10 @@ class InTodoHomeViewAppState extends AppState{
 @immutable 
 class InAddTodoViewAppState extends AppState{
   final bool? isInUpdateMode;
-  final int? counter;
   final List<String>? initialTodo;
   
-  const InAddTodoViewAppState({
+  InAddTodoViewAppState({
     this.isInUpdateMode,
-    this.counter,
     this.initialTodo,
     required bool isLoading,
     String? error,

@@ -302,5 +302,18 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         )
       );
     });
+
+
+    on<ResetIndexToShowAppEvent>((_, emit){
+      final currentState = state as InTodoHomeViewAppState;
+      final retrievedTodos = currentState.retrievedTodos;
+      
+      emit(
+        InTodoHomeViewAppState(
+          isLoading: false, 
+          retrievedTodos: retrievedTodos
+        )
+      );
+    });
   }
 }

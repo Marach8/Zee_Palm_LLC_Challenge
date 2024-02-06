@@ -75,6 +75,7 @@ class MyApp extends StatelessWidget {
             final title = appState.alert;
             final content = appState.alertContent;
             if(title != null && content != null){
+
               //I had to use Future.delayed here because I was avoiding using 
               //BuildContexts across async Gaps.
               await Future.delayed(
@@ -115,8 +116,12 @@ class MyApp extends StatelessWidget {
                     title!,
                     content!,
                     dueDateTime!,
+                    isCompleted!,
                     datetimeOfCreation!,
-                    isCompleted!
+                  )
+                ).then(
+                  (_) => context1.read<AppBloc>().add(
+                    const ResetIndexToShowAppEvent()
                   )
                 );
               }

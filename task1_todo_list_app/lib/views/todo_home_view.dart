@@ -23,12 +23,13 @@ class TodoHomeView extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final currentState = context.watch<AppBloc>().state as InTodoHomeViewAppState;
     final retrievedTodos = currentState.retrievedTodos;
+    final indexToShow = currentState.indexToShow;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        statusBarColor: whiteColor,
+      value: SystemUiOverlayStyle(
+        statusBarColor: indexToShow == null ? whiteColor : purpleColor,
         statusBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: whiteColor,
+        systemNavigationBarColor: indexToShow == null ? whiteColor : purpleColor,
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
 

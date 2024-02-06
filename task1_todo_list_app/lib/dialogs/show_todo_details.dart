@@ -4,10 +4,11 @@ import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/constants/extensions.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
+import 'package:task1_todo_list_app/constants/strings.dart';
 import 'package:task1_todo_list_app/widets/custom_widgets/rich_text.dart';
 
 
-void showFullTodoDetails(
+Future<void> showFullTodoDetails(
   BuildContext context,
   String title,
   String content, 
@@ -15,19 +16,19 @@ void showFullTodoDetails(
   String isCompleted,
   String datetimeOfCreation
 ){
-  final overlay = Overlay.of(context);
-  if(!overlay.mounted){
-    return;
-  }
-  final overlayEntry = OverlayEntry(
-    builder: (_) => Material(
-      color: blackColor.withAlpha(50),
-      child: const Center(
-        child: SizedBox.shrink()
-      )
-    )
-  );
-  overlay.insert(overlayEntry);
+  // final overlay = Overlay.of(context);
+  // if(!overlay.mounted){
+  //   return;
+  // }
+  // final overlayEntry = OverlayEntry(
+  //   builder: (_) => Material(
+  //     color: blackColor.withAlpha(50),
+  //     child: const Center(
+  //       child: SizedBox.shrink()
+  //     )
+  //   )
+  // );
+  // overlay.insert(overlayEntry);
 
   final snackBar = SnackBar(
     shape: const RoundedRectangleBorder(
@@ -36,7 +37,7 @@ void showFullTodoDetails(
         topLeft: Radius.circular(20)
       )
     ),
-    backgroundColor: whiteColor,
+    backgroundColor: purpleColor,
     content: Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +49,7 @@ void showFullTodoDetails(
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 20),
-                  child: const Text('Full Todo Details')
+                  child: const Text(fullTodoDetails)
                     .decorateWithGoogleFont(
                       whiteColor,
                       fontWeight1,
@@ -66,27 +67,27 @@ void showFullTodoDetails(
             ],
           ),
           TodoRichText(
-            heading: 'TITLE OF TODO: ',
+            heading: titleOfTodo,
             content: title
           ),
           const Gap(10),
           TodoRichText(
-            heading: 'CONTENT OF TODO: ',
+            heading: contentOfTodo,
             content: content
           ),
           const Gap(10),
           TodoRichText(
-            heading: 'DUE DATE OR TIME OF TODO: ',
+            heading: dueDateTimeOfTodo,
             content: dateTime
           ),
           const Gap(10),
           TodoRichText(
-            heading: 'IS TASK COMPLETED: ',
+            heading: isTaskCompleted,
             content: isCompleted
           ),
           const Gap(10),
           TodoRichText(
-            heading: 'CREATION DATE AND TIME OF TODO: ',
+            heading: creationDateTimeOfTodo,
             content: datetimeOfCreation
           ),
           const Gap(10),
@@ -95,6 +96,7 @@ void showFullTodoDetails(
     ),
     duration: const Duration(seconds: 10),
   );
-  ScaffoldMessenger.of(context).showSnackBar(snackBar)
-    .closed.then((_) => overlayEntry.remove());
+  return ScaffoldMessenger.of(context).showSnackBar(snackBar)
+    .closed;
+    //.then((_) => overlayEntry.remove());
 }

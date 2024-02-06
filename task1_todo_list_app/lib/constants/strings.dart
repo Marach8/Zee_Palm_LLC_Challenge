@@ -30,3 +30,5 @@ const addAgain = 'Your todo has been saved successfully. Do you want to add anot
 const fieldsEmpty = 'Field(s) cannot be empty!';
 const initializing = 'Initializing...';
 const noChange = 'You did not make any change!';
+const usernameString = 'username';
+const quickSandFont = 'Quicksand';

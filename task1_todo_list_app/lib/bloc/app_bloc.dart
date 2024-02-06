@@ -247,7 +247,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       );
     });
 
-    on<UpdateTodoIsCompletedState>((event, emit) async{
+    on<UpdateTodoIsCompletedStateAppEvent>((event, emit) async{
       final currentState = state as InTodoHomeViewAppState;
       final username = currentState.username;
       final imageBytes = currentState.imageBytes;

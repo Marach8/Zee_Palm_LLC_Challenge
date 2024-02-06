@@ -57,13 +57,9 @@ class TodoHomeView extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  // RowWithProfilePicture(
-                  //    imageBytes: imageBytes,
-                  //    username: username ?? newUser
-                  // ),
                   ContainerWidget(
                     children: [
-                      RowWithProfilePicture(),
+                      const RowWithProfilePicture(),
                       SliderAnimationView(
                         numberOfTodos: retrievedTodos.length.toString()
                       )

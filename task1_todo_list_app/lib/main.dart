@@ -27,6 +27,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          scrollbarTheme: const ScrollbarThemeData(
+            crossAxisMargin: 0,
+            thumbColor: MaterialStatePropertyAll(purpleColor),
+            mainAxisMargin: 5,
+          ),
           bottomSheetTheme: BottomSheetThemeData(
             backgroundColor: whiteColorWithOpacity
           ),

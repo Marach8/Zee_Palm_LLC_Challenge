@@ -19,7 +19,7 @@ class RowWithProfilePicture extends HookWidget {
     final backend = AppBackend();
 
     //I am just caching the user's imagedata and username.
-    final usernameFuture = useMemoized(() => backend.getUsername('username'));
+    final usernameFuture = useMemoized(() => backend.getUsername(usernameString));
     final imagedataFuture = useMemoized(() => backend.retrieveImageData());
     final usernameSnapshot = useFuture(usernameFuture);
     final imageDataSnapshot = useFuture(imagedataFuture);

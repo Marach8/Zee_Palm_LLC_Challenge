@@ -6,23 +6,23 @@ import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/constants/extensions.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
+import 'package:task1_todo_list_app/constants/maps.dart';
+import 'package:task1_todo_list_app/constants/strings.dart';
+import 'package:task1_todo_list_app/dialogs/generic_dialog.dart';
 import 'package:task1_todo_list_app/widets/custom_widgets/decorated_text_widget.dart';
 import 'package:task1_todo_list_app/widets/other_widgets/dismissible_background.dart';
 import 'package:task1_todo_list_app/widets/other_widgets/list_tile_trailing_widget.dart';
-import 'dart:developer' as marach show log;
 
 class TodoListView extends StatelessWidget {
   final Iterable<List<String>?> userTodos;
 
   const TodoListView({
     super.key,
-    required this.userTodos
+    required this.userTodos,
   });
 
   @override
   Widget build(BuildContext context) {
-  final screenHeight = MediaQuery.of(context).size.height;
-
     return SizedBox(
       height: 300,
       child: Scrollbar(
@@ -30,8 +30,6 @@ class TodoListView extends StatelessWidget {
         radius: const Radius.circular(5),
         thickness: 10,
         child: ListView.builder(
-          //padding: EdgeInsets.only(right: 5),
-
           itemCount: userTodos.length,
           itemBuilder: (_, listIndex){
             final eachTodo = userTodos.elementAt(listIndex);
@@ -47,28 +45,24 @@ class TodoListView extends StatelessWidget {
         
             return Dismissible(
               key: UniqueKey(),
-              // confirmDismiss: (direction){
-              //   if(
-              //     direction == DismissDirection.endToStart || 
-              //     direction == DismissDirection.startToEnd
-              //   ){
-              //     final shouldDelete = context.read<AppBloc>().add(
-              //       const ContinueToDismissAppEvent()
-              //     );
-              //   }
-              //   return null;
-              // },
+              confirmDismiss: (direction) async {
+                //Yet to find a way to have this functionality handled 
+                //by the bloc listener. For the moment, it is hardcoded here.
+                return showGenericDialog<bool>(
+                  context: context, 
+                  title: deleteTodo, 
+                  content: confirmDeleteTodo, 
+                  options: deleteTodoMap
+                );
+              },
               onDismissed: (direction) {
                 if(
                   direction == DismissDirection.endToStart || 
                   direction == DismissDirection.startToEnd
                 ){
-                  marach.log('$userTodos');
                   context.read<AppBloc>().add(
                     DeleteTodoAppEvent(indexToDelete: todoIndex)
                   );
-                  print('Hello');
-                  marach.log('$userTodos');
                 }
               },
               background: const BackgroundOfDissmissible(),

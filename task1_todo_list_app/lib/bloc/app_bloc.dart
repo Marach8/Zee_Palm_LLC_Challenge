@@ -166,7 +166,8 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           final newTodo = [...oldTodo];
           newTodo.replaceRange(0, 3, [title, dueDateTime, content]);
           
-          final theyAreEqual = const DeepCollectionEquality().equals(newTodo, oldTodo);
+          final theyAreEqual = const DeepCollectionEquality()
+            .equals(newTodo, oldTodo);
 
           //A case where the user did not actually change any of the fields
           if(theyAreEqual){
@@ -259,9 +260,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
 
     on<UpdateTodoIsCompletedStateAppEvent>((event, emit) async{
-      final currentState = state as InTodoHomeViewAppState;
-      final username = currentState.username;
-      final imageBytes = currentState.imageBytes;
       final indexToUpdate = event.indexToUpdate;
       final newTodo = event.newTodo;
 
@@ -272,8 +270,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         InTodoHomeViewAppState(
           isLoading: false,
           retrievedTodos: retrievedTodos,
-          username: username, 
-          imageBytes: imageBytes
         )
       );
     });
@@ -288,6 +284,34 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           isLoading: false,
           isInUpdateMode: true,
           initialTodo: todoToUpdate
+        )
+      );
+    });
+
+
+    on<ShouldDismissAppEvent>((_, emit) async{
+      final retrievedTodos = await backend.getTodods();
+
+      emit(
+        InTodoHomeViewAppState(
+          isLoading: false, 
+          retrievedTodos: retrievedTodos,
+          alert: deleteTodo,
+          alertContent: confirmDeleteTodo
+        )
+      );
+    });
+
+
+    on<ShouldDismissResultAppEvent>((event, emit) async{
+      final retrievedTodos = await backend.getTodods();
+      final shouldDelete = event.shouldDelete;
+
+      emit(
+        InTodoHomeViewAppState(
+          isLoading: false, 
+          retrievedTodos: retrievedTodos,
+          shouldDelete: shouldDelete
         )
       );
     });

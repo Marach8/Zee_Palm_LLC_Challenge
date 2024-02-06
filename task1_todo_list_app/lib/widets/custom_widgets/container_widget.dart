@@ -28,10 +28,12 @@ class ContainerWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         //border: const Border().modify(purpleColor, 0.5)
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: children
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: children
+        ),
       ),
     );
   }

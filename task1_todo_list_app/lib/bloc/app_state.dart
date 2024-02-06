@@ -69,6 +69,7 @@ class InTodoHomeViewAppState extends AppState{
   final File? imageFile;
   final Iterable<List<String>?> retrievedTodos;
   final Uint8List? imageBytes;
+  final bool? shouldDelete;
 
   InTodoHomeViewAppState({
     required bool isLoading,
@@ -76,12 +77,17 @@ class InTodoHomeViewAppState extends AppState{
     this.imageBytes,
     this.username,
     this.imageFile,
+    this.shouldDelete,
     String? error,
-    String? operation
+    String? operation,
+    String? alert,
+    String? alertContent,
   }): super(
     isLoading: isLoading,
     error: error,
-    operation: operation
+    operation: operation,
+    alert: alert,
+    alertContent: alertContent
   );
 }
 

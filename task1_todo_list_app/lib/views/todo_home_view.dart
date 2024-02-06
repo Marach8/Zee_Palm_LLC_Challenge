@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
 import 'package:task1_todo_list_app/animations/size_animation.dart';
 import 'package:task1_todo_list_app/animations/slider_animation.dart';
-import 'package:task1_todo_list_app/bloc/app_backend.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
 import 'package:task1_todo_list_app/bloc/app_bloc.dart';
@@ -25,21 +23,6 @@ class TodoHomeView extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final currentState = context.watch<AppBloc>().state as InTodoHomeViewAppState;
     final retrievedTodos = currentState.retrievedTodos;
-    // final user = useFuture((future))
-
-    // //I am caching the username and imageData of the user to avoid
-    // //incessant requests (to database) for them.
-    // final backend = AppBackend();
-    // final imageBytes = useMemoized(
-    //   () {
-    //     return backend.retrieveImageData();
-    //   }, []
-    // );
-    // final username = useMemoized(
-    //   () {
-    //     return backend.getUsername('username');
-    //   }, []
-    // );
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
@@ -48,9 +31,9 @@ class TodoHomeView extends StatelessWidget {
         systemNavigationBarColor: whiteColor,
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
+
       child: Scaffold(
         backgroundColor: whiteColorWithOpacity,
-        //appBar: AppBar(title: const Text('Hello')),
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Center(
@@ -73,10 +56,10 @@ class TodoHomeView extends StatelessWidget {
                       const Gap(20),
                       Lottie.asset(lottie2Path)
                     ] : [
-                      TodoListView(userTodos: retrievedTodos,)
+                      TodoListView(userTodos: retrievedTodos)
                     ]
                   ),
-                  //const Gap(50)
+                  const Gap(50)
                 ]
               ),
             ),

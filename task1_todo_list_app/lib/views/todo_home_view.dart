@@ -25,6 +25,7 @@ class TodoHomeView extends StatelessWidget {
       .state as InTodoHomeViewAppState;
     final retrievedTodos = currentState.retrievedTodos;
     final indexToShow = currentState.indexToShow;
+    final isZoomed = currentState.isZoomed ?? false;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
@@ -42,33 +43,42 @@ class TodoHomeView extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  ContainerWidget(
-                    children: [
-                      const RowWithProfilePicture(),
-                      SliderAnimationView(
-                        numberOfTodos: retrievedTodos.length.toString()
-                      )
-                    ]
-                  ),
-                  // const Gap(20),
-                  // const LottieView(lottiePath: lottie4Path),
-                  const Gap(20),
-                    
-                  ContainerWidget(
-                    padding: const EdgeInsets.all(10),
-                    children: retrievedTodos.isEmpty ? [
-                      const SizeAnimation(),
-                      const Gap(20),
-                      const LottieView(lottiePath: lottie2Path)
-                    ] : [
-                      TodoListView(userTodos: retrievedTodos)
-                    ]
-                  ),
-                  const Gap(50)
-                ]
+            child: Scrollbar(
+              interactive: true,
+              radius: const Radius.circular(5),                
+              thickness: 15,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const Gap(20),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: const LottieView(lottiePath: lottie9Path)
+                    ),
+                    const Gap(20),
+                    ContainerWidget(
+                      children: [
+                        RowWithProfilePicture(isZoomed: isZoomed),
+                        SliderAnimationView(
+                          numberOfTodos: retrievedTodos.length.toString()
+                        )
+                      ]
+                    ),
+                    const Gap(20),
+                      
+                    ContainerWidget(
+                      padding: const EdgeInsets.all(10),
+                      children: retrievedTodos.isEmpty ? [
+                        const SizeAnimation(),
+                        const Gap(20),
+                        const LottieView(lottiePath: lottie2Path)
+                      ] : [
+                        TodoListView(userTodos: retrievedTodos)
+                      ]
+                    ),
+                    const Gap(50)
+                  ]
+                ),
               ),
             ),
           ),

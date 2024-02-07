@@ -99,3 +99,12 @@ class GetDateAndTimeAppEvent extends AppEvents{
     required this.context
   });
 }
+
+@immutable 
+class ZoomProfilePicAppEvent extends AppEvents{
+  final bool isZoomed;
+  
+  const ZoomProfilePicAppEvent({
+    required this.isZoomed
+  });
+}

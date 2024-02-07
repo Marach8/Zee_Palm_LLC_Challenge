@@ -52,6 +52,7 @@ with SingleTickerProviderStateMixin{
   Widget build(BuildContext context) {
     sliderController.forward();
     final screenWidth = MediaQuery.of(context).size.width;
+    final noOfTodos = int.tryParse(widget.numberOfTodos);
  
     return Transform(
       //alignment: Alignment.centerLeft,
@@ -64,7 +65,8 @@ with SingleTickerProviderStateMixin{
             color: blackColor,
             fontSize: fontSize2,
             fontWeight: fontWeight4,
-            text: '${widget.numberOfTodos} $todosAdded',
+            text: noOfTodos == 1 ? '$noOfTodos $todoAdded' :
+              '$noOfTodos $todosAdded'
           ),
       ),
     );

@@ -25,6 +25,7 @@ const newUser = 'New User';
 const hello = 'Hello';
 const noTodos = 'No Todos to display...';
 const todosAdded = 'Todos added ✍️';
+const todoAdded = 'Todo added ✍️';
 const enterTitle = 'Enter the title.';
 const enterDueDateTime = 'Enter the due date and/or time.';
 const enterContent = 'Enter the content';

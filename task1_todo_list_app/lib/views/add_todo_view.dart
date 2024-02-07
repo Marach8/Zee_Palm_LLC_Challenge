@@ -31,6 +31,7 @@ class AddTodoView extends HookWidget {
     final oldtitle = currentState.initialTodo?[0];
     final oldDueDateTime = currentState.initialTodo?[1];
     final oldContent = currentState.initialTodo?[2];
+
     
     final titleController = useTextEditingController(text: oldtitle);
     final dueDateTimeController = useTextEditingController()
@@ -79,6 +80,7 @@ class AddTodoView extends HookWidget {
                         child: const LottieView(lottiePath: lottie6Path)
                       ),
                       const Gap(20),
+
                       ContainerWidget(
                         padding: const EdgeInsets.all(20),
                         children: [
@@ -97,9 +99,6 @@ class AddTodoView extends HookWidget {
                               context.read<AppBloc>().add(
                                 GetDateAndTimeAppEvent(context: context)
                               );
-                              // final dueDateTime = await selectedDueDateTime(context);
-                              // marach.log(dueDateTime ?? 'Nothing here');
-                              // // dueDateTimeController.text = dueDateTime ?? '';
                             }
                           ),
                           const Gap(10),

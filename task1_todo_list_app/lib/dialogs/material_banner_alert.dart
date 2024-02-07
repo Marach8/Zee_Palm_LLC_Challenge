@@ -4,6 +4,7 @@ import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/constants/extensions.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
+import 'package:task1_todo_list_app/widets/other_widgets/timer.dart';
 
 
 Future<void> showNotification(
@@ -42,10 +43,10 @@ Future<void> showNotification(
     dividerColor: purpleColor,
     backgroundColor: blackColor,
     padding: const EdgeInsets.all(10),
-    // leading: CountDownTimerView(
-    //   duration: 4,
-    //   color: buttonColor,
-    // )
+    leading: const CountDownTimerView(
+      duration: 3,
+      color: blackColor,
+    )
   );
   ScaffoldMessenger.of(context)
     .showMaterialBanner(materialBanner);

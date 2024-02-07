@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
+import 'package:path/path.dart';
 import 'package:task1_todo_list_app/bloc/app_backend.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
@@ -233,10 +234,12 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         return;
       }
 
+      
       emit(
         InAddTodoViewAppState(
           isLoading: false,
           error: fieldsEmpty,
+          dueDateTime: dueDateTime
         )
       );
     });
@@ -331,6 +334,21 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           dueDateTime: dueDateTime,
           isInUpdateMode: initialMode,
           initialTodo: initialTodo
+        )
+      );
+    });
+
+
+    on<ZoomProfilePicAppEvent>((event, emit){
+      final currentState = state as InTodoHomeViewAppState;
+      final retrievedTodos = currentState.retrievedTodos;
+      final isZoomed = event.isZoomed;
+      
+      emit(
+        InTodoHomeViewAppState(
+          isLoading: false, 
+          retrievedTodos: retrievedTodos,
+          isZoomed: isZoomed
         )
       );
     });

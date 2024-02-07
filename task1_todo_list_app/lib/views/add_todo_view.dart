@@ -14,6 +14,7 @@ import 'package:task1_todo_list_app/widets/custom_widgets/container_widget.dart'
 import 'package:task1_todo_list_app/widets/custom_widgets/decorated_text_widget.dart';
 import 'package:task1_todo_list_app/widets/custom_widgets/divider_widget.dart';
 import 'package:task1_todo_list_app/widets/custom_widgets/elevatedbutton_widget.dart';
+import 'package:task1_todo_list_app/widets/custom_widgets/lottie_view.dart';
 import 'package:task1_todo_list_app/widets/custom_widgets/textfield_widget.dart';
 
 
@@ -25,12 +26,17 @@ class AddTodoView extends HookWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final currentState = context.watch<AppBloc>().state as InAddTodoViewAppState;
     final isInUpdateMode = currentState.isInUpdateMode ?? false;
+    final selectedDateTime = currentState.dueDateTime;
     final oldtitle = currentState.initialTodo?[0];
     final oldDueDateTime = currentState.initialTodo?[1];
     final oldContent = currentState.initialTodo?[2];
     
     final titleController = useTextEditingController(text: oldtitle);
     final dueDateTimeController = useTextEditingController(text: oldDueDateTime);
+    //Ensure that I am not in UpdateMode.
+    if(dueDateTimeController.text.isEmpty){
+      dueDateTimeController.text = selectedDateTime ?? emptyString;
+    }
     final contentController = useTextEditingController(text: oldContent);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -63,38 +69,56 @@ class AddTodoView extends HookWidget {
           body: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ContainerWidget(
-                      children: [
-                        const Gap(10),
-                        CustomTextField(
-                          title: enterTitle, 
-                          controller: titleController
-                        ),
-                        const Gap(10),
-                        const DividerWidget(color: purpleColor),
-                        const Gap(10),
-        
-                        CustomTextField(
-                          title: enterDueDateTime, 
-                          controller: dueDateTimeController
-                        ),
-                        const Gap(10),
-                        const DividerWidget(color: purpleColor),
-                        const Gap(10),
-        
-                        CustomTextField(
-                          title: enterContent, 
-                          controller: contentController
-                        ),
-                        const Gap(10),
-                        const DividerWidget(color: purpleColor),
-                        const Gap(10),
-                      ]
-                    )
-                  ],
+              child: Scrollbar(
+                interactive: true,
+                radius: const Radius.circular(5),                
+                thickness: 10,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: const LottieView(lottiePath: lottie6Path)
+                      ),
+                      const Gap(20),
+                      ContainerWidget(
+                        padding: const EdgeInsets.all(20),
+                        children: [
+                          const Gap(10),
+                          CustomTextField(
+                            title: enterTitle, 
+                            controller: titleController
+                          ),
+                          const Gap(10),
+                          const DividerWidget(color: purpleColor),
+                          const Gap(10),
+                          CustomTextField(
+                            title: enterDueDateTime, 
+                            controller: dueDateTimeController,
+                            onTap: () async{
+                              context.read<AppBloc>().add(
+                                GetDateAndTimeAppEvent(context: context)
+                              );
+                              // final dueDateTime = await selectedDueDateTime(context);
+                              // marach.log(dueDateTime ?? 'Nothing here');
+                              // // dueDateTimeController.text = dueDateTime ?? '';
+                            }
+                          ),
+                          const Gap(10),
+                          const DividerWidget(color: purpleColor),
+                          const Gap(10),
+                          
+                          CustomTextField(
+                            title: enterContent, 
+                            controller: contentController
+                          ),
+                          const Gap(10),
+                          const DividerWidget(color: purpleColor),
+                          const Gap(10),
+                        ]
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

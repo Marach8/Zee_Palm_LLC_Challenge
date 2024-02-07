@@ -4,6 +4,7 @@ import 'package:task1_todo_list_app/bloc/app_backend.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
+import 'package:task1_todo_list_app/widets/other_widgets/date_and_time_picker.dart';
 
 
 class AppBloc extends Bloc<AppEvents, AppState>{
@@ -312,6 +313,24 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         InTodoHomeViewAppState(
           isLoading: false, 
           retrievedTodos: retrievedTodos
+        )
+      );
+    });
+
+
+    on<GetDateAndTimeAppEvent>((event, emit) async{
+      final currentState = state as InAddTodoViewAppState;
+      final initialMode = currentState.isInUpdateMode;
+      final initialTodo = currentState.initialTodo;
+      final context = event.context;
+      final dueDateTime = await selectedDueDateTime(context);
+
+      emit(
+        InAddTodoViewAppState(
+          isLoading: false,
+          dueDateTime: dueDateTime,
+          isInUpdateMode: initialMode,
+          initialTodo: initialTodo
         )
       );
     });

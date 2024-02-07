@@ -91,3 +91,11 @@ class ShowFullTodoDetailsAppEvent extends AppEvents{
     required this.indexToShow
   });
 }
+
+@immutable 
+class GetDateAndTimeAppEvent extends AppEvents{
+  final BuildContext context;
+  const GetDateAndTimeAppEvent({
+    required this.context
+  });
+}

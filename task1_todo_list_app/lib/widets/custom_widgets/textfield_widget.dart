@@ -7,17 +7,20 @@ class CustomTextField extends StatelessWidget {
   final String title;
   final TextEditingController controller;
   final Function(String)? onChanged;
+  final Function()? onTap;
 
   const CustomTextField({
     required this.title,
     required this.controller,
     this.onChanged,
+    this.onTap,
     super.key
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField( 
+    return TextField(
+      onTap: onTap,
       onChanged: onChanged,
       controller: controller,
       maxLines: null, 

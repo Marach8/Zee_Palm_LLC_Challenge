@@ -92,3 +92,21 @@ extension YesOrNo on String{
   String yesOrNo() => 
     this == trueString ? yesString : noString;
 }
+
+
+extension ChooseText on TextEditingController{
+  TextEditingController chooseText(
+    String? text1, 
+    String? text2,
+  ){
+    if(text1 != null){
+      return TextEditingController(text: text1);
+    }
+    else if(text2 != null){
+      return TextEditingController(text: text2);
+    }
+    else{
+      return TextEditingController(text: emptyString);
+    }
+  }
+}

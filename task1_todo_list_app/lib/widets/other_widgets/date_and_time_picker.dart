@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'dart:developer' as marach show log;
-
 import 'package:task1_todo_list_app/constants/strings.dart';
+
 
 Future<String?> selectedDueDateTime(BuildContext context) async{
   late String date, time;
@@ -18,7 +17,7 @@ Future<String?> selectedDueDateTime(BuildContext context) async{
     )
     .then((timeObject){
       if(dateObject != null){
-        final dateString = DateFormat('EEEE, dd MMM yyyy').format(dateObject);
+        final dateString = DateFormat(dueDateFormatString).format(dateObject);
         date = dateString;
       }
       else{
@@ -35,8 +34,11 @@ Future<String?> selectedDueDateTime(BuildContext context) async{
       else{
         time = emptyString;
       }
-      
+
     });
   });
+  if(date.isEmpty && time.isEmpty){
+    return null;
+  }
   return '$date $time';
 }

@@ -7,6 +7,7 @@ import 'package:task1_todo_list_app/bloc/app_bloc.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
+import 'package:task1_todo_list_app/constants/extensions.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
@@ -32,11 +33,8 @@ class AddTodoView extends HookWidget {
     final oldContent = currentState.initialTodo?[2];
     
     final titleController = useTextEditingController(text: oldtitle);
-    final dueDateTimeController = useTextEditingController(text: oldDueDateTime);
-    //Ensure that I am not in UpdateMode.
-    if(dueDateTimeController.text.isEmpty){
-      dueDateTimeController.text = selectedDateTime ?? emptyString;
-    }
+    final dueDateTimeController = useTextEditingController()
+      .chooseText(selectedDateTime, oldDueDateTime);
     final contentController = useTextEditingController(text: oldContent);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(

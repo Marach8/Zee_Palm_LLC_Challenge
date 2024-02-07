@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
-import 'package:task1_todo_list_app/constants/extensions.dart';
 
 class ContainerWidget extends StatelessWidget {
   final List<Widget> children;
+  final CrossAxisAlignment? crossAxisAlignment;
+  final Color? backgroundColor;
+  final EdgeInsetsGeometry? padding;
 
   const ContainerWidget({
     super.key,
-    required this.children
+    required this.children,
+    this.crossAxisAlignment,
+    this.backgroundColor,
+    this.padding
   });
 
   @override
@@ -16,7 +21,7 @@ class ContainerWidget extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: padding,
       constraints: BoxConstraints(
         maxHeight: screenHeight,
         minHeight: 0,
@@ -24,13 +29,13 @@ class ContainerWidget extends StatelessWidget {
         maxWidth: screenWidth
       ),
       decoration: BoxDecoration(
-        color: whiteColor,
+        color: backgroundColor ?? whiteColor,
         borderRadius: BorderRadius.circular(20),
-        //border: const Border().modify(purpleColor, 0.5)
       ),
       child: SingleChildScrollView(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: children
         ),

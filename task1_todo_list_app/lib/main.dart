@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task1_todo_list_app/bloc/app_backend.dart';
 import 'package:task1_todo_list_app/bloc/app_bloc.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/constants/maps.dart';
+import 'package:task1_todo_list_app/constants/strings.dart';
 import 'package:task1_todo_list_app/dialogs/material_banner_alert.dart';
 import 'package:task1_todo_list_app/dialogs/generic_dialog.dart';
 import 'package:task1_todo_list_app/dialogs/loading_screen/loading_screen.dart';
@@ -29,6 +31,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          snackBarTheme: const SnackBarThemeData(
+            actionTextColor: blackColor,
+            actionBackgroundColor: blackColor,
+            closeIconColor: blackColor,
+          ),
           scrollbarTheme: const ScrollbarThemeData(
             crossAxisMargin: 0,
             thumbColor: MaterialStatePropertyAll(purpleColor),
@@ -100,6 +107,7 @@ class MyApp extends StatelessWidget {
               final indexToShow = appState.indexToShow;
 
               if(indexToShow != null){
+                final username = await AppBackend().getUsername(usernameString);
                 final retrievedTodos = appState.retrievedTodos;
                 final todoToShow = retrievedTodos.firstWhere(
                   (todo) => todo?.last == indexToShow, orElse: () => []
@@ -118,6 +126,7 @@ class MyApp extends StatelessWidget {
                     dueDateTime!,
                     isCompleted!,
                     datetimeOfCreation!,
+                    username ?? newUser
                   )
                 ).then(
                   (_) => context1.read<AppBloc>().add(

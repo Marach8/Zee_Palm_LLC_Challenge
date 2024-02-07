@@ -12,6 +12,7 @@ import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/widets/custom_widgets/container_widget.dart';
 import 'package:task1_todo_list_app/widets/custom_widgets/elevatedbutton_widget.dart';
+import 'package:task1_todo_list_app/widets/custom_widgets/lottie_view.dart';
 import 'package:task1_todo_list_app/widets/other_widgets/row_with_profile_picture.dart';
 import 'package:task1_todo_list_app/widets/other_widgets/todo_listview.dart';
 
@@ -53,13 +54,16 @@ class TodoHomeView extends StatelessWidget {
                       )
                     ]
                   ),
+                  // const Gap(20),
+                  // const LottieView(lottiePath: lottie4Path),
                   const Gap(20),
                     
                   ContainerWidget(
+                    padding: const EdgeInsets.all(10),
                     children: retrievedTodos.isEmpty ? [
                       const SizeAnimation(),
                       const Gap(20),
-                      Lottie.asset(lottie2Path)
+                      const LottieView(lottiePath: lottie2Path)
                     ] : [
                       TodoListView(userTodos: retrievedTodos)
                     ]

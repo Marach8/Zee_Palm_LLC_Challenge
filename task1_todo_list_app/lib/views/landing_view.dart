@@ -12,6 +12,7 @@ import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
 import 'package:task1_todo_list_app/widets/custom_widgets/divider_widget.dart';
 import 'package:task1_todo_list_app/widets/custom_widgets/elevatedbutton_widget.dart';
+import 'package:task1_todo_list_app/widets/custom_widgets/lottie_view.dart';
 import 'package:task1_todo_list_app/widets/custom_widgets/stepper_widget.dart';
 import 'package:task1_todo_list_app/widets/custom_widgets/decorated_text_widget.dart';
 
@@ -65,11 +66,7 @@ class LandingView extends StatelessWidget {
                 ),
                 const DividerWidget(color: blackColor),
                 const Gap(20),
-
-                Lottie.asset(
-                  lottie3Path,
-                  fit: BoxFit.cover
-                ),
+                const LottieView(lottiePath: lottie3Path),
                 const Gap(20),
                 const DividerWidget(color: blackColor),
                 const Gap(40),

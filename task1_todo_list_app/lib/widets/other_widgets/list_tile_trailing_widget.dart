@@ -37,10 +37,10 @@ class ListTileTrailingWiget extends StatelessWidget {
             controlOverflow: true,
           ),
         ),
-        const Gap(15),
+        const Gap(5),
         SizedBox(
-          height: 20,
-          width: 20,
+          height: 30,
+          width: 30,
           child: Checkbox(
             activeColor: purpleColor,
             value: isCompleted, 

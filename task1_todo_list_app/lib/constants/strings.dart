@@ -1,6 +1,12 @@
 const lottie1Path = 'assets/lottie_file1.json';
 const lottie2Path = 'assets/lottie_file2.json';
 const lottie3Path = 'assets/lottie_file3.json';
+const lottie4Path = 'assets/lottie_file4.json';
+const lottie5Path = 'assets/lottie_file5.json';
+const lottie6Path = 'assets/lottie_file6.json';
+const lottie7Path = 'assets/lottie_file7.json';
+const lottie8Path = 'assets/lottie_file8.json';
+const lottie9Path = 'assets/lottie_file9.json';
 
 const appName = 'OrganizeMe';
 const appDescription = 'Manage your tasks and todos with OrganizeMe...';
@@ -23,11 +29,13 @@ const enterTitle = 'Enter the title.';
 const enterDueDateTime = 'Enter the due date and/or time.';
 const enterContent = 'Enter the content';
 const addTodo = 'Add Todo';
-const fullTodoDetails = 'Full Todo Details';
+const fullTodoDetails = ' you can view your full todo details here.';
+const hey = 'Hey ';
 const titleOfTodo = 'TITLE OF TODO: ';
 const contentOfTodo = 'CONTENT OF TODO: ';
 const dueDateTimeOfTodo = 'DUE DATE OR TIME OF TODO: ';
 const isTaskCompleted = 'IS TASK COMPLETED: ';
+const done = 'Done';
 const creationDateTimeOfTodo = 'CREATION DATE AND/OR TIME OF TODO: ';
 const updateTodo = 'Update Todo';
 const todoString = 'Todo';

@@ -96,10 +96,12 @@ class InTodoHomeViewAppState extends AppState{
 class InAddTodoViewAppState extends AppState{
   final bool? isInUpdateMode;
   final List<String>? initialTodo;
+  final String? dueDateTime;
   
   InAddTodoViewAppState({
     this.isInUpdateMode,
     this.initialTodo,
+    this.dueDateTime,
     required bool isLoading,
     String? error,
     String? operation,

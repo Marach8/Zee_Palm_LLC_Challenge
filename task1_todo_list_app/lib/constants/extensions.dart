@@ -30,11 +30,14 @@ extension DecorateTextSpan on TextSpan{
     [bool? controlOverflow]
   ) => TextSpan(
     text: text,
-    style: TextStyle(
+    style: GoogleFonts.getFont(
+      quickSandFont,
       color: color, 
       fontSize: fontSize,
       fontWeight: fontWeight,
-      overflow: controlOverflow ?? false ? TextOverflow.ellipsis : null,
+      textStyle: TextStyle(
+        overflow: controlOverflow ?? false ? TextOverflow.ellipsis : null,
+      )
     )
   );
 }
@@ -82,4 +85,10 @@ extension CheckEquality on List{
     }
     return false;
   }
+}
+
+
+extension YesOrNo on String{
+  String yesOrNo() => 
+    this == trueString ? yesString : noString;
 }

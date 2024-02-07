@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:lottie/lottie.dart';
 import 'package:task1_todo_list_app/animations/size_animation.dart';
 import 'package:task1_todo_list_app/animations/slider_animation.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';

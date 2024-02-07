@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
+import 'package:task1_todo_list_app/constants/extensions.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
@@ -33,32 +34,30 @@ Future<void> showFullTodoDetails(
       crossAxisAlignment: CrossAxisAlignment.start,
       backgroundColor: transparentColor,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: DecoratedText(
-                    text: hey+username+fullTodoDetails, 
-                    color: whiteColor, 
-                    fontSize: fontSize3, 
-                    fontWeight: fontWeight8
-                  )
-                ),
+        const Gap(10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: DecoratedText(
+                  text: hey+username+fullTodoDetails, 
+                  color: whiteColor, 
+                  fontSize: fontSize3, 
+                  fontWeight: fontWeight8
+                )
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 5.0),
-                child: CountDownTimerView(
-                  duration: 29,
-                  color: blackColor
-                ),
-              )
-            ],
-          ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 5.0),
+              child: CountDownTimerView(
+                duration: 29,
+                color: blackColor
+              ),
+            )
+          ],
         ),
         const LottieView(lottiePath: lottie4Path),
         TodoRichText(
@@ -78,7 +77,7 @@ Future<void> showFullTodoDetails(
         const Gap(10),
         TodoRichText(
           heading: isTaskCompleted,
-          content: isCompleted
+          content: isCompleted.yesOrNo()
         ),
         const Gap(10),
         TodoRichText(

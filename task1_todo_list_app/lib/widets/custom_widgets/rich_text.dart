@@ -36,7 +36,7 @@ class TodoRichText extends StatelessWidget {
               .decorateTextSpan(
                 whiteColor,
                 fontSize2, 
-                fontWeight4
+                fontWeight3
               ),
             TextSpan(text: content)
               .decorateTextSpan(

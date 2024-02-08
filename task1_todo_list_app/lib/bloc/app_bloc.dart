@@ -13,6 +13,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
   ){
     final backend = AppBackend();
 
+    //App Initialization
     on<InitializationAppEvent>((_, emit) async{
       emit(
         InLandingPageViewAppState(
@@ -40,7 +41,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       );
     });
     
-
+    //Landing page events and corresponding funtionalities
     on<GoToGetUserDataViewAppEvent>((_, emit){
       emit(
         InGetUserDataViewAppState()
@@ -74,6 +75,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     });
 
 
+    //Get user data view events and corresponding funtionalities
     on<AddPhotoAppEvent>((_, emit) async{
       final imageData = await backend.pickImage();
       if(imageData == null){
@@ -90,7 +92,9 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       );
     });
 
-
+    
+    //Here I combine transitions into the Todo Home from both the Get userData View
+    //and the Add Todo View and conditionally check venue of entrance.
     on<GoToTodoHomeAppEvent>((event, emit) async{
       //A case whereby we are coming into the TodoHomeView from the AddTodoView
       if(state is InAddTodoViewAppState){
@@ -107,8 +111,9 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         final imageFile = currentState.imageFile;
         final fileNameToDisplay = currentState.fileNameToDisplay;
         final username = event.username;
+        final userNameExistsAndIsEmpty = username != null && username.isEmpty;
 
-        if(username != null && username.isEmpty){
+        if(userNameExistsAndIsEmpty){
           emit(
             InGetUserDataViewAppState(
               error: usernameCannotBeEmpty,
@@ -116,6 +121,26 @@ class AppBloc extends Bloc<AppEvents, AppState>{
             )
           );
           return;
+        }
+
+        if(userNameExistsAndIsEmpty && fileNameToDisplay == null){
+          emit(
+            InGetUserDataViewAppState(
+              alert: noDisplayPicture,
+              alertContent: shouldContinueWithoutPicture,
+              fileNameToDisplay: fileNameToDisplay,
+            )
+          );
+        }
+
+        else if(!userNameExistsAndIsEmpty && fileNameToDisplay == null){
+          emit(
+            InGetUserDataViewAppState(
+              alert
+              error: shouldContinueWithoutPicture,
+              fileNameToDisplay: fileNameToDisplay,
+            )
+          );
         }
 
         emit(

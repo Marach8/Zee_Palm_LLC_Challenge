@@ -22,9 +22,10 @@ class GetUserDataView extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = useTextEditingController();
     final currentState = context.watch<AppBloc>().state as InGetUserDataViewAppState;
+    final username = currentState.username;
     final fileNameToDisplay = currentState.fileNameToDisplay;
+    final controller = useTextEditingController(text: username);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
@@ -54,56 +55,62 @@ class GetUserDataView extends HookWidget {
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  CustomTextField(
-                    title: enterUsername, 
-                    controller: controller
-                  ),
-                  const Gap(20),
-                  GestureDetector(
-                    onTap: () => context.read<AppBloc>().add(
-                      const AddPhotoAppEvent()
+            child: Scrollbar(
+              interactive: true,
+              radius: const Radius.circular(5),                
+              thickness: 10,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    CustomTextField(
+                      title: enterUsername, 
+                      controller: controller
                     ),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        border: const Border().modify(purpleColor, 1),
-                        borderRadius: BorderRadius.circular(10),
+                    const Gap(20),
+                    GestureDetector(
+                      onTap: () => context.read<AppBloc>().add(
+                        const AddPhotoAppEvent()
                       ),
-                      child: fileNameToDisplay == null ? const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Gap(15),
-                          DecoratedText(
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          border: const Border().modify(purpleColor, 1),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+
+                        child: fileNameToDisplay == null ? const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Gap(15),
+                            DecoratedText(
+                              color: blackColor,
+                              fontSize: fontSize3,
+                              fontWeight: fontWeight5,
+                              text: addPhoto,
+                            ),
+                            Gap(10),
+                            Icon(Icons.photo_camera_outlined),
+                            Gap(15),
+                          ]
+                        ) : Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: DecoratedText(
                             color: blackColor,
                             fontSize: fontSize3,
                             fontWeight: fontWeight5,
-                            text: addPhoto,
+                            text: fileNameToDisplay,
                           ),
-                          Gap(10),
-                          Icon(Icons.photo_camera_outlined),
-                          Gap(15),
-                        ]
-                      ) : Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: DecoratedText(
-                          color: blackColor,
-                          fontSize: fontSize3,
-                          fontWeight: fontWeight5,
-                          text: fileNameToDisplay,
                         ),
                       ),
                     ),
-                  ),
-                  const Gap(20),
-          
-                  const LottieView(lottiePath: lottie1Path),
-                  const Gap(40),
-                  SaveAndSkipButtons(controller: controller)
-                ]
-              )
+                    const Gap(20),
+                        
+                    const LottieView(lottiePath: lottie1Path),
+                    const Gap(40),
+                    SaveAndSkipButtons(text: controller.text)
+                  ]
+                )
+              ),
             )
           ),
         ),

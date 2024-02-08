@@ -52,11 +52,11 @@ class ElevatedButtonWidget extends StatelessWidget {
 
 
 class SaveAndSkipButtons extends StatelessWidget {
-  final TextEditingController controller;
+  final String? text;
 
   const SaveAndSkipButtons({
     super.key,
-    required this.controller
+    required this.text,
   });
 
   @override
@@ -73,9 +73,7 @@ class SaveAndSkipButtons extends StatelessWidget {
             borderColor: purpleColor, 
             text: save, 
             function: () => context.read<AppBloc>().add(
-              GoToTodoHomeAppEvent(
-                username: controller.text
-              )
+              GoToTodoHomeAppEvent(username: text)
             )
           ),
         ),
@@ -88,7 +86,7 @@ class SaveAndSkipButtons extends StatelessWidget {
             borderColor: purpleColor, 
             text: skip, 
             function: () => context.read<AppBloc>().add(
-              const GoToTodoHomeAppEvent()
+              GoToTodoHomeAppEvent(username: text)
             )
           ),
         )

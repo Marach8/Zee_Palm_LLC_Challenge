@@ -22,9 +22,11 @@ class AddPhotoAppEvent extends AppEvents{
 
 @immutable 
 class GoToTodoHomeAppEvent extends AppEvents{
-  final String? username;
+  final String? username,
+  fileNameToDisplay;
   const GoToTodoHomeAppEvent({
-    this.username
+    this.username,
+    this.fileNameToDisplay
   });
 }
 

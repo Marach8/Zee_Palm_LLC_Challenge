@@ -70,11 +70,12 @@ class BlocConsumerBase extends StatelessWidget {
                   inGetUserDataState ? questionMap : deleteTodoMap
               ).then((result){
                 final yes = result == true;
+                final notNull = result != null;
 
                 if(inLandingPageState){
                   yes ? context1.read<AppBloc>().add(
                     const GoToGetUserDataViewAppEvent()
-                  ) : !yes ? {
+                  ) : !yes && notNull ? {
                     context1.read<AppBloc>().add(
                       const ShowAppPermissionReasonEvent()
                     )
@@ -86,7 +87,7 @@ class BlocConsumerBase extends StatelessWidget {
                   ) : {};
                 }
                 if(inAddTodoState){
-                  !yes && result != null ? context1.read<AppBloc>().add(
+                  !yes && notNull ? context1.read<AppBloc>().add(
                     const GoToTodoHomeAppEvent()
                   ) : {};
                 }

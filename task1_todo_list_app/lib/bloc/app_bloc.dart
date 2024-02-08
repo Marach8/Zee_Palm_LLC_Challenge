@@ -9,10 +9,9 @@ import 'package:task1_todo_list_app/widets/other_widgets/date_and_time_picker.da
 
 class AppBloc extends Bloc<AppEvents, AppState>{
   AppBloc(): super(
-    InLandingPageViewAppState(isLoading: false)
+    InLandingPageViewAppState()
   ){
     final backend = AppBackend();
-
 
     on<InitializationAppEvent>((_, emit) async{
       emit(
@@ -27,19 +26,17 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
       if(username != null || userImageData != null){
         emit(
-          InLandingPageViewAppState(isLoading: false)
+          InLandingPageViewAppState()
         );
+        
         emit(
-          InTodoHomeViewAppState(
-            isLoading: false, 
-            retrievedTodos: retrievedTodos,
-          )
+          InTodoHomeViewAppState(retrievedTodos: retrievedTodos)
         );
         return;
       }
       
       emit(
-        InLandingPageViewAppState(isLoading: false)
+        InLandingPageViewAppState()
       );
     });
     
@@ -47,7 +44,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     on<GoToGetUserDataViewAppEvent>((_, emit){
       emit(
         InGetUserDataViewAppState(
-          isLoading: false,
           // alert: permission,
           // alertContent: grantPermission
         )
@@ -58,7 +54,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     on<GetUserPermissionAppEvent>((_, emit){
       emit(
         InLandingPageViewAppState(
-          isLoading: false,
           alert: permission,
           alertContent: grantPermission
         )
@@ -66,9 +61,16 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     });
 
 
+    on<ShowAppPermissionReasonEvent>((_, emit){
+      emit(
+        InLandingPageViewAppState()
+      );
+    });
+
+
     on<GoToLandingPageAppEvent>((_, emit){
       emit(
-        InLandingPageViewAppState(isLoading: false)
+        InLandingPageViewAppState()
       );
     });
 
@@ -83,7 +85,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
       emit(
         InGetUserDataViewAppState(
-          isLoading: false,  
           fileNameToDisplay: fileNameToDisplay, 
           imageFile: imageFile
         )
@@ -97,10 +98,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         final retrievedTodos = await backend.getTodods();
 
         emit(
-          InTodoHomeViewAppState(
-            isLoading: false, 
-            retrievedTodos: retrievedTodos,
-          )
+          InTodoHomeViewAppState(retrievedTodos: retrievedTodos)
         );
       }
 
@@ -110,10 +108,10 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         final imageFile = currentState.imageFile;
         final fileNameToDisplay = currentState.fileNameToDisplay;
         final username = event.username;
+
         if(username != null && username.isEmpty){
           emit(
             InGetUserDataViewAppState(
-              isLoading: false,
               error: usernameCannotBeEmpty,
               fileNameToDisplay: fileNameToDisplay,
             )
@@ -139,17 +137,13 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
         emit(
           InGetUserDataViewAppState(
-            isLoading: false,
             username: username,
             fileNameToDisplay: fileNameToDisplay, 
           )
         );
         
         emit(
-          InTodoHomeViewAppState(
-            isLoading: false,
-            retrievedTodos: retrievedTodos,
-          )
+          InTodoHomeViewAppState(retrievedTodos: retrievedTodos)
         );
       }
     });
@@ -157,10 +151,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
     on<GoToAddTodoViewAppEvent>((_, emit){
       emit(
-        InAddTodoViewAppState(
-          isLoading: false,
-          isInUpdateMode: false
-        )
+        InAddTodoViewAppState(isInUpdateMode: false)
       );
     });
 
@@ -187,10 +178,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           //A case where the user did not actually change any of the fields
           if(theyAreEqual){
             emit(
-              InAddTodoViewAppState(
-                isLoading: false,
-                error: noChange,
-              )
+              InAddTodoViewAppState(error: noChange)
             );
           }
           //A case where the user actually changed any of the fields
@@ -206,19 +194,13 @@ class AppBloc extends Bloc<AppEvents, AppState>{
             await backend.updateTodo(newTodo, index);
 
             emit(
-              InAddTodoViewAppState(
-                isLoading: false,
-                error: todoUpdated
-              )
+              InAddTodoViewAppState(error: todoUpdated)
             );
           }
 
           final retrievedTodos = await backend.getTodods();
           emit(
-            InTodoHomeViewAppState(
-              isLoading: false,
-              retrievedTodos: retrievedTodos,
-            )
+            InTodoHomeViewAppState(retrievedTodos: retrievedTodos)
           );
           return;
         }
@@ -239,7 +221,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         
         emit(
           InAddTodoViewAppState(
-            isLoading: false,
             alert: todoSaved,
             alertContent: addAgain
           )
@@ -250,7 +231,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       
       emit(
         InAddTodoViewAppState(
-          isLoading: false,
           error: fieldsEmpty,
           dueDateTime: dueDateTime
         )
@@ -268,10 +248,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       });  
 
       emit(
-        InTodoHomeViewAppState(
-          isLoading: false,
-          retrievedTodos: retrievedTodos,
-        )
+        InTodoHomeViewAppState(retrievedTodos: retrievedTodos)
       );
     });
 
@@ -284,10 +261,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       final retrievedTodos = await backend.getTodods();
 
       emit(
-        InTodoHomeViewAppState(
-          isLoading: false,
-          retrievedTodos: retrievedTodos,
-        )
+        InTodoHomeViewAppState(retrievedTodos: retrievedTodos)
       );
     });
 
@@ -298,7 +272,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       
       emit(
         InAddTodoViewAppState(
-          isLoading: false,
           isInUpdateMode: true,
           initialTodo: todoToUpdate
         )
@@ -313,7 +286,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
       emit(
         InTodoHomeViewAppState(
-          isLoading: false, 
           retrievedTodos: retrievedTodos,
           indexToShow: indexToShow
         )
@@ -326,10 +298,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       final retrievedTodos = currentState.retrievedTodos;
       
       emit(
-        InTodoHomeViewAppState(
-          isLoading: false, 
-          retrievedTodos: retrievedTodos
-        )
+        InTodoHomeViewAppState(retrievedTodos: retrievedTodos)
       );
     });
 
@@ -343,7 +312,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
       emit(
         InAddTodoViewAppState(
-          isLoading: false,
           dueDateTime: dueDateTime,
           isInUpdateMode: initialMode,
           initialTodo: initialTodo
@@ -359,7 +327,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
       emit(
         InTodoHomeViewAppState(
-          isLoading: false, 
           retrievedTodos: retrievedTodos,
           isZoomed: isZoomed
         )

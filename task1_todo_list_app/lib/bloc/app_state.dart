@@ -7,12 +7,12 @@ import 'package:uuid/uuid.dart';
 @immutable 
 abstract class AppState {
   final String id;
-  final bool isLoading;
+  final bool? isLoading;
   final String? operation,
   alertContent, alert, error;
 
   AppState({
-    required this.isLoading,
+    this.isLoading,
     this.error,
     this.operation,
     this.alert,
@@ -36,10 +36,10 @@ class InGetUserDataViewAppState extends AppState{
   final File? imageFile;
 
   InGetUserDataViewAppState({
-    required bool isLoading,
     this.username,
     this.fileNameToDisplay,
     this.imageFile,
+    bool? isLoading,
     String? error,
     String? operation,
     String? alert,
@@ -59,7 +59,7 @@ class InLandingPageViewAppState extends AppState{
 
   InLandingPageViewAppState({
     String? operation,
-    required bool isLoading,
+    bool? isLoading,
     String? alert,
     String? alertContent
   }): super(
@@ -80,12 +80,12 @@ class InTodoHomeViewAppState extends AppState{
   final bool? isZoomed;
 
   InTodoHomeViewAppState({
-    required bool isLoading,
     required this.retrievedTodos,
     this.imageBytes,
     this.username,
     this.indexToShow,
     this.isZoomed,
+    bool? isLoading,
     String? error,
     String? operation,
     String? alert,
@@ -110,7 +110,7 @@ class InAddTodoViewAppState extends AppState{
     this.isInUpdateMode,
     this.initialTodo,
     this.dueDateTime,
-    required bool isLoading,
+    bool? isLoading,
     String? error,
     String? operation,
     String? alert,

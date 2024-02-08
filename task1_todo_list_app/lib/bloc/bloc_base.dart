@@ -28,7 +28,7 @@ class BlocConsumerBase extends StatelessWidget {
         //For Loading indicator
         final loadingScreen = LoadingScreen();
         final operation = appState.operation;
-        if(appState.isLoading){
+        if(appState.isLoading ?? false){
           WidgetsBinding.instance.addPostFrameCallback(
             (_) => loadingScreen.showOverlay(
               context1, operation!

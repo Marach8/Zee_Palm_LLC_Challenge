@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
-import 'package:path/path.dart';
 import 'package:task1_todo_list_app/bloc/app_backend.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
@@ -108,15 +107,15 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           );
           return;
         }
-        
+
         emit(
           InGetUserDataViewAppState(
             isLoading: true,
-            operation: saving,
             username: username,
-            fileNameToDisplay: fileNameToDisplay, 
+            fileNameToDisplay: fileNameToDisplay,
           )
         );
+
         if(username != null){
           await backend.setUsername(username);
         }
@@ -124,6 +123,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           await backend.saveImageFile(imageFile);
         }
         final retrievedTodos = await backend.getTodods();
+
         emit(
           InGetUserDataViewAppState(
             isLoading: false,
@@ -343,7 +343,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       final currentState = state as InTodoHomeViewAppState;
       final retrievedTodos = currentState.retrievedTodos;
       final isZoomed = event.isZoomed;
-      
+
       emit(
         InTodoHomeViewAppState(
           isLoading: false, 

@@ -39,6 +39,26 @@ class TodoHomeView extends StatelessWidget {
       ),
 
       child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+        floatingActionButton: FloatingActionButton(
+          onPressed: (){
+            context.read<AppBloc>().add(
+              const GoToGetUserDataViewAppEvent()
+            );
+          },
+          backgroundColor: transparentColor,
+          foregroundColor: purpleColor,
+          mini: true,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+            side: const BorderSide(
+              color: purpleColor,
+              width: 1,
+            )
+          ),
+          child: const Icon(Icons.arrow_back_rounded),
+        ),
         backgroundColor: whiteColorWithOpacity,
         body: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -51,10 +71,6 @@ class TodoHomeView extends StatelessWidget {
                 child: Column(
                   children: [
                     const Gap(20),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: const LottieView(lottiePath: lottie9Path)
-                    ),
                     const Gap(20),
                     ContainerWidget(
                       children: [

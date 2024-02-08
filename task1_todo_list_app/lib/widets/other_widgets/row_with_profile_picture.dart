@@ -35,6 +35,7 @@ class RowWithProfilePicture extends HookWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           AnimatedContainer(
+            curve: Curves.bounceInOut,
             duration: const Duration(milliseconds: 300),
             height: isZoomed ? 260 : 80,
             width: isZoomed ? 260: 80,
@@ -42,26 +43,26 @@ class RowWithProfilePicture extends HookWidget {
               shape: BoxShape.circle,
               border: const Border().modify(purpleColor, 2)
             ),
-            child: GestureDetector(
-              onTap: (){
-                context.read<AppBloc>().add(
-                  ZoomProfilePicAppEvent(
-                    isZoomed: isZoomed == true ? false : true
-                  )
-                );
-              },
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(
-                  isZoomed ? 130 : 40
-                ),
-                child: imageDataSnapshot.hasData && 
-                  imageDataSnapshot.data != null ?
-                  Image.memory(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(
+                isZoomed ? 130 : 40
+              ),
+              child: imageDataSnapshot.hasData && 
+                imageDataSnapshot.data != null ?
+                GestureDetector(
+                  onDoubleTap: (){
+                    context.read<AppBloc>().add(
+                      ZoomProfilePicAppEvent(
+                        isZoomed: isZoomed == true ? false : true
+                      )
+                    );
+                  },
+                  child: Image.memory(
                     imageDataSnapshot.data!,
                     fit: BoxFit.cover
-                  ) : 
-                  const Icon(Icons.person)
-              ),
+                  ),
+                ) : 
+                const Icon(Icons.person),
             ),
           ),
           const Gap(20),        

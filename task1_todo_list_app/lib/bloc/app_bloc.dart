@@ -28,7 +28,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         emit(
           InLandingPageViewAppState()
         );
-        
+
         emit(
           InTodoHomeViewAppState(retrievedTodos: retrievedTodos)
         );
@@ -43,10 +43,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
     on<GoToGetUserDataViewAppEvent>((_, emit){
       emit(
-        InGetUserDataViewAppState(
-          // alert: permission,
-          // alertContent: grantPermission
-        )
+        InGetUserDataViewAppState()
       );
     });
 
@@ -63,7 +60,9 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
     on<ShowAppPermissionReasonEvent>((_, emit){
       emit(
-        InLandingPageViewAppState()
+        InLandingPageViewAppState(
+          error: fullPermissionReason
+        )
       );
     });
 

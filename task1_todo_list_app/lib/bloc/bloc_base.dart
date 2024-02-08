@@ -66,25 +66,27 @@ class BlocConsumerBase extends StatelessWidget {
                 context: context1, 
                 title: title, 
                 content: content, 
-                options: questionMap
+                options: inLandingPageState ? getPermissonMap :
+                  inGetUserDataState ? questionMap : deleteTodoMap
               ).then((result){
                 final yes = result == true;
-                final notNull = result != null;
 
                 if(inLandingPageState){
-                  yes ? context.read<AppBloc>().add(
+                  yes ? context1.read<AppBloc>().add(
                     const GoToGetUserDataViewAppEvent()
                   ) : !yes ? {
-                    const ShowAppPermissionReasonEvent()
+                    context1.read<AppBloc>().add(
+                      const ShowAppPermissionReasonEvent()
+                    )
                   } : {};
                 }
                 if(inGetUserDataState){
-                  yes ? context.read<AppBloc>().add(
+                  yes ? context1.read<AppBloc>().add(
                     const GoToTodoHomeAppEvent()
                   ) : {};
                 }
                 if(inAddTodoState){
-                  !yes && notNull ? context1.read<AppBloc>().add(
+                  !yes && result != null ? context1.read<AppBloc>().add(
                     const GoToTodoHomeAppEvent()
                   ) : {};
                 }

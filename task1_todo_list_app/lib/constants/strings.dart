@@ -13,6 +13,9 @@ const appDescription = 'Manage your tasks and todos with OrganizeMe...';
 const getStarted = 'Get Started...';
 const permission = 'App Permission';
 const grantPermission = 'This app needs permission to store and retrieve data from your device.';
+const fullPermissionReason = '''
+Dear esteemed user, We value your privacy and only collect data that helps us improve the app for your usage.
+''';
 const enterUsername = 'Enter your username';
 const addPhoto = 'Add Photo';
 const save = 'Save';
@@ -59,6 +62,7 @@ const falseString = 'false';
 const trueString = 'true';
 const yesString = 'Yes';
 const noString = 'No';
+const okString = 'Ok';
 const slashString = '/';
 const dotString = '.';
 const emptyString = '';

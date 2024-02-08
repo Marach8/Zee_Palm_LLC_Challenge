@@ -61,11 +61,13 @@ class InLandingPageViewAppState extends AppState{
     String? operation,
     bool? isLoading,
     String? alert,
+    String? error,
     String? alertContent
   }): super(
     isLoading: isLoading,
     operation: operation,
     alert: alert,
+    error: error,
     alertContent: alertContent
   );
 }

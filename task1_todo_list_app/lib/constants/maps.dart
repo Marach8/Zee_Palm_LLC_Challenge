@@ -1,5 +1,5 @@
 
-final addAgainMap = {
+final questionMap = {
   'No': false, 
   'Yes': true
 };
@@ -7,4 +7,9 @@ final addAgainMap = {
 final deleteTodoMap = {
   'Cancel': false,
   'Delete': true
+};
+
+final getPermissonMap = {
+  'Deny': false,
+  'GrantPermisson': true
 };

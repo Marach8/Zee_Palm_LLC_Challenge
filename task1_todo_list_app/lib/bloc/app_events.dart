@@ -108,3 +108,13 @@ class ZoomProfilePicAppEvent extends AppEvents{
     required this.isZoomed
   });
 }
+
+@immutable 
+class GetUserPermissionAppEvent extends AppEvents{
+  const GetUserPermissionAppEvent();
+}
+
+@immutable 
+class ShowAppPermissionReasonEvent extends AppEvents{
+  const ShowAppPermissionReasonEvent();
+}

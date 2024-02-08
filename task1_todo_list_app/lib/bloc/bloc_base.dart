@@ -16,6 +16,7 @@ import 'package:task1_todo_list_app/views/get_user_data_view.dart';
 import 'package:task1_todo_list_app/views/landing_view.dart';
 import 'package:task1_todo_list_app/views/todo_home_view.dart';
 
+
 class BlocConsumerBase extends StatelessWidget {
   const BlocConsumerBase({super.key});
 
@@ -28,8 +29,8 @@ class BlocConsumerBase extends StatelessWidget {
         final loadingScreen = LoadingScreen();
         final operation = appState.operation;
         if(appState.isLoading){
-          WidgetsBinding.instance.addPostFrameCallback((_) =>
-            loadingScreen.showOverlay(
+          WidgetsBinding.instance.addPostFrameCallback(
+            (_) => loadingScreen.showOverlay(
               context1, operation!
             )
           );
@@ -54,6 +55,9 @@ class BlocConsumerBase extends StatelessWidget {
         final content = appState.alertContent;
         if(title != null && content != null){
 
+          final inLandingPageState = appState is InLandingPageViewAppState;
+          final inGetUserDataState = appState is InGetUserDataViewAppState;
+          final inAddTodoState = appState is InAddTodoViewAppState;
           //I had to use Future.delayed here because I was avoiding using 
           //BuildContexts across async Gaps.
           await Future.delayed(
@@ -62,12 +66,28 @@ class BlocConsumerBase extends StatelessWidget {
                 context: context1, 
                 title: title, 
                 content: content, 
-                options: addAgainMap
+                options: questionMap
               ).then((result){
-                result != null && result == false ?
-                  context1.read<AppBloc>().add(
+                final yes = result == true;
+                final notNull = result != null;
+
+                if(inLandingPageState){
+                  yes ? context.read<AppBloc>().add(
+                    const GoToGetUserDataViewAppEvent()
+                  ) : !yes ? {
+                    const ShowAppPermissionReasonEvent()
+                  } : {};
+                }
+                if(inGetUserDataState){
+                  yes ? context.read<AppBloc>().add(
                     const GoToTodoHomeAppEvent()
                   ) : {};
+                }
+                if(inAddTodoState){
+                  !yes && notNull ? context1.read<AppBloc>().add(
+                    const GoToTodoHomeAppEvent()
+                  ) : {};
+                }
               });
             }
           );

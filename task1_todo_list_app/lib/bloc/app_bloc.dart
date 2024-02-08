@@ -48,6 +48,19 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       emit(
         InGetUserDataViewAppState(
           isLoading: false,
+          // alert: permission,
+          // alertContent: grantPermission
+        )
+      );
+    });
+
+
+    on<GetUserPermissionAppEvent>((_, emit){
+      emit(
+        InLandingPageViewAppState(
+          isLoading: false,
+          alert: permission,
+          alertContent: grantPermission
         )
       );
     });

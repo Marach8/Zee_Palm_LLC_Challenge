@@ -42,10 +42,14 @@ class InGetUserDataViewAppState extends AppState{
     this.imageFile,
     String? error,
     String? operation,
+    String? alert,
+    String? alertContent
   }): super(
     isLoading: isLoading,
     error: error,
-    operation: operation
+    operation: operation,
+    alert: alert,
+    alertContent: alertContent
   );
 }
 
@@ -55,10 +59,14 @@ class InLandingPageViewAppState extends AppState{
 
   InLandingPageViewAppState({
     String? operation,
-    required bool isLoading,   
+    required bool isLoading,
+    String? alert,
+    String? alertContent
   }): super(
     isLoading: isLoading,
-    operation: operation
+    operation: operation,
+    alert: alert,
+    alertContent: alertContent
   );
 }
 

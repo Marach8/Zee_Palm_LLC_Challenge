@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:lottie/lottie.dart';
 import 'package:task1_todo_list_app/bloc/app_bloc.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
@@ -81,9 +80,11 @@ class LandingView extends StatelessWidget {
                         borderColor: purpleColor,
                         foregroundColor: blackColor,
                         text: getStarted,
-                        function: () => context.read<AppBloc>().add(
-                          const GoToGetUserDataViewAppEvent()
-                        ),
+                        function: () {
+                          context.read<AppBloc>().add(
+                            const GetUserPermissionAppEvent()
+                          );
+                        }
                       ),
                     )
                   ],

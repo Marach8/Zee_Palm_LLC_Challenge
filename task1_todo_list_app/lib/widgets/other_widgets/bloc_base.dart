@@ -104,7 +104,7 @@ class BlocConsumerBase extends StatelessWidget {
           final indexToShow = appState.indexToShow;
 
           if(indexToShow != null){
-            final username = await AppBackend().getUsername(usernameString);
+            final username = await AppBackend().getUsername();
             final retrievedTodos = appState.retrievedTodos;
             final todoToShow = retrievedTodos.firstWhere(
               (todo) => todo?.last == indexToShow, orElse: () => []

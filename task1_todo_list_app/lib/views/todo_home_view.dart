@@ -43,7 +43,9 @@ class TodoHomeView extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           onPressed: (){
             context.read<AppBloc>().add(
-              const GoToGetUserDataViewAppEvent()
+              const GoToGetUserDataViewAppEvent(
+                
+              )
             );
           },
           backgroundColor: transparentColor,

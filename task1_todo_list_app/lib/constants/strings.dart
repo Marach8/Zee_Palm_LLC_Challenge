@@ -18,10 +18,16 @@ Dear esteemed user, We value your privacy and only collect data that helps us im
 ''';
 const enterUsername = 'Enter your username';
 const addPhoto = 'Add Photo';
+const finish = 'Finish...';
 const save = 'Save';
 const skip = 'Skip';
-const update = 'Update';
+const update = 'Update...';
 const usernameCannotBeEmpty = 'Username field cannot be empty! You might want to "Skip".';
+const noUsernameOrPicture = 'Incomplete User Details!';
+const shouldContinueWithoutUsernameOrPicture = '''
+Either your username and/or display picture was not provided. Do you still want to continue?
+''';
+const updateUserDetails = 'Update your details here...';
 const saving = 'Saving...';
 const updating = 'Updating...';
 const waiting = 'Waiting...';
@@ -49,15 +55,13 @@ const todoSaved = 'Todo Saved!';
 const addAgain = 'Your todo has been saved successfully. Do you want to add another?';
 const shouldContinueWithoutPicture = 'Are you sure you want to continue without a profile picture?';
 const noDisplayPicture = 'No Profile Photo!';
-const noUsernameOrPicture = 'Missing User Details!';
-const shouldContinueWithoutUsernameOrPicture = '''
-Either your username and/or display picture was not provided. Do you still want to continue?''';
 const confirmDeleteTodo = 'Are you sure you want to deleted this todo?';
 const deleteTodo = 'Delete Todo?';
 const fieldsEmpty = 'Field(s) cannot be empty!';
 const initializing = 'Initializing...';
 const noChange = 'You did not make any change!';
 const usernameString = 'username';
+const filenameString = 'filename';
 const quickSandFont = 'Quicksand';
 const numberOfTodos = 'numberOfTodos';
 const newFilePathString = 'newFilePath';

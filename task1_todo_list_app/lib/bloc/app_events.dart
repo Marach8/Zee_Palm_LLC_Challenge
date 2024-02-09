@@ -125,11 +125,9 @@ class ShowAppPermissionReasonEvent extends AppEvents{
 @immutable 
 class SaveUserDataAppEvent extends AppEvents{
   final String username;
-  final bool? inSaveOperation;
 
   const SaveUserDataAppEvent({
     required this.username,
-    this.inSaveOperation
   });
 }
 
@@ -141,3 +139,9 @@ class SkipUserDataAppEvent extends AppEvents{
     required this.username
   });
 }
+
+
+// @immutable 
+// class CheckAndUpdateUserDetails extends AppEvents{
+//   const CheckAndUpdateUserDetails();
+// }

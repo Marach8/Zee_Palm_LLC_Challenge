@@ -32,15 +32,17 @@ abstract class AppState {
 @immutable 
 class InGetUserDataViewAppState extends AppState{
   final String? username,
-  fileNameToDisplay;
+  fileNameToDisplay,
+  initialFileNameToDisplay;
   final File? imageFile;
-  final bool? editUserDetails;
+  final bool? inEditUserDetailsMode;
 
   InGetUserDataViewAppState({
     this.username,
     this.fileNameToDisplay,
+    this.initialFileNameToDisplay,
     this.imageFile,
-    this.editUserDetails,
+    this.inEditUserDetailsMode,
     bool? isLoading,
     String? error,
     String? operation,

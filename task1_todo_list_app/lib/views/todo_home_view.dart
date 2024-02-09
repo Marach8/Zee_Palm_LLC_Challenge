@@ -43,9 +43,7 @@ class TodoHomeView extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           onPressed: (){
             context.read<AppBloc>().add(
-              const GoToGetUserDataViewAppEvent(
-                
-              )
+              const GoToGetUserDataViewAppEvent()
             );
           },
           backgroundColor: transparentColor,
@@ -61,6 +59,7 @@ class TodoHomeView extends StatelessWidget {
           ),
           child: const Icon(Icons.arrow_back_rounded),
         ),
+        
         backgroundColor: whiteColorWithOpacity,
         body: Padding(
           padding: const EdgeInsets.all(20.0),

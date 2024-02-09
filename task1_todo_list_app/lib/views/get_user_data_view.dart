@@ -28,7 +28,7 @@ class GetUserDataView extends HookWidget {
     final currentState = context.watch<AppBloc>().state as InGetUserDataViewAppState;
     final username = currentState.username;
     final fileNameToDisplay = currentState.fileNameToDisplay;
-    final inEditUserDetailsMode = currentState.editUserDetails ?? false;
+    final inEditUserDetailsMode = currentState.inEditUserDetailsMode ?? false;
     final controller = useTextEditingController(text: username);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -134,10 +134,7 @@ class GetUserDataView extends HookWidget {
                             borderColor: purpleColor, 
                             text: inEditUserDetailsMode ? update : finish,
                             function: () => context.read<AppBloc>().add(
-                              SaveUserDataAppEvent(
-                                username: controller.text,
-                                inSaveOperation: true
-                              )
+                              SaveUserDataAppEvent(username: controller.text)
                             ),
                           ),
                         ),
@@ -150,7 +147,7 @@ class GetUserDataView extends HookWidget {
                             borderColor: purpleColor, 
                             text: skip, 
                             function: () => context.read<AppBloc>().add(
-                              SaveUserDataAppEvent(username: controller.text)
+                              SkipUserDataAppEvent(username: controller.text)
                             )
                           ),
                         )

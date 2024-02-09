@@ -13,7 +13,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
   ){
     final backend = AppBackend();
 
-    //App Initialization
+    //App Initialization and Landing page Screen
     on<InitializationAppEvent>((_, emit) async{
       emit(
         InLandingPageViewAppState(
@@ -33,36 +33,13 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         emit(
           InTodoHomeViewAppState(retrievedTodos: retrievedTodos)
         );
-        return;
       }
-      
-      emit(
-        InLandingPageViewAppState()
-      );
-    });
-    
 
-    //Landing page events and corresponding funtionalities
-    on<GoToGetUserDataViewAppEvent>((_, emit) async{
-      final inHomeState = state is InTodoHomeViewAppState;
-      
-      if(inHomeState){
-        final username = await backend.getUsername();
-        final fileNameToDisplay = await backend.getfileNameToDisplay();
-        
+      else{ 
         emit(
-          InGetUserDataViewAppState(
-            username: username,
-            fileNameToDisplay: fileNameToDisplay,
-            editUserDetails: true
-          )
+          InLandingPageViewAppState()
         );
-        return;
       }
-      
-      emit(
-        InGetUserDataViewAppState()
-      );
     });
 
 
@@ -85,6 +62,40 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     });
 
 
+
+
+    //This part deals with entering into the getUserData Screen
+    on<GoToGetUserDataViewAppEvent>((_, emit) async{
+      final inHomeState = state is InTodoHomeViewAppState;
+      final inLandingPageState = state is InLandingPageViewAppState;
+      
+      if(inHomeState){
+        final username = await backend.getUsername();
+        final fileNameToDisplay = await backend.getfileNameToDisplay();
+        
+        emit(
+          InGetUserDataViewAppState(
+            username: username,
+            fileNameToDisplay: fileNameToDisplay,
+            inEditUserDetailsMode: true
+          )
+        );
+      }
+
+      else if(inLandingPageState){
+        emit(
+          InGetUserDataViewAppState()
+        );
+      }
+
+      //More else if(s) can be added in the future if more screens 
+      //(that leads to this place) are added.
+    });
+
+
+
+
+    //This part deals with the getuserdata view functionalities.
     on<GoToLandingPageAppEvent>((_, emit){
       emit(
         InLandingPageViewAppState()
@@ -92,8 +103,10 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     });
 
 
-    //Get user data view events and corresponding funtionalities
     on<AddPhotoAppEvent>((_, emit) async{
+      final currentState = state as InGetUserDataViewAppState;
+      final initilFileNameToDisplay = currentState.fileNameToDisplay;
+      
       final imageData = await backend.pickImage();
       if(imageData == null){
         return;
@@ -104,58 +117,102 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       emit(
         InGetUserDataViewAppState(
           fileNameToDisplay: fileNameToDisplay, 
-          imageFile: imageFile
+          imageFile: imageFile,
+          initialFileNameToDisplay: initilFileNameToDisplay
         )
       );
     });
 
-    on<SaveUserDataAppEvent>((event, emit){
+    on<SaveUserDataAppEvent>((event, emit) async{
       final currentState = state as InGetUserDataViewAppState;
-      final stateUsername = currentState.username;
-      final eventUsername = event.username;
-      final inSaveOperation = event.inSaveOperation ?? false;
-      final fileNameToDisplay = currentState.fileNameToDisplay;
-      final usernameIsEmpty = eventUsername.isEmpty;
-      final noPicture = fileNameToDisplay == null;
+      final stateUsername = currentState.username?.trim();
+      final eventUsername = event.username.trim();
+      final imageFile = currentState.imageFile;
+      final inEditUserDetailsMode = currentState.inEditUserDetailsMode ?? false;
+      final fileNameToDisplay = currentState.fileNameToDisplay?.trim();
+      final initialFileNameToDisplay = currentState.initialFileNameToDisplay?.trim();
 
-      if(inSaveOperation){
-        if(usernameIsEmpty){
+      final photoNotChanged = fileNameToDisplay == initialFileNameToDisplay;
+      final usernameNotChanged = eventUsername == stateUsername ;
+      final retrievedTodos = await backend.getTodods();
+
+      if(inEditUserDetailsMode){
+
+        if(photoNotChanged && usernameNotChanged){
           emit(
-            InGetUserDataViewAppState(
-              error: usernameCannotBeEmpty,
-              fileNameToDisplay: fileNameToDisplay,
-              username: stateUsername
+            InTodoHomeViewAppState(
+              retrievedTodos: retrievedTodos,
+              error: noChange
             )
           );
-          return;
         }
-      
-        if(noPicture){
-          emit(
-            InGetUserDataViewAppState(
-              alert: noDisplayPicture,
-              alertContent: shouldContinueWithoutPicture,
-              username: stateUsername,
-              fileNameToDisplay: fileNameToDisplay
-            )
-          );
+
+        else{
+          if(!usernameNotChanged){
+            await backend.setUsername(eventUsername);
+          }
+
+          if(!photoNotChanged){
+            await backend.saveImageFile(imageFile!);
+            await backend.setfileNameToDisplay(fileNameToDisplay!);
+          }
         }
       }
 
       else{
-        if(usernameIsEmpty || noPicture){
+        if(eventUsername.isEmpty){
           emit(
             InGetUserDataViewAppState(
-              alert: noUsernameOrPicture,
-              alertContent: shouldContinueWithoutUsernameOrPicture,
+              username: eventUsername,
+              fileNameToDisplay: fileNameToDisplay,
+              error: usernameCannotBeEmpty
+            )
+          );
+        }
 
+        else if(eventUsername.isNotEmpty && fileNameToDisplay == null){
+          emit(
+            InGetUserDataViewAppState(
+              username: eventUsername,
+              fileNameToDisplay: fileNameToDisplay,
+              alert: noDisplayPicture,
+              alertContent: shouldContinueWithoutPicture
+            )
+          );
+        }
+
+        else{
+          await backend.setUsername(eventUsername);
+          await backend.saveImageFile(imageFile!);
+          await backend.setfileNameToDisplay(fileNameToDisplay!);
+          emit(
+            InTodoHomeViewAppState(
+              retrievedTodos: retrievedTodos,
             )
           );
         }
       }
     });
 
+
+    on<SkipUserDataAppEvent> ((event, emit){
+      final currentState = state as InGetUserDataViewAppState;
+      final fileNameToDisplay = currentState.fileNameToDisplay?.trim();
+      final username = event.username;
+
+      if(username.isEmpty || fileNameToDisplay == null){
+          emit(
+            InGetUserDataViewAppState(
+              username: username,
+              fileNameToDisplay: fileNameToDisplay,
+              alert: noUsernameOrPicture,
+              alertContent: shouldContinueWithoutUsernameOrPicture,
+            )
+          );
+        }
+    });
     
+
     //Here I combine transitions into the Todo Home from both the Get userData View
     //and the Add Todo View and conditionally check venue of entrance.
     on<GoToTodoHomeAppEvent>((event, emit) async{
@@ -192,12 +249,12 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         }
         final retrievedTodos = await backend.getTodods();
 
-        emit(
-          InGetUserDataViewAppState(
-            username: username,
-            fileNameToDisplay: fileNameToDisplay, 
-          )
-        );
+        // emit(
+        //   InGetUserDataViewAppState(
+        //     username: username,
+        //     fileNameToDisplay: fileNameToDisplay, 
+        //   )
+        // );
         
         emit(
           InTodoHomeViewAppState(retrievedTodos: retrievedTodos)

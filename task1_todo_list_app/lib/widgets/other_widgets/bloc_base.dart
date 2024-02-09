@@ -68,7 +68,8 @@ class BlocConsumerBase extends StatelessWidget {
                 title: title, 
                 content: content, 
                 options: inLandingPageState ? getPermissonMap :
-                  inGetUserDataState ? questionMap : deleteTodoMap
+                  inGetUserDataState || inAddTodoState ? questionMap :
+                  deleteTodoMap
               ).then((result){
                 final yes = result == true;
                 final notNull = result != null;
@@ -82,11 +83,28 @@ class BlocConsumerBase extends StatelessWidget {
                     )
                   } : {};
                 }
+
                 else if(inGetUserDataState){
+
                   yes ? context1.read<AppBloc>().add(
                     const GoToTodoHomeAppEvent()
                   ) : {};
+                  // final inEditUserDetailsMode = appState.inEditUserDetailsMode ?? false;
+                  
+                  // if(yes){
+                  //   if(inEditUserDetailsMode){
+                  //     context1.read<AppBloc>().add(
+                  //       const CheckAndUpdateUserDetails()
+                  //     );
+                  //   }
+                  //   else{
+                  //     context1.read<AppBloc>().add(
+                  //       const GoToTodoHomeAppEvent()
+                  //     );
+                  //   }
+                  // }
                 }
+
                 else if(inAddTodoState){
                   !yes && notNull ? context1.read<AppBloc>().add(
                     const GoToTodoHomeAppEvent()

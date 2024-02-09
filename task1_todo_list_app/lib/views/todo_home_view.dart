@@ -9,11 +9,11 @@ import 'package:task1_todo_list_app/constants/strings.dart';
 import 'package:task1_todo_list_app/bloc/app_bloc.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
-import 'package:task1_todo_list_app/widets/custom_widgets/container_widget.dart';
-import 'package:task1_todo_list_app/widets/custom_widgets/elevatedbutton_widget.dart';
-import 'package:task1_todo_list_app/widets/custom_widgets/lottie_view.dart';
-import 'package:task1_todo_list_app/widets/other_widgets/row_with_profile_picture.dart';
-import 'package:task1_todo_list_app/widets/other_widgets/todo_listview.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/container_widget.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/elevatedbutton_widget.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/lottie_view.dart';
+import 'package:task1_todo_list_app/widgets/other_widgets/row_with_profile_picture.dart';
+import 'package:task1_todo_list_app/widgets/other_widgets/todo_listview.dart';
 
 class TodoHomeView extends StatelessWidget {
   const TodoHomeView({super.key});

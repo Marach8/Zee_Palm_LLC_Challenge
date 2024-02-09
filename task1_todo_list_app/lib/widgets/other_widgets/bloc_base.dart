@@ -15,6 +15,7 @@ import 'package:task1_todo_list_app/views/add_todo_view.dart';
 import 'package:task1_todo_list_app/views/get_user_data_view.dart';
 import 'package:task1_todo_list_app/views/landing_view.dart';
 import 'package:task1_todo_list_app/views/todo_home_view.dart';
+import 'dart:developer' as marach show log;
 
 
 class BlocConsumerBase extends StatelessWidget {
@@ -39,7 +40,7 @@ class BlocConsumerBase extends StatelessWidget {
           loadingScreen.hideOverlay();
         }
         
-        //For MaterialBanner alert
+        //For MaterialBanner notification
         final error = appState.error;
         if(error != null){
           await showNotification(
@@ -81,16 +82,18 @@ class BlocConsumerBase extends StatelessWidget {
                     )
                   } : {};
                 }
-                if(inGetUserDataState){
+                else if(inGetUserDataState){
                   yes ? context1.read<AppBloc>().add(
                     const GoToTodoHomeAppEvent()
                   ) : {};
                 }
-                if(inAddTodoState){
+                else if(inAddTodoState){
                   !yes && notNull ? context1.read<AppBloc>().add(
                     const GoToTodoHomeAppEvent()
                   ) : {};
                 }
+                
+                //Future alert dialog conditions can be added here with more else if(s).
               });
             }
           );

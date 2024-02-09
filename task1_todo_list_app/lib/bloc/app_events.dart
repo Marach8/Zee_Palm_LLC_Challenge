@@ -24,12 +24,10 @@ class AddPhotoAppEvent extends AppEvents{
 class GoToTodoHomeAppEvent extends AppEvents{
   final String? username,
   fileNameToDisplay;
-  final bool? saveOperation;
 
   const GoToTodoHomeAppEvent({
     this.username,
     this.fileNameToDisplay,
-    this.saveOperation
   });
 }
 
@@ -122,4 +120,24 @@ class GetUserPermissionAppEvent extends AppEvents{
 @immutable 
 class ShowAppPermissionReasonEvent extends AppEvents{
   const ShowAppPermissionReasonEvent();
+}
+
+@immutable 
+class SaveUserDataAppEvent extends AppEvents{
+  final String username;
+  final bool? inSaveOperation;
+
+  const SaveUserDataAppEvent({
+    required this.username,
+    this.inSaveOperation
+  });
+}
+
+@immutable 
+class SkipUserDataAppEvent extends AppEvents{
+  final String username;
+
+  const SkipUserDataAppEvent({
+    required this.username
+  });
 }

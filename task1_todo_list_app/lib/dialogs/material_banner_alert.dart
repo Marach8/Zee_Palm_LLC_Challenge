@@ -8,7 +8,7 @@ import 'package:task1_todo_list_app/constants/extensions.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
-import 'package:task1_todo_list_app/widets/other_widgets/timer.dart';
+import 'package:task1_todo_list_app/widgets/other_widgets/timer.dart';
 
 
 Future<void> showNotification(

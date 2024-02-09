@@ -10,7 +10,7 @@ import 'package:task1_todo_list_app/constants/extensions.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
-import 'package:task1_todo_list_app/widets/custom_widgets/decorated_text_widget.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/decorated_text_widget.dart';
 
 class RowWithProfilePicture extends HookWidget {
   final bool isZoomed;

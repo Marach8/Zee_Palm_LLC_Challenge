@@ -9,9 +9,9 @@ import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/constants/maps.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
 import 'package:task1_todo_list_app/dialogs/generic_dialog.dart';
-import 'package:task1_todo_list_app/widets/custom_widgets/decorated_text_widget.dart';
-import 'package:task1_todo_list_app/widets/other_widgets/dismissible_background.dart';
-import 'package:task1_todo_list_app/widets/other_widgets/list_tile_trailing_widget.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/decorated_text_widget.dart';
+import 'package:task1_todo_list_app/widgets/other_widgets/dismissible_background.dart';
+import 'package:task1_todo_list_app/widgets/other_widgets/list_tile_trailing_widget.dart';
 
 class TodoListView extends StatelessWidget {
   final Iterable<List<String>?> userTodos;

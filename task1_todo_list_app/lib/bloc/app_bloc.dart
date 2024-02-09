@@ -4,7 +4,7 @@ import 'package:task1_todo_list_app/bloc/app_backend.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
-import 'package:task1_todo_list_app/widets/other_widgets/date_and_time_picker.dart';
+import 'package:task1_todo_list_app/widgets/other_widgets/date_and_time_picker.dart';
 import 'dart:developer' as marach show log;
 
 
@@ -93,11 +93,64 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       );
     });
 
+    on<SaveUserDataAppEvent>((event, emit){
+      final currentState = state as InGetUserDataViewAppState;
+      // final username = currentState.username;
+      final username = event.username;
+      final inSaveOperation = event.inSaveOperation ?? false;
+      final fileNameToDisplay = currentState.fileNameToDisplay;
+      final usernameIsEmpty = username.isEmpty;
+      final noPicture = fileNameToDisplay == null;
+
+      if(inSaveOperation){
+        if(usernameIsEmpty){
+          emit(
+            InGetUserDataViewAppState(
+              error: usernameCannotBeEmpty,
+              fileNameToDisplay: fileNameToDisplay
+            )
+          );
+          return;
+        }
+      
+        if(noPicture){
+          emit(
+            InGetUserDataViewAppState(
+              alert: noDisplayPicture,
+              alertContent: shouldContinueWithoutPicture,
+              username: username,
+              fileNameToDisplay: fileNameToDisplay
+            )
+          );
+        }
+      }
+
+      else{
+        if(usernameIsEmpty || noPicture){
+          emit(
+            InGetUserDataViewAppState(
+              alert: noUsernameOrPicture,
+              alertContent: shouldContinueWithoutUsernameOrPicture,
+
+            )
+          );
+        }
+      }
+    });
+
+
+    // on<SkipUserDataAppEvent>((event, emit){
+    //   final currentState = state as InGetUserDataViewAppState;
+    //   // final username = currentState.username;
+    //   final username = event.username;
+    //   final fileNameToDisplay = currentState.fileNameToDisplay;
+    // });
+
     
     //Here I combine transitions into the Todo Home from both the Get userData View
     //and the Add Todo View and conditionally check venue of entrance.
     on<GoToTodoHomeAppEvent>((event, emit) async{
-      //A case whereby we are coming into the TodoHomeView from the AddTodoView
+      //A case whereby user is coming into the TodoHomeView from the AddTodoView
       if(state is InAddTodoViewAppState){
         final retrievedTodos = await backend.getTodods();
 
@@ -106,56 +159,13 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         );
       }
 
-      //A case whereby we are coming into the TodoHomeView from the GetUserDataView
+      //A case whereby a user is coming into the TodoHomeView from the GetUserDataView
       else if(state is InGetUserDataViewAppState){
         final currentState = state as InGetUserDataViewAppState;
         final imageFile = currentState.imageFile;
         final fileNameToDisplay = currentState.fileNameToDisplay;
         final username = event.username;
-        final saveOperation = event.saveOperation ?? false;
-        marach.log(username ?? 'null');
-
-        //User Taps on Save
-        if(saveOperation){
-          if(username != null && username.isEmpty){
-            marach.log('username is null');
-            emit(
-              InGetUserDataViewAppState(
-                username: username,
-                error: usernameCannotBeEmpty,
-                fileNameToDisplay: fileNameToDisplay,
-              )
-            );
-            return;
-          }
-          
-          //User enters a username but did not add a photo and Tap on Save
-          if(fileNameToDisplay == null){
-            marach.log('username not null but filename');
-            emit(
-              InGetUserDataViewAppState(
-                username: username,
-                alert: noDisplayPicture,
-                alertContent: shouldContinueWithoutPicture,
-                fileNameToDisplay: fileNameToDisplay,
-              )
-            );
-          }
-        }
-
-        //User Taps on Skip
-        else if(username == null || fileNameToDisplay == null){
-          emit(
-            InGetUserDataViewAppState(
-              username: username,
-              alert: noUsernameOrPicture,
-              alertContent: shouldContinueWithoutUsernameOrPicture,
-              fileNameToDisplay: fileNameToDisplay,
-            )
-          );
-          return;
-        }
-
+        
         emit(
           InGetUserDataViewAppState(
             isLoading: true,
@@ -164,10 +174,9 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           )
         );
         
-        //User enters username and display picture.
-        // if(username.isNotEmpty){
-        //   await backend.setUsername(username);
-        // }
+        if(username != null && username.isNotEmpty){
+          await backend.setUsername(username);
+        }
         if(imageFile != null){
           await backend.saveImageFile(imageFile);
         }
@@ -184,6 +193,9 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           InTodoHomeViewAppState(retrievedTodos: retrievedTodos)
         );
       }
+
+      //Any other views (that might be added in the future) leading to
+      //Todo Home view can be added here with another else if condition.
     });
 
 

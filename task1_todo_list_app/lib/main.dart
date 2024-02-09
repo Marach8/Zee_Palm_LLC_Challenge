@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task1_todo_list_app/bloc/app_bloc.dart';
 import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
-import 'package:task1_todo_list_app/bloc/bloc_base.dart';
+import 'package:task1_todo_list_app/widgets/other_widgets/bloc_base.dart';
 
 
 void main() => runApp(const MyApp());

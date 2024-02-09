@@ -11,12 +11,12 @@ import 'package:task1_todo_list_app/constants/extensions.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
-import 'package:task1_todo_list_app/widets/custom_widgets/elevatedbutton_widget.dart';
-import 'package:task1_todo_list_app/widets/custom_widgets/lottie_view.dart';
-import 'package:task1_todo_list_app/widets/custom_widgets/stepper_widget.dart';
-import 'package:task1_todo_list_app/widets/custom_widgets/decorated_text_widget.dart';
-import 'package:task1_todo_list_app/widets/custom_widgets/textfield_widget.dart';
-import 'dart:developer' as marach show log;
+import 'package:task1_todo_list_app/widgets/custom_widgets/elevatedbutton_widget.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/lottie_view.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/stepper_widget.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/decorated_text_widget.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/textfield_widget.dart';
+
 
 class GetUserDataView extends HookWidget {
   const GetUserDataView({super.key});
@@ -27,7 +27,6 @@ class GetUserDataView extends HookWidget {
     final username = currentState.username;
     final fileNameToDisplay = currentState.fileNameToDisplay;
     final controller = useTextEditingController(text: username);
-    marach.log('username in Getuser view is $username');
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
@@ -109,7 +108,42 @@ class GetUserDataView extends HookWidget {
                         
                     const LottieView(lottiePath: lottie1Path),
                     const Gap(40),
-                    SaveAndSkipButtons(text: controller.text)
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: ElevatedButtonWidget(
+                            backgroundColor: whiteColor, 
+                            foregroundColor: blackColor, 
+                            borderColor: purpleColor, 
+                            text: save, 
+                            function: () => context.read<AppBloc>().add(
+                              SaveUserDataAppEvent(
+                                username: controller.text,
+                                inSaveOperation: true
+                              )
+                            ),
+                          ),
+                        ),
+                        const Gap(10),
+                        Expanded(
+                          flex: 1,
+                          child: ElevatedButtonWidget(
+                            backgroundColor: whiteColor, 
+                            foregroundColor: blackColor, 
+                            borderColor: purpleColor, 
+                            text: skip, 
+                            function: () => context.read<AppBloc>().add(
+                              SaveUserDataAppEvent(username: controller.text)
+                            )
+                          ),
+                        )
+                      ]
+                    )
+
                   ]
                 )
               ),

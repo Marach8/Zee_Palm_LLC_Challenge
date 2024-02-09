@@ -16,15 +16,18 @@ class AppBackend {
   Future<SharedPreferences> get preferences async 
     => await SharedPreferences.getInstance();
 
+
   Future<bool> setUsername(String username) async{
     final prefs = await preferences;
     return await prefs.setString(usernameString, username);
   }
 
+
   Future<String?>? getUsername(String username) async{
     final prefs = await preferences;
     return prefs.getString(username);
   }
+
 
   Future<bool> setTodo(List<String> todoDetails) async{
     final prefs = await preferences;
@@ -44,20 +47,24 @@ class AppBackend {
     });
   }
 
+
   Future<bool> updateTodo(List<String> newTodo, String index) async{
     final prefs = await preferences;
     return await prefs.setStringList(todoString+index, newTodo);
   }
+
 
   Future<bool> deleteTodo(String todoToDelete) async{
     final prefs = await preferences;
     return prefs.remove(todoToDelete);
   }
 
+
   Future<List<String>?> getTodo(String index) async{
     final prefs = await preferences;
     return prefs.getStringList(todoString+index);
   }
+
 
   Future<Iterable<List<String>?>> getTodods() async{
     final prefs = await preferences;
@@ -74,6 +81,7 @@ class AppBackend {
     return listOfTodos;
   }
 
+
   Future<List<dynamic>?> pickImage() async{
     final imagePicker = ImagePicker();
     final file = await imagePicker.pickImage(
@@ -87,6 +95,7 @@ class AppBackend {
     return null;
   }
 
+
   //Save image file to local directory
   Future<void> saveImageFile(File file) async{
     final prefs = await preferences;
@@ -99,6 +108,7 @@ class AppBackend {
     await prefs.setString(newFilePathString, newFilePath);
     await file.copy(newFilePath);
   }
+
 
   //Retrieve image data from local directory
   Future<Uint8List?>? retrieveImageData() async{

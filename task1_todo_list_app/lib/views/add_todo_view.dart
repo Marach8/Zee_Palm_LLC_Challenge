@@ -11,12 +11,12 @@ import 'package:task1_todo_list_app/constants/extensions.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
-import 'package:task1_todo_list_app/widets/custom_widgets/container_widget.dart';
-import 'package:task1_todo_list_app/widets/custom_widgets/decorated_text_widget.dart';
-import 'package:task1_todo_list_app/widets/custom_widgets/divider_widget.dart';
-import 'package:task1_todo_list_app/widets/custom_widgets/elevatedbutton_widget.dart';
-import 'package:task1_todo_list_app/widets/custom_widgets/lottie_view.dart';
-import 'package:task1_todo_list_app/widets/custom_widgets/textfield_widget.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/container_widget.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/decorated_text_widget.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/divider_widget.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/elevatedbutton_widget.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/lottie_view.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/textfield_widget.dart';
 
 
 class AddTodoView extends HookWidget {

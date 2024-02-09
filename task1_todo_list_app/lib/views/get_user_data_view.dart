@@ -11,11 +11,13 @@ import 'package:task1_todo_list_app/constants/extensions.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/divider_widget.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/elevatedbutton_widget.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/lottie_view.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/stepper_widget.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/decorated_text_widget.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/textfield_widget.dart';
+import 'dart:developer' as marach show log;
 
 
 class GetUserDataView extends HookWidget {
@@ -26,6 +28,7 @@ class GetUserDataView extends HookWidget {
     final currentState = context.watch<AppBloc>().state as InGetUserDataViewAppState;
     final username = currentState.username;
     final fileNameToDisplay = currentState.fileNameToDisplay;
+    final inEditUserDetailsMode = currentState.editUserDetails ?? false;
     final controller = useTextEditingController(text: username);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -45,7 +48,7 @@ class GetUserDataView extends HookWidget {
             text: appName,
           ),
           centerTitle: true,
-          leading: IconButton(
+          leading: inEditUserDetailsMode ? const SizedBox.shrink() : IconButton(
             icon: const Icon(Icons.arrow_back_rounded),
             onPressed: () => context.read<AppBloc>().add(
               const GoToLandingPageAppEvent()
@@ -53,6 +56,7 @@ class GetUserDataView extends HookWidget {
           ),
           backgroundColor: whiteColorWithOpacity,
         ),
+
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Center(
@@ -63,6 +67,15 @@ class GetUserDataView extends HookWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    inEditUserDetailsMode ? const DecoratedText(
+                      color: blackColor,
+                      fontSize: fontSize3,
+                      fontWeight: fontWeight6,
+                      text: updateUserDetails,
+                    ) : const SizedBox.shrink(),
+                    const Gap(10),
+                    const DividerWidget(color: purpleColor),
+                    const Gap(20),
                     CustomTextField(
                       title: enterUsername, 
                       controller: controller
@@ -119,7 +132,7 @@ class GetUserDataView extends HookWidget {
                             backgroundColor: whiteColor, 
                             foregroundColor: blackColor, 
                             borderColor: purpleColor, 
-                            text: save, 
+                            text: inEditUserDetailsMode ? update : finish,
                             function: () => context.read<AppBloc>().add(
                               SaveUserDataAppEvent(
                                 username: controller.text,
@@ -129,7 +142,7 @@ class GetUserDataView extends HookWidget {
                           ),
                         ),
                         const Gap(10),
-                        Expanded(
+                        inEditUserDetailsMode ? const SizedBox.shrink() : Expanded(
                           flex: 1,
                           child: ElevatedButtonWidget(
                             backgroundColor: whiteColor, 
@@ -142,8 +155,10 @@ class GetUserDataView extends HookWidget {
                           ),
                         )
                       ]
-                    )
+                    ),
 
+                    const Gap(20),
+                    const DividerWidget(color: purpleColor),
                   ]
                 )
               ),

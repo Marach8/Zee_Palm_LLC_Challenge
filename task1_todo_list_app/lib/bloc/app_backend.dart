@@ -23,11 +23,23 @@ class AppBackend {
   }
 
 
-  Future<String?>? getUsername(String username) async{
+  Future<String?>? getUsername() async{
     final prefs = await preferences;
-    return prefs.getString(username);
+    return prefs.getString(usernameString);
   }
 
+
+  Future<bool> setfileNameToDisplay(String fileName) async{
+    final prefs = await preferences;
+    return await prefs.setString(filenameString, fileName);
+  }
+
+
+  Future<String?> getfileNameToDisplay() async{
+    final prefs = await preferences;
+    return prefs.getString(filenameString);
+  }
+  
 
   Future<bool> setTodo(List<String> todoDetails) async{
     final prefs = await preferences;

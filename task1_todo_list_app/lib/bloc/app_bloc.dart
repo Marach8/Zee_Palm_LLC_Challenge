@@ -5,7 +5,6 @@ import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
 import 'package:task1_todo_list_app/widgets/other_widgets/date_and_time_picker.dart';
-import 'dart:developer' as marach show log;
 
 
 class AppBloc extends Bloc<AppEvents, AppState>{
@@ -22,7 +21,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           operation: initializing
         )
       );
-      final username = await backend.getUsername(usernameString);
+      final username = await backend.getUsername();
       final userImageData = await backend.retrieveImageData();
       final retrievedTodos = await backend.getTodods();
 
@@ -42,8 +41,25 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       );
     });
     
+
     //Landing page events and corresponding funtionalities
-    on<GoToGetUserDataViewAppEvent>((_, emit){
+    on<GoToGetUserDataViewAppEvent>((_, emit) async{
+      final inHomeState = state is InTodoHomeViewAppState;
+      
+      if(inHomeState){
+        final username = await backend.getUsername();
+        final fileNameToDisplay = await backend.getfileNameToDisplay();
+        
+        emit(
+          InGetUserDataViewAppState(
+            username: username,
+            fileNameToDisplay: fileNameToDisplay,
+            editUserDetails: true
+          )
+        );
+        return;
+      }
+      
       emit(
         InGetUserDataViewAppState()
       );
@@ -95,11 +111,11 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
     on<SaveUserDataAppEvent>((event, emit){
       final currentState = state as InGetUserDataViewAppState;
-      // final username = currentState.username;
-      final username = event.username;
+      final stateUsername = currentState.username;
+      final eventUsername = event.username;
       final inSaveOperation = event.inSaveOperation ?? false;
       final fileNameToDisplay = currentState.fileNameToDisplay;
-      final usernameIsEmpty = username.isEmpty;
+      final usernameIsEmpty = eventUsername.isEmpty;
       final noPicture = fileNameToDisplay == null;
 
       if(inSaveOperation){
@@ -107,7 +123,8 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           emit(
             InGetUserDataViewAppState(
               error: usernameCannotBeEmpty,
-              fileNameToDisplay: fileNameToDisplay
+              fileNameToDisplay: fileNameToDisplay,
+              username: stateUsername
             )
           );
           return;
@@ -118,7 +135,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
             InGetUserDataViewAppState(
               alert: noDisplayPicture,
               alertContent: shouldContinueWithoutPicture,
-              username: username,
+              username: stateUsername,
               fileNameToDisplay: fileNameToDisplay
             )
           );
@@ -137,14 +154,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         }
       }
     });
-
-
-    // on<SkipUserDataAppEvent>((event, emit){
-    //   final currentState = state as InGetUserDataViewAppState;
-    //   // final username = currentState.username;
-    //   final username = event.username;
-    //   final fileNameToDisplay = currentState.fileNameToDisplay;
-    // });
 
     
     //Here I combine transitions into the Todo Home from both the Get userData View
@@ -179,6 +188,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         }
         if(imageFile != null){
           await backend.saveImageFile(imageFile);
+          await backend.setfileNameToDisplay(fileNameToDisplay!);
         }
         final retrievedTodos = await backend.getTodods();
 

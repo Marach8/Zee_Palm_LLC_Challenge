@@ -34,11 +34,13 @@ class InGetUserDataViewAppState extends AppState{
   final String? username,
   fileNameToDisplay;
   final File? imageFile;
+  final bool? editUserDetails;
 
   InGetUserDataViewAppState({
     this.username,
     this.fileNameToDisplay,
     this.imageFile,
+    this.editUserDetails,
     bool? isLoading,
     String? error,
     String? operation,

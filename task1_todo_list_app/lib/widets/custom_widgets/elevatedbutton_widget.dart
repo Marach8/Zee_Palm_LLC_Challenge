@@ -52,7 +52,7 @@ class ElevatedButtonWidget extends StatelessWidget {
 
 
 class SaveAndSkipButtons extends StatelessWidget {
-  final String? text;
+  final String text;
 
   const SaveAndSkipButtons({
     super.key,
@@ -73,7 +73,10 @@ class SaveAndSkipButtons extends StatelessWidget {
             borderColor: purpleColor, 
             text: save, 
             function: () => context.read<AppBloc>().add(
-              GoToTodoHomeAppEvent(username: text)
+              GoToTodoHomeAppEvent(
+                username: text,
+                saveOperation: true
+              )
             )
           ),
         ),

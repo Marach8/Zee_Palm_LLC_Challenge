@@ -24,9 +24,12 @@ class AddPhotoAppEvent extends AppEvents{
 class GoToTodoHomeAppEvent extends AppEvents{
   final String? username,
   fileNameToDisplay;
+  final bool? saveOperation;
+
   const GoToTodoHomeAppEvent({
     this.username,
-    this.fileNameToDisplay
+    this.fileNameToDisplay,
+    this.saveOperation
   });
 }
 

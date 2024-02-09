@@ -49,6 +49,9 @@ const todoSaved = 'Todo Saved!';
 const addAgain = 'Your todo has been saved successfully. Do you want to add another?';
 const shouldContinueWithoutPicture = 'Are you sure you want to continue without a profile picture?';
 const noDisplayPicture = 'No Profile Photo!';
+const noUsernameOrPicture = 'Missing User Details!';
+const shouldContinueWithoutUsernameOrPicture = '''
+Either your username and/or display picture was not provided. Do you still want to continue?''';
 const confirmDeleteTodo = 'Are you sure you want to deleted this todo?';
 const deleteTodo = 'Delete Todo?';
 const fieldsEmpty = 'Field(s) cannot be empty!';

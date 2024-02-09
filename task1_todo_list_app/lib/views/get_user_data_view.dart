@@ -16,6 +16,7 @@ import 'package:task1_todo_list_app/widets/custom_widgets/lottie_view.dart';
 import 'package:task1_todo_list_app/widets/custom_widgets/stepper_widget.dart';
 import 'package:task1_todo_list_app/widets/custom_widgets/decorated_text_widget.dart';
 import 'package:task1_todo_list_app/widets/custom_widgets/textfield_widget.dart';
+import 'dart:developer' as marach show log;
 
 class GetUserDataView extends HookWidget {
   const GetUserDataView({super.key});
@@ -26,6 +27,7 @@ class GetUserDataView extends HookWidget {
     final username = currentState.username;
     final fileNameToDisplay = currentState.fileNameToDisplay;
     final controller = useTextEditingController(text: username);
+    marach.log('username in Getuser view is $username');
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(

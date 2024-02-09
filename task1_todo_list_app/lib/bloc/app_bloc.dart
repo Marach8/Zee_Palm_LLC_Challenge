@@ -5,6 +5,7 @@ import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
 import 'package:task1_todo_list_app/widets/other_widgets/date_and_time_picker.dart';
+import 'dart:developer' as marach show log;
 
 
 class AppBloc extends Bloc<AppEvents, AppState>{
@@ -111,36 +112,48 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         final imageFile = currentState.imageFile;
         final fileNameToDisplay = currentState.fileNameToDisplay;
         final username = event.username;
-        final userNameExistsAndIsEmpty = username != null && username.isEmpty;
+        final saveOperation = event.saveOperation ?? false;
+        marach.log(username ?? 'null');
 
-        if(userNameExistsAndIsEmpty){
+        //User Taps on Save
+        if(saveOperation){
+          if(username != null && username.isEmpty){
+            marach.log('username is null');
+            emit(
+              InGetUserDataViewAppState(
+                username: username,
+                error: usernameCannotBeEmpty,
+                fileNameToDisplay: fileNameToDisplay,
+              )
+            );
+            return;
+          }
+          
+          //User enters a username but did not add a photo and Tap on Save
+          if(fileNameToDisplay == null){
+            marach.log('username not null but filename');
+            emit(
+              InGetUserDataViewAppState(
+                username: username,
+                alert: noDisplayPicture,
+                alertContent: shouldContinueWithoutPicture,
+                fileNameToDisplay: fileNameToDisplay,
+              )
+            );
+          }
+        }
+
+        //User Taps on Skip
+        else if(username == null || fileNameToDisplay == null){
           emit(
             InGetUserDataViewAppState(
-              error: usernameCannotBeEmpty,
+              username: username,
+              alert: noUsernameOrPicture,
+              alertContent: shouldContinueWithoutUsernameOrPicture,
               fileNameToDisplay: fileNameToDisplay,
             )
           );
           return;
-        }
-
-        if(userNameExistsAndIsEmpty && fileNameToDisplay == null){
-          emit(
-            InGetUserDataViewAppState(
-              alert: noDisplayPicture,
-              alertContent: shouldContinueWithoutPicture,
-              fileNameToDisplay: fileNameToDisplay,
-            )
-          );
-        }
-
-        else if(!userNameExistsAndIsEmpty && fileNameToDisplay == null){
-          emit(
-            InGetUserDataViewAppState(
-              alert
-              error: shouldContinueWithoutPicture,
-              fileNameToDisplay: fileNameToDisplay,
-            )
-          );
         }
 
         emit(
@@ -150,10 +163,11 @@ class AppBloc extends Bloc<AppEvents, AppState>{
             fileNameToDisplay: fileNameToDisplay,
           )
         );
-
-        if(username != null){
-          await backend.setUsername(username);
-        }
+        
+        //User enters username and display picture.
+        // if(username.isNotEmpty){
+        //   await backend.setUsername(username);
+        // }
         if(imageFile != null){
           await backend.saveImageFile(imageFile);
         }

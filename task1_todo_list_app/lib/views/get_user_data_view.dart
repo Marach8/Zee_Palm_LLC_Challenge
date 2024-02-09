@@ -13,11 +13,11 @@ import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/divider_widget.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/elevatedbutton_widget.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/leading_back_arrow.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/lottie_view.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/stepper_widget.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/decorated_text_widget.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/textfield_widget.dart';
-import 'dart:developer' as marach show log;
 
 
 class GetUserDataView extends HookWidget {
@@ -39,6 +39,7 @@ class GetUserDataView extends HookWidget {
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
       child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
         backgroundColor: whiteColor,
         appBar: AppBar(
           title: const DecoratedText(
@@ -48,11 +49,15 @@ class GetUserDataView extends HookWidget {
             text: appName,
           ),
           centerTitle: true,
-          leading: inEditUserDetailsMode ? const SizedBox.shrink() : IconButton(
-            icon: const Icon(Icons.arrow_back_rounded),
-            onPressed: () => context.read<AppBloc>().add(
-              const GoToLandingPageAppEvent()
-            ),
+          leading: inEditUserDetailsMode ? const SizedBox.shrink() 
+          : Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CustomFAB(
+                color: blackColor,
+                function: () => context.read<AppBloc>().add(
+                  const GoToLandingPageAppEvent()
+                ),
+              ),
           ),
           backgroundColor: whiteColorWithOpacity,
         ),

@@ -139,9 +139,3 @@ class SkipUserDataAppEvent extends AppEvents{
     required this.username
   });
 }
-
-
-// @immutable 
-// class CheckAndUpdateUserDetails extends AppEvents{
-//   const CheckAndUpdateUserDetails();
-// }

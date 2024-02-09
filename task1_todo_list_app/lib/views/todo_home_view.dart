@@ -11,6 +11,7 @@ import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/container_widget.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/elevatedbutton_widget.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/leading_back_arrow.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/lottie_view.dart';
 import 'package:task1_todo_list_app/widgets/other_widgets/row_with_profile_picture.dart';
 import 'package:task1_todo_list_app/widgets/other_widgets/todo_listview.dart';
@@ -40,24 +41,11 @@ class TodoHomeView extends StatelessWidget {
 
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-        floatingActionButton: FloatingActionButton(
-          onPressed: (){
-            context.read<AppBloc>().add(
-              const GoToGetUserDataViewAppEvent()
-            );
-          },
-          backgroundColor: transparentColor,
-          foregroundColor: purpleColor,
-          mini: true,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-            side: const BorderSide(
-              color: purpleColor,
-              width: 1,
-            )
+        floatingActionButton: CustomFAB(
+          color: purpleColor,
+          function: () => context.read<AppBloc>().add(
+            const GoToGetUserDataViewAppEvent()
           ),
-          child: const Icon(Icons.arrow_back_rounded),
         ),
         
         backgroundColor: whiteColorWithOpacity,

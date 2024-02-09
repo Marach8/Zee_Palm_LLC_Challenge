@@ -23,7 +23,7 @@ class RowWithProfilePicture extends HookWidget {
   Widget build(BuildContext context) {
     final backend = AppBackend();
 
-    //I am just caching the user's imagedata and username.
+    //Cache the username and imageData.
     final usernameFuture = useMemoized(() => backend.getUsername());
     final imagedataFuture = useMemoized(() => backend.retrieveImageData());
     final usernameSnapshot = useFuture(usernameFuture);
@@ -50,7 +50,7 @@ class RowWithProfilePicture extends HookWidget {
               child: imageDataSnapshot.hasData && 
                 imageDataSnapshot.data != null ?
                 GestureDetector(
-                  onDoubleTap: (){
+                  onTap: (){
                     context.read<AppBloc>().add(
                       ZoomProfilePicAppEvent(
                         isZoomed: isZoomed == true ? false : true

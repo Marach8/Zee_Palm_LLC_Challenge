@@ -5,6 +5,8 @@ import 'package:task1_todo_list_app/bloc/app_events.dart';
 import 'package:task1_todo_list_app/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
 import 'package:task1_todo_list_app/widgets/other_widgets/date_and_time_picker.dart';
+import 'dart:developer' as marach show log;
+
 
 
 class AppBloc extends Bloc<AppEvents, AppState>{
@@ -106,6 +108,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     on<AddPhotoAppEvent>((_, emit) async{
       final currentState = state as InGetUserDataViewAppState;
       final initilFileNameToDisplay = currentState.fileNameToDisplay;
+      final inEditUserDetailsMode = currentState.inEditUserDetailsMode;
       
       final imageData = await backend.pickImage();
       if(imageData == null){
@@ -118,7 +121,8 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         InGetUserDataViewAppState(
           fileNameToDisplay: fileNameToDisplay, 
           imageFile: imageFile,
-          initialFileNameToDisplay: initilFileNameToDisplay
+          initialFileNameToDisplay: initilFileNameToDisplay,
+          inEditUserDetailsMode: inEditUserDetailsMode
         )
       );
     });
@@ -130,9 +134,16 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       final imageFile = currentState.imageFile;
       final inEditUserDetailsMode = currentState.inEditUserDetailsMode ?? false;
       final fileNameToDisplay = currentState.fileNameToDisplay?.trim();
-      final initialFileNameToDisplay = currentState.initialFileNameToDisplay?.trim();
+      //We want to get the new filename if the user did not tap on AddPhoto.
+      final fileNameToDisplayWithoutTap = await backend.getfileNameToDisplay();
 
-      final photoNotChanged = fileNameToDisplay == initialFileNameToDisplay;
+      final initialFileNameToDisplay = currentState.initialFileNameToDisplay?.trim();
+      
+      //A case where the user did select a new picture before clicking on Update
+      final photoNotChanged = fileNameToDisplay == initialFileNameToDisplay
+      //A case where the user did not select a new picture before clicking on Update
+        || fileNameToDisplay == fileNameToDisplayWithoutTap;
+
       final usernameNotChanged = eventUsername == stateUsername ;
       final retrievedTodos = await backend.getTodods();
 
@@ -156,6 +167,12 @@ class AppBloc extends Bloc<AppEvents, AppState>{
             await backend.saveImageFile(imageFile!);
             await backend.setfileNameToDisplay(fileNameToDisplay!);
           }
+          emit(
+            InTodoHomeViewAppState(
+              retrievedTodos: retrievedTodos,
+              error: detailsChanged
+            )
+          );
         }
       }
 
@@ -195,21 +212,30 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     });
 
 
-    on<SkipUserDataAppEvent> ((event, emit){
+    on<SkipUserDataAppEvent> ((event, emit) async{
       final currentState = state as InGetUserDataViewAppState;
       final fileNameToDisplay = currentState.fileNameToDisplay?.trim();
+      final imageFile = currentState.imageFile;
       final username = event.username;
 
       if(username.isEmpty || fileNameToDisplay == null){
-          emit(
-            InGetUserDataViewAppState(
-              username: username,
-              fileNameToDisplay: fileNameToDisplay,
-              alert: noUsernameOrPicture,
-              alertContent: shouldContinueWithoutUsernameOrPicture,
-            )
-          );
+        if(username.isNotEmpty){
+          await backend.setUsername(username);
         }
+
+        if(imageFile != null){
+          await backend.saveImageFile(imageFile!);
+          await backend.setfileNameToDisplay(fileNameToDisplay!);
+        }
+        emit(
+          InGetUserDataViewAppState(
+            username: username,
+            fileNameToDisplay: fileNameToDisplay,
+            alert: noUsernameOrPicture,
+            alertContent: shouldContinueWithoutUsernameOrPicture,
+          )
+        );
+      }
     });
     
 

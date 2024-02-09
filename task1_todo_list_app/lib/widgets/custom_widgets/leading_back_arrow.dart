@@ -2,29 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
 
 
-class LeadingBackArrowIconButton extends StatelessWidget {
+class CustomFAB extends StatelessWidget {
   final void Function()? function;
+  final Color color;
 
-  const LeadingBackArrowIconButton({
+  const CustomFAB({
     super.key,
-    required this.function
+    required this.function,
+    required this.color
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 20,
-      width: 20,
-      decoration: BoxDecoration(
-        border: Border.all(
-          width: 5,
-          color: blackColor
+    return FloatingActionButton(
+      onPressed: function,
+      backgroundColor: transparentColor,
+      foregroundColor: color,
+      mini: true,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(25),
+        side: BorderSide(
+          color: color,
+          width: 1,
         )
       ),
-      child: IconButton(
-        icon: const Icon(Icons.arrow_back_rounded),
-        onPressed: function
-      ),
+      child: const Icon(Icons.arrow_back_rounded),
     );
   }
 }

@@ -1,12 +1,12 @@
-const lottie1Path = 'assets/lottie_file1.json';
-const lottie2Path = 'assets/lottie_file2.json';
-const lottie3Path = 'assets/lottie_file3.json';
-const lottie4Path = 'assets/lottie_file4.json';
-const lottie5Path = 'assets/lottie_file5.json';
-const lottie6Path = 'assets/lottie_file6.json';
-const lottie7Path = 'assets/lottie_file7.json';
-const lottie8Path = 'assets/lottie_file8.json';
-const lottie9Path = 'assets/lottie_file9.json';
+const lottie1Path = 'assets/jsons/lottie_file1.json';
+const lottie2Path = 'assets/jsons/lottie_file2.json';
+const lottie3Path = 'assets/jsons/lottie_file3.json';
+const lottie4Path = 'assets/jsons/lottie_file4.json';
+const lottie5Path = 'assets/jsons/lottie_file5.json';
+const lottie6Path = 'assets/jsons/lottie_file6.json';
+const lottie7Path = 'assets/jsons/lottie_file7.json';
+const lottie8Path = 'assets/jsons/lottie_file8.json';
+const lottie9Path = 'assets/jsons/lottie_file9.json';
 
 const appName = 'OrganizeMe';
 const appDescription = 'Manage your tasks and todos with OrganizeMe...';
@@ -26,6 +26,7 @@ const shouldContinueWithoutPicture = 'Are you sure you want to continue without 
 const noDisplayPicture = 'No Profile Photo!';
 const usernameCannotBeEmpty = 'Username field cannot be empty! You might want to "Skip".';
 const noUsernameOrPicture = 'Incomplete User Details!';
+const detailsChanged = 'User details updated Successfully.';
 const shouldContinueWithoutUsernameOrPicture = '''
 Either your username and/or display picture was not provided. Do you still want to continue?
 ''';

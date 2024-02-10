@@ -61,8 +61,8 @@ class BlocConsumerBase extends StatelessWidget {
           final inAddTodoState = appState is InAddTodoViewAppState;
           final inHomeState = appState is InTodoHomeViewAppState;
 
-          final homeAppState = appState as InTodoHomeViewAppState;
-          final wantsToUpdateUserDetails = homeAppState.wantsToUpdateUserDetails ?? false;
+          final homeAppState = inHomeState ? appState : null;
+          final wantsToUpdateUserDetails = homeAppState?.wantsToUpdateUserDetails ?? false;
           final toUpdateUserDetails = inHomeState && wantsToUpdateUserDetails;
 
           //I had to use Future.delayed here because I was avoiding using 

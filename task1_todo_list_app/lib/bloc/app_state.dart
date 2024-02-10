@@ -83,7 +83,7 @@ class InTodoHomeViewAppState extends AppState{
   indexToShow;
   final Iterable<List<String>?> retrievedTodos;
   final Uint8List? imageBytes;
-  final bool? isZoomed;
+  final bool? isZoomed, wantsToUpdateUserDetails;
 
   InTodoHomeViewAppState({
     required this.retrievedTodos,
@@ -91,6 +91,7 @@ class InTodoHomeViewAppState extends AppState{
     this.username,
     this.indexToShow,
     this.isZoomed,
+    this.wantsToUpdateUserDetails,
     bool? isLoading,
     String? error,
     String? operation,

@@ -195,7 +195,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
             InGetUserDataViewAppState(
               username: eventUsername,
               fileNameToDisplay: fileNameToDisplay,
-              error: usernameCannotBeEmpty
+              error: usernameCannotBeEmptyWithSkip
             )
           );
         }
@@ -321,6 +321,20 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       );
     });
 
+
+    on<WantToGoToGetUserDataViewAppEvent>((_, emit){
+      final currentState = state as InTodoHomeViewAppState;
+      final retrievedTodos = currentState.retrievedTodos;
+
+      emit(
+        InTodoHomeViewAppState(
+          retrievedTodos: retrievedTodos,
+          alert: updateDetails,
+          alertContent: wantToUpdateDetails,
+          wantsToUpdateUserDetails: true
+        )
+      );
+    });
 
     on<DeleteTodoAppEvent>((event, emit) async{
       final indexToDelete = event.indexToDelete;

@@ -37,7 +37,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   lottie: ^3.0.0
   gap: ^3.0.1
-  google_fonts: ^6.1.0
   image_picker: ^1.0.7
   shared_preferences: ^2.2.2
   font_awesome_flutter: ^10.7.0
@@ -92,6 +91,7 @@ flutter:
     - family: Quicksand
       fonts:
         - asset: assets/fonts/Quicksand/static/Quicksand-Medium.ttf
+        - asset: assets/fonts/Quicksand/static/Quicksand-Light.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

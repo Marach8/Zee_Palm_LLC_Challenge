@@ -44,7 +44,8 @@ class TodoHomeView extends StatelessWidget {
         floatingActionButton: CustomFAB(
           color: purpleColor,
           function: () => context.read<AppBloc>().add(
-            const GoToGetUserDataViewAppEvent()
+            const WantToGoToGetUserDataViewAppEvent()
+            // const GoToGetUserDataViewAppEvent()
           ),
         ),
         

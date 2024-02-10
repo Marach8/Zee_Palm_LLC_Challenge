@@ -59,6 +59,12 @@ class BlocConsumerBase extends StatelessWidget {
           final inLandingPageState = appState is InLandingPageViewAppState;
           final inGetUserDataState = appState is InGetUserDataViewAppState;
           final inAddTodoState = appState is InAddTodoViewAppState;
+          final inHomeState = appState is InTodoHomeViewAppState;
+
+          final homeAppState = appState as InTodoHomeViewAppState;
+          final wantsToUpdateUserDetails = homeAppState.wantsToUpdateUserDetails ?? false;
+          final toUpdateUserDetails = inHomeState && wantsToUpdateUserDetails;
+
           //I had to use Future.delayed here because I was avoiding using 
           //BuildContexts across async Gaps.
           await Future.delayed(
@@ -68,8 +74,8 @@ class BlocConsumerBase extends StatelessWidget {
                 title: title, 
                 content: content, 
                 options: inLandingPageState ? getPermissonMap :
-                  inGetUserDataState || inAddTodoState ? questionMap :
-                  deleteTodoMap
+                  inGetUserDataState || inAddTodoState || toUpdateUserDetails 
+                  ? questionMap : deleteTodoMap
               ).then((result){
                 final yes = result == true;
                 final notNull = result != null;
@@ -87,6 +93,12 @@ class BlocConsumerBase extends StatelessWidget {
                 else if(inGetUserDataState){
                   yes ? context1.read<AppBloc>().add(
                     const GoToTodoHomeAppEvent()
+                  ) : {};
+                }
+                
+                else if(inHomeState){
+                  yes ? context1.read<AppBloc>().add(
+                    const GoToGetUserDataViewAppEvent()
                   ) : {};
                 }
 

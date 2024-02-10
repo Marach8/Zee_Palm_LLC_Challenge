@@ -24,12 +24,15 @@ const skip = 'Skip';
 const update = 'Update...';
 const shouldContinueWithoutPicture = 'Are you sure you want to continue without a profile picture?';
 const noDisplayPicture = 'No Profile Photo!';
-const usernameCannotBeEmpty = 'Username field cannot be empty! You might want to "Skip".';
+const usernameCannotBeEmptyWithSkip = 'Username field cannot be empty! You might want to "Skip".';
+const usernameCannotBeEmpty = 'Username field cannot be empty!.';
 const noUsernameOrPicture = 'Incomplete User Details!';
 const detailsChanged = 'User details updated Successfully.';
 const shouldContinueWithoutUsernameOrPicture = '''
 Either your username and/or display picture was not provided. Do you still want to continue?
 ''';
+const updateDetails = 'User Details Update';
+const wantToUpdateDetails = 'Do you want to update your Details?';
 const updateUserDetails = 'Update your details here...';
 const saving = 'Saving...';
 const updating = 'Updating...';

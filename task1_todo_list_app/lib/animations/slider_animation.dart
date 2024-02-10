@@ -64,7 +64,7 @@ with SingleTickerProviderStateMixin{
         child: DecoratedText(
             color: blackColor,
             fontSize: fontSize2,
-            fontWeight: fontWeight4,
+            fontWeight: fontWeight3,
             text: noOfTodos == 1 ? '$noOfTodos $todoAdded' :
               '$noOfTodos $todosAdded'
           ),

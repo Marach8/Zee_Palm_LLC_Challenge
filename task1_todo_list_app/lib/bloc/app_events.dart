@@ -133,3 +133,8 @@ class SkipUserDataAppEvent extends AppEvents{
     required this.username
   });
 }
+
+@immutable 
+class WantToGoToGetUserDataViewAppEvent extends AppEvents{
+  const WantToGoToGetUserDataViewAppEvent();
+}

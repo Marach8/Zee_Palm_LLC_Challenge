@@ -22,7 +22,7 @@ class ElevatedButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: function, 
+      onPressed: function,
       style: ButtonStyle(
         backgroundColor: MaterialStatePropertyAll(backgroundColor),
         foregroundColor: MaterialStatePropertyAll(foregroundColor),

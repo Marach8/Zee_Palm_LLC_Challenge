@@ -68,7 +68,9 @@ class TodoListView extends StatelessWidget {
               background: const BackgroundOfDissmissible(),
               child: Card(
                 elevation: 0,
-                color: blackColor.withOpacity(0.05),
+                color: isCompleted ?? false 
+                  ? purpleColor.withOpacity(0.1) 
+                  : blackColor.withOpacity(0.05),
                 child: ListTile(
                   title: DecoratedText(
                     color: blackColor,
@@ -103,7 +105,30 @@ class TodoListView extends StatelessWidget {
                     ShowFullTodoDetailsAppEvent(
                       indexToShow: todoIndex
                     )
-                  )
+                  ),
+                  leading: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Container(
+                      height: 15,
+                      width: 15,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          color: blackColor,
+                          width: 0.5,
+                        )
+                      ),
+                      child: Center(
+                        child: DecoratedText(
+                          color: isCompleted ?? false ? purpleColor: blackColor,
+                          fontSize: fontSize1,
+                          fontWeight: fontWeight9,
+                          text: (listIndex + 1).toString(),
+                        ),
+                      ),
+                    ),
+                  ),
+                  minLeadingWidth: 0,
                 ),
               ),
             );

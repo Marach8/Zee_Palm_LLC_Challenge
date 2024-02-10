@@ -20,24 +20,27 @@ class ContainerWidget extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     
-    return Container(
-      padding: padding,
-      constraints: BoxConstraints(
-        maxHeight: screenHeight,
-        minHeight: 0,
-        minWidth: 0,
-        maxWidth: screenWidth
-      ),
-      decoration: BoxDecoration(
-        color: backgroundColor ?? whiteColor,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: children
+    return ClipRect(
+      clipBehavior: Clip.hardEdge,
+      child: Container(
+        padding: padding,
+        constraints: BoxConstraints(
+          maxHeight: screenHeight,
+          minHeight: 0,
+          minWidth: 0,
+          maxWidth: screenWidth
+        ),
+        decoration: BoxDecoration(
+          color: backgroundColor ?? whiteColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: children
+          ),
         ),
       ),
     );

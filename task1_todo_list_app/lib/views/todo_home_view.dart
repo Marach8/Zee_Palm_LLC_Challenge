@@ -61,13 +61,16 @@ class TodoHomeView extends StatelessWidget {
                   children: [
                     const Gap(20),
                     const Gap(20),
-                    ContainerWidget(
-                      children: [
-                        RowWithProfilePicture(isZoomed: isZoomed),
-                        SliderAnimationView(
-                          numberOfTodos: retrievedTodos.length.toString()
-                        )
-                      ]
+                    LayoutBuilder(
+                      builder: (_, constraints) => ContainerWidget(
+                        children: [
+                          RowWithProfilePicture(isZoomed: isZoomed),
+                          SliderAnimationView(
+                            numberOfTodos: retrievedTodos.length.toString(),
+                            distance: constraints.maxWidth,
+                          )
+                        ]
+                      ),
                     ),
                     const Gap(20),
                       

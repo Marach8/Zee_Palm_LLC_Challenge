@@ -86,17 +86,21 @@ class MyApp extends StatelessWidget {
             actionBackgroundColor: blackColor,
             closeIconColor: blackColor,
           ),
+
           scrollbarTheme: const ScrollbarThemeData(
             crossAxisMargin: 0,
             thumbColor: MaterialStatePropertyAll(purpleColor),
             mainAxisMargin: 5,
           ),
+
           bottomSheetTheme: BottomSheetThemeData(
             backgroundColor: whiteColorWithOpacity
           ),
+
           appBarTheme: const AppBarTheme(
             backgroundColor: blackColor,
           ),
+          
           useMaterial3: true,
           brightness: Brightness.light
         ),

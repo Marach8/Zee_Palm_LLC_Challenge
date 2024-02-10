@@ -5,11 +5,25 @@ abstract class AppEvents{
   const AppEvents();
 }
 
+
+//Events in Landing Page View
 @immutable 
-class GoToGetUserDataViewAppEvent extends AppEvents{
-  const GoToGetUserDataViewAppEvent();
+class InitializationAppEvent extends AppEvents{
+  const InitializationAppEvent();
 }
 
+@immutable 
+class GetUserPermissionAppEvent extends AppEvents{
+  const GetUserPermissionAppEvent();
+}
+
+@immutable 
+class ShowAppPermissionReasonEvent extends AppEvents{
+  const ShowAppPermissionReasonEvent();
+}
+
+
+//Events in GetUserData View
 @immutable 
 class GoToLandingPageAppEvent extends AppEvents{
   const GoToLandingPageAppEvent();
@@ -26,35 +40,33 @@ class GoToTodoHomeAppEvent extends AppEvents{
 }
 
 @immutable 
-class InitializationAppEvent extends AppEvents{
-  const InitializationAppEvent();
+class SaveUserDataAppEvent extends AppEvents{
+  final String username;
+
+  const SaveUserDataAppEvent({
+    required this.username,
+  });
 }
 
+@immutable 
+class SkipUserDataAppEvent extends AppEvents{
+  final String username;
+
+  const SkipUserDataAppEvent({
+    required this.username
+  });
+}
+
+
+//Events in Todo Home View
 @immutable 
 class ResetIndexToShowAppEvent extends AppEvents{
   const ResetIndexToShowAppEvent();
 }
 
-// @immutable 
-// class ResetShowFAB extends AppEvents{
-//   const ResetShowFAB();
-// }
-
 @immutable 
 class GoToAddTodoViewAppEvent extends AppEvents{
   const GoToAddTodoViewAppEvent();
-}
-
-@immutable 
-class SaveOrUpdateTodoAppEvent extends AppEvents{
-  final TextEditingController titleController, 
-  dueDateTimeController, contentController;
-
-  const SaveOrUpdateTodoAppEvent({
-    required this.titleController,
-    required this.dueDateTimeController,
-    required this.contentController
-  });
 }
 
 @immutable 
@@ -95,14 +107,6 @@ class ShowFullTodoDetailsAppEvent extends AppEvents{
 }
 
 @immutable 
-class GetDateAndTimeAppEvent extends AppEvents{
-  final BuildContext context;
-  const GetDateAndTimeAppEvent({
-    required this.context
-  });
-}
-
-@immutable 
 class ZoomProfilePicAppEvent extends AppEvents{
   final bool isZoomed;
   
@@ -112,34 +116,35 @@ class ZoomProfilePicAppEvent extends AppEvents{
 }
 
 @immutable 
-class GetUserPermissionAppEvent extends AppEvents{
-  const GetUserPermissionAppEvent();
-}
-
-@immutable 
-class ShowAppPermissionReasonEvent extends AppEvents{
-  const ShowAppPermissionReasonEvent();
-}
-
-@immutable 
-class SaveUserDataAppEvent extends AppEvents{
-  final String username;
-
-  const SaveUserDataAppEvent({
-    required this.username,
-  });
-}
-
-@immutable 
-class SkipUserDataAppEvent extends AppEvents{
-  final String username;
-
-  const SkipUserDataAppEvent({
-    required this.username
-  });
-}
-
-@immutable 
 class WantToGoToGetUserDataViewAppEvent extends AppEvents{
   const WantToGoToGetUserDataViewAppEvent();
+}
+
+
+//Events in Add Todo View
+@immutable 
+class GetDateAndTimeAppEvent extends AppEvents{
+  final BuildContext context;
+  const GetDateAndTimeAppEvent({
+    required this.context
+  });
+}
+
+@immutable 
+class SaveOrUpdateTodoAppEvent extends AppEvents{
+  final TextEditingController titleController, 
+  dueDateTimeController, contentController;
+
+  const SaveOrUpdateTodoAppEvent({
+    required this.titleController,
+    required this.dueDateTimeController,
+    required this.contentController
+  });
+}
+
+
+//Event that is in Landing Page View and In Todo Home View
+@immutable 
+class GoToGetUserDataViewAppEvent extends AppEvents{
+  const GoToGetUserDataViewAppEvent();
 }

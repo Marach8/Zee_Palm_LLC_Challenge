@@ -49,11 +49,11 @@ class InGetUserDataViewAppState extends AppState{
     String? alert,
     String? alertContent
   }): super(
-    isLoading: isLoading,
-    error: error,
-    operation: operation,
-    alert: alert,
-    alertContent: alertContent
+        isLoading: isLoading,
+        error: error,
+        operation: operation,
+        alert: alert,
+        alertContent: alertContent
   );
 }
 
@@ -68,11 +68,11 @@ class InLandingPageViewAppState extends AppState{
     String? error,
     String? alertContent
   }): super(
-    isLoading: isLoading,
-    operation: operation,
-    alert: alert,
-    error: error,
-    alertContent: alertContent
+        isLoading: isLoading,
+        operation: operation,
+        alert: alert,
+        error: error,
+        alertContent: alertContent
   );
 }
 
@@ -98,11 +98,11 @@ class InTodoHomeViewAppState extends AppState{
     String? alert,
     String? alertContent,
   }): super(
-    isLoading: isLoading,
-    error: error,
-    operation: operation,
-    alert: alert,
-    alertContent: alertContent
+        isLoading: isLoading,
+        error: error,
+        operation: operation,
+        alert: alert,
+        alertContent: alertContent
   );
 }
 
@@ -123,10 +123,10 @@ class InAddTodoViewAppState extends AppState{
     String? alert,
     String? alertContent
   }): super(
-    isLoading: isLoading,
-    error: error,
-    operation: operation,
-    alert: alert,
-    alertContent: alertContent
+        isLoading: isLoading,
+        error: error,
+        operation: operation,
+        alert: alert,
+        alertContent: alertContent
   );
 }

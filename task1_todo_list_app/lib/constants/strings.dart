@@ -12,7 +12,7 @@ const appName = 'OrganizeMe';
 const appDescription = 'Manage your tasks and todos with OrganizeMe...';
 const getStarted = 'Get Started...';
 const permission = 'App Permission';
-const grantPermission = 'This app needs permission to store and retrieve data from your device.';
+const grantPermission = 'This app needs your permission to store and retrieve data from your device.';
 const fullPermissionReason = '''
 Dear esteemed user, We value your privacy and only collect data that helps us improve the app for your usage.
 ''';
@@ -34,6 +34,7 @@ const updateUserDetails = 'Update your details here...';
 const saving = 'Saving...';
 const updating = 'Updating...';
 const waiting = 'Waiting...';
+const pleaseWait = 'Please Wait...';
 const todoUpdated = 'Todo has been Updated!';
 const newUser = 'New User';
 const hello = 'Hello';
@@ -44,7 +45,7 @@ const enterTitle = 'Enter the title.';
 const enterDueDateTime = 'Enter the due date and/or time.';
 const enterContent = 'Enter the content';
 const addTodo = 'Add Todo';
-const fullTodoDetails = 'you can view your full todo details here.';
+const fullTodoDetails = ', you can view your full todo details here.';
 const hey = 'Hey ';
 const titleOfTodo = 'TITLE OF TODO: ';
 const contentOfTodo = 'CONTENT OF TODO: ';

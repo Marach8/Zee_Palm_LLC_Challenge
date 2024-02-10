@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
 
 extension ModifyText on Text{
@@ -10,8 +9,8 @@ extension ModifyText on Text{
     [bool? controlOverflow]
   ) => Text(
     data ?? '', 
-    style: GoogleFonts.getFont(
-      quickSandFont,
+    style: TextStyle(
+      fontFamily: quickSandFont,
       fontSize: fontSize,
       fontWeight: fontWeight,
       color: color
@@ -30,14 +29,12 @@ extension DecorateTextSpan on TextSpan{
     [bool? controlOverflow]
   ) => TextSpan(
     text: text,
-    style: GoogleFonts.getFont(
-      quickSandFont,
+    style: TextStyle(
+      fontFamily: quickSandFont,
       color: color, 
       fontSize: fontSize,
       fontWeight: fontWeight,
-      textStyle: TextStyle(
-        overflow: controlOverflow ?? false ? TextOverflow.ellipsis : null,
-      )
+      overflow: controlOverflow ?? false ? TextOverflow.ellipsis : null,
     )
   );
 }

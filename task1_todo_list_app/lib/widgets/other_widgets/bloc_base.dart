@@ -15,7 +15,6 @@ import 'package:task1_todo_list_app/views/add_todo_view.dart';
 import 'package:task1_todo_list_app/views/get_user_data_view.dart';
 import 'package:task1_todo_list_app/views/landing_view.dart';
 import 'package:task1_todo_list_app/views/todo_home_view.dart';
-import 'dart:developer' as marach show log;
 
 
 class BlocConsumerBase extends StatelessWidget {
@@ -35,7 +34,8 @@ class BlocConsumerBase extends StatelessWidget {
               context1, operation!
             )
           );
-        } 
+        }
+
         else{
           loadingScreen.hideOverlay();
         }
@@ -85,24 +85,9 @@ class BlocConsumerBase extends StatelessWidget {
                 }
 
                 else if(inGetUserDataState){
-
                   yes ? context1.read<AppBloc>().add(
                     const GoToTodoHomeAppEvent()
                   ) : {};
-                  // final inEditUserDetailsMode = appState.inEditUserDetailsMode ?? false;
-                  
-                  // if(yes){
-                  //   if(inEditUserDetailsMode){
-                  //     context1.read<AppBloc>().add(
-                  //       const CheckAndUpdateUserDetails()
-                  //     );
-                  //   }
-                  //   else{
-                  //     context1.read<AppBloc>().add(
-                  //       const GoToTodoHomeAppEvent()
-                  //     );
-                  //   }
-                  // }
                 }
 
                 else if(inAddTodoState){

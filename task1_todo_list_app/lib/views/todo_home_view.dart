@@ -45,7 +45,6 @@ class TodoHomeView extends StatelessWidget {
           color: purpleColor,
           function: () => context.read<AppBloc>().add(
             const WantToGoToGetUserDataViewAppEvent()
-            // const GoToGetUserDataViewAppEvent()
           ),
         ),
         

@@ -35,6 +35,11 @@ class ResetIndexToShowAppEvent extends AppEvents{
   const ResetIndexToShowAppEvent();
 }
 
+// @immutable 
+// class ResetShowFAB extends AppEvents{
+//   const ResetShowFAB();
+// }
+
 @immutable 
 class GoToAddTodoViewAppEvent extends AppEvents{
   const GoToAddTodoViewAppEvent();

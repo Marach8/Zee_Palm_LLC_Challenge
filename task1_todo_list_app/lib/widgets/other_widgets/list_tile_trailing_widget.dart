@@ -48,9 +48,10 @@ class ListTileTrailingWiget extends StatelessWidget {
               todoToUpdate.insert(3, value.toString());
               final todoIndex = todoToUpdate.last;
               context.read<AppBloc>().add(
-                UpdateTodoIsCompletedStateAppEvent(
+                ConfirmUpdateTodoIsCompletedAppEvent(
                   indexToUpdate: todoIndex,
-                  newTodo: todoToUpdate
+                  newTodo: todoToUpdate,
+                  isCompleted: isCompleted
                 )
               );
             },

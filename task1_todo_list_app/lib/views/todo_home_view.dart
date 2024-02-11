@@ -18,7 +18,7 @@ import 'package:task1_todo_list_app/widgets/custom_widgets/lottie_view.dart';
 import 'package:task1_todo_list_app/animations/instructions.dart';
 import 'package:task1_todo_list_app/widgets/other_widgets/empty_widget.dart';
 import 'package:task1_todo_list_app/widgets/other_widgets/row_with_profile_picture.dart';
-import 'package:task1_todo_list_app/widgets/other_widgets/todo_listview.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/todo_listview.dart';
 import 'package:task1_todo_list_app/widgets/other_widgets/todo_summary.dart';
 // import 'dart:developer' as marach show log;
 
@@ -32,9 +32,9 @@ class TodoHomeView extends HookWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final currentState = context.watch<AppBloc>()
       .state as InTodoHomeViewAppState;
-    //final retrievedTodos = currentState.retrievedTodos;
     final indexToShow = currentState.indexToShow;
     final isZoomed = currentState.isZoomed ?? false;
+    final showCompletedTodos = currentState.showCompletedTodos ?? false;
 
     final completedTodosFuture = useMemoized(() => backend.getCompletedTodos());
     final completedTodosSnapshot = useFuture(completedTodosFuture);
@@ -97,13 +97,13 @@ class TodoHomeView extends HookWidget {
                     ),
                     const Gap(20),
 
-                    // completedTodos != null ? ContainerWidget(
-                    //   padding: const EdgeInsets.all(10),
-                    //   children: [
-                    //     TodoListView(userTodos: completedTodos)
-                    //   ]
-                    // ) : emptySizedBox,
-                    // const Gap(20),
+                    completedTodos.isNotEmpty && showCompletedTodos ? ContainerWidget(
+                      padding: const EdgeInsets.all(10),
+                      children: [
+                        TodoListView(userTodos: completedTodos)
+                      ]
+                    ) : emptySizedBox,
+                    const Gap(20),
 
                     ContainerWidget(
                       padding: const EdgeInsets.all(10),

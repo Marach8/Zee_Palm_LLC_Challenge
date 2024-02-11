@@ -327,9 +327,27 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     });
 
 
-    on<UpdateTodoIsCompletedStateAppEvent>((event, emit) async{
+
+    on<ConfirmUpdateTodoIsCompletedAppEvent>((event, emit){
       final indexToUpdate = event.indexToUpdate;
       final newTodo = event.newTodo;
+      final isCompleted = event.isCompleted ?? false;
+
+      emit(
+        InTodoHomeViewAppState(
+          indexToUpdate: indexToUpdate,
+          newTodo: newTodo,
+          alert: updateTodo,
+          alertContent: isCompleted ? trueToFalse : falseToTrue,
+        )
+      );
+    });
+
+
+    on<UpdateTodoIsCompletedStateAppEvent>((event, emit) async{
+      final currentState = state as InTodoHomeViewAppState;
+      final indexToUpdate = currentState.indexToUpdate!;
+      final newTodo = currentState.newTodo!;
 
       await backend.updateTodo(newTodo, indexToUpdate);
 
@@ -380,7 +398,9 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
 
     on<ShowCompletedTodosAppEvent>((_, emit){
-
+      emit(
+        InTodoHomeViewAppState(showCompletedTodos: true)
+      );
     });
 
 

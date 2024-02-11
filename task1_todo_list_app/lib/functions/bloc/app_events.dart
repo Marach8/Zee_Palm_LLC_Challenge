@@ -77,15 +77,22 @@ class DeleteTodoAppEvent extends AppEvents{
   });
 }
 
-@immutable 
-class UpdateTodoIsCompletedStateAppEvent extends AppEvents{
+@immutable
+class ConfirmUpdateTodoIsCompletedAppEvent extends AppEvents{
   final String indexToUpdate;
   final List<String> newTodo;
+  final bool? isCompleted;
 
-  const UpdateTodoIsCompletedStateAppEvent({
+  const ConfirmUpdateTodoIsCompletedAppEvent({
     required this.indexToUpdate,
-    required this.newTodo
+    required this.newTodo,
+    this.isCompleted
   });
+}
+
+@immutable 
+class UpdateTodoIsCompletedStateAppEvent extends AppEvents{
+  const UpdateTodoIsCompletedStateAppEvent();
 }
 
 @immutable 

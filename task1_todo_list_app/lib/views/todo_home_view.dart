@@ -13,9 +13,10 @@ import 'package:task1_todo_list_app/widgets/custom_widgets/container_widget.dart
 import 'package:task1_todo_list_app/widgets/custom_widgets/elevatedbutton_widget.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/leading_back_arrow.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/lottie_view.dart';
+import 'package:task1_todo_list_app/widgets/other_widgets/instructions.dart';
 import 'package:task1_todo_list_app/widgets/other_widgets/row_with_profile_picture.dart';
 import 'package:task1_todo_list_app/widgets/other_widgets/todo_listview.dart';
-import 'dart:developer' as marach show log;
+// import 'dart:developer' as marach show log;
 
 
 
@@ -28,7 +29,6 @@ class TodoHomeView extends StatelessWidget {
     final currentState = context.watch<AppBloc>()
       .state as InTodoHomeViewAppState;
     final retrievedTodos = currentState.retrievedTodos;
-    marach.log('retrieved in home view is $retrievedTodos');
     final indexToShow = currentState.indexToShow;
     final isZoomed = currentState.isZoomed ?? false;
 
@@ -85,7 +85,7 @@ class TodoHomeView extends StatelessWidget {
                         const Gap(20),
                         const LottieView(lottiePath: lottie2Path)
                       ] : [
-                        
+                        const HomeViewInstructions(),
                         TodoListView(userTodos: retrievedTodos)
                       ]
                     ),

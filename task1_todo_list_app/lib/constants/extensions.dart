@@ -113,8 +113,8 @@ extension ChooseText on TextEditingController{
 
 
 extension ApplyDecoratedText on List<Text>{
-  List<Text> applyDecoratedText(){
-    return List.from(for(final textItem in this){
+  applyDecoratedText(){
+    for(final textItem in this){
       if(textItem == first){
         continue;
       }
@@ -123,6 +123,6 @@ extension ApplyDecoratedText on List<Text>{
         fontWeight1,
         fontSize1
       );
-    })
+    }
   }
 }

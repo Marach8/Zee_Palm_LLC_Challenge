@@ -113,9 +113,9 @@ extension ChooseText on TextEditingController{
 
 
 extension ApplyDecoratedText on List<Text>{
-  applyDecoratedText(){
+  List<Text> applyDecoratedText(){
     for(final textItem in this){
-      if(textItem == first){
+      if(textItem == this[2]){
         continue;
       }
       textItem.decorateWithGoogleFont(
@@ -124,5 +124,6 @@ extension ApplyDecoratedText on List<Text>{
         fontSize1
       );
     }
+    return this;
   }
 }

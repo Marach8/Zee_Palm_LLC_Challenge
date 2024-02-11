@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
+import 'package:task1_todo_list_app/constants/extensions.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
@@ -48,27 +50,44 @@ class _HomeViewInstructionsState extends State<HomeViewInstructions> with Single
       height: 40,
       child: SingleChildScrollView(
         controller: controller,
-        child: const Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(emptyString),
-            Text(emptyString),
-            DecoratedText(
-              text: todoOperations, 
-              color: blackColor, 
-              fontSize: fontSize3, 
-              fontWeight: fontWeight3
-            ), 
-            Text(operation1),
-            Text(operation2),
-            Text(operation3),
-            Text(operation4),
-            Text(emptyString),
-            Text(emptyString),
-          ]
+          children: instructions.map(
+            (element) {
+              if(element.runtimeType != Text){
+                return element;
+              }
+              final textElement = element as Text;
+              return textElement.decorateWithGoogleFont(
+                blackColor,
+                fontWeight4,
+                fontSize2
+              );
+            }
+          ).toList()
         ),
       ),
     );
   }
 }
+
+
+
+const instructions = [
+  Text(emptyString),
+  Text(emptyString),
+  DecoratedText(
+    text: todoOperations, 
+    color: blackColor, 
+    fontSize: fontSize3, 
+    fontWeight: fontWeight4
+  ), 
+  Gap(10),
+  Text(operation1),
+  Text(operation2),
+  Text(operation3),
+  Text(operation4),
+  Text(emptyString),
+  Text(emptyString),
+];

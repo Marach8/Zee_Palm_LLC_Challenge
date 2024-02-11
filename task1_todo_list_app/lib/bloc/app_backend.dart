@@ -6,6 +6,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
+import 'dart:developer' as marach show log;
 
 
 class AppBackend {
@@ -15,6 +16,18 @@ class AppBackend {
 
   Future<SharedPreferences> get preferences async 
     => await SharedPreferences.getInstance();
+
+
+  Future<bool?> setLatestTodoCount(int latestCount) async{
+    final prefs = await preferences;
+    return await prefs.setInt(latestTodoCount, latestCount);
+  }
+
+
+  Future<int> getLatestTodoCount() async{
+    final prefs = await preferences;
+    return prefs.getInt(latestTodoCount) ?? 0;
+  }
 
 
   Future<bool> setUsername(String username) async{
@@ -43,17 +56,19 @@ class AppBackend {
 
   Future<bool> setTodo(List<String> todoDetails) async{
     final prefs = await preferences;
-    return await getTodods().then((storedTodos) async{
-      final newIndex = storedTodos.length + 1;
-      await prefs.setInt(numberOfTodos, newIndex);
+    return await getLatestTodoCount().then((lastCount) async{
+      lastCount ++;
+
+      await setLatestTodoCount(lastCount);
       final currentDateTime = DateTime.now();
       final creationDateTime = DateFormat(dateFormatString)
         .format(currentDateTime);
+
       todoDetails.addAll(
-        [falseString, creationDateTime, '$newIndex']
+        [falseString, creationDateTime, '$lastCount']
       );
       return await prefs.setStringList(
-        todoString+newIndex.toString(), 
+        todoString+lastCount.toString(), 
         todoDetails
       );
     });
@@ -80,9 +95,10 @@ class AppBackend {
 
   Future<Iterable<List<String>?>> getTodods() async{
     final prefs = await preferences;
-    final totalTodos = prefs.getInt(numberOfTodos) ?? 0;
+    final latestCount = await getLatestTodoCount();
+    
     final listOfTodos = Iterable.generate(
-      totalTodos,
+      latestCount,
       (index) {
         final stringIndex = '${index + 1}';
         return prefs.getStringList(todoString+stringIndex);

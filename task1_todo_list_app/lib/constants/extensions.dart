@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:task1_todo_list_app/constants/colors.dart';
+import 'package:task1_todo_list_app/constants/fontsizes.dart';
+import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
 
 extension ModifyText on Text{
@@ -105,5 +108,21 @@ extension ChooseText on TextEditingController{
     else{
       return TextEditingController(text: emptyString);
     }
+  }
+}
+
+
+extension ApplyDecoratedText on List<Text>{
+  List<Text> applyDecoratedText(){
+    return List.from(for(final textItem in this){
+      if(textItem == first){
+        continue;
+      }
+      textItem.decorateWithGoogleFont(
+        blackColor,
+        fontWeight1,
+        fontSize1
+      );
+    })
   }
 }

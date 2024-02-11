@@ -114,7 +114,7 @@ class TodoListView extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         border: Border.all(
-                          color: blackColor,
+                          color: isCompleted ?? false ? purpleColor: blackColor,
                           width: 0.5,
                         )
                       ),

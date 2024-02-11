@@ -85,6 +85,7 @@ class TodoHomeView extends StatelessWidget {
                         const Gap(20),
                         const LottieView(lottiePath: lottie2Path)
                       ] : [
+                        
                         TodoListView(userTodos: retrievedTodos)
                       ]
                     ),

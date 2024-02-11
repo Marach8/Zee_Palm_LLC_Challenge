@@ -6,7 +6,6 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
-import 'dart:developer' as marach show log;
 
 
 class AppBackend {

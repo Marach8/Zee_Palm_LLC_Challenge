@@ -120,6 +120,12 @@ class WantToGoToGetUserDataViewAppEvent extends AppEvents{
   const WantToGoToGetUserDataViewAppEvent();
 }
 
+@immutable 
+class ShowCompletedTodosAppEvent extends AppEvents{
+  const ShowCompletedTodosAppEvent();
+}
+
+
 
 //Events in Add Todo View
 @immutable 

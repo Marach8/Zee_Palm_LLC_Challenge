@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:task1_todo_list_app/bloc/app_bloc.dart';
-import 'package:task1_todo_list_app/bloc/app_events.dart';
+import 'package:task1_todo_list_app/functions/bloc/app_bloc.dart';
+import 'package:task1_todo_list_app/functions/bloc/app_events.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';

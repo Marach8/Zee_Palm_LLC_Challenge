@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
-import 'package:task1_todo_list_app/bloc/app_backend.dart';
-import 'package:task1_todo_list_app/bloc/app_bloc.dart';
-import 'package:task1_todo_list_app/bloc/app_events.dart';
+import 'package:task1_todo_list_app/functions/app_backend.dart';
+import 'package:task1_todo_list_app/functions/bloc/app_bloc.dart';
+import 'package:task1_todo_list_app/functions/bloc/app_events.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/constants/extensions.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/decorated_text_widget.dart';
+import 'package:task1_todo_list_app/widgets/other_widgets/empty_widget.dart';
 
 class RowWithProfilePicture extends HookWidget {
   final bool isZoomed;
@@ -66,7 +67,7 @@ class RowWithProfilePicture extends HookWidget {
             ),
           ),
           const Gap(20),        
-          isZoomed ? const SizedBox.shrink()
+          isZoomed ? emptySizedBox
           :Expanded(
             child: DecoratedText(
               color: blackColor,

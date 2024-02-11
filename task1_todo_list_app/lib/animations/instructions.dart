@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
@@ -10,13 +9,18 @@ import 'package:task1_todo_list_app/constants/strings.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/decorated_text_widget.dart';
 
 class HomeViewInstructions extends StatefulWidget {
-  const HomeViewInstructions({super.key});
+  final int todoLength;
+
+  const HomeViewInstructions({
+    super.key,
+    required this.todoLength
+  });
 
   @override
   State<HomeViewInstructions> createState() => _HomeViewInstructionsState();
 }
 
-class _HomeViewInstructionsState extends State<HomeViewInstructions> with SingleTickerProviderStateMixin{
+class _HomeViewInstructionsState extends State<HomeViewInstructions>{
   late ScrollController controller;
 
   @override
@@ -61,7 +65,7 @@ class _HomeViewInstructionsState extends State<HomeViewInstructions> with Single
               final textElement = element as Text;
               return textElement.decorateWithGoogleFont(
                 blackColor,
-                fontWeight4,
+                fontWeight3,
                 fontSize2
               );
             }

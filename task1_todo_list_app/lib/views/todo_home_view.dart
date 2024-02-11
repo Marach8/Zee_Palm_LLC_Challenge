@@ -1,36 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:task1_todo_list_app/animations/size_animation.dart';
 import 'package:task1_todo_list_app/animations/slider_animation.dart';
-import 'package:task1_todo_list_app/bloc/app_events.dart';
+import 'package:task1_todo_list_app/functions/app_backend.dart';
+import 'package:task1_todo_list_app/functions/bloc/app_events.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
-import 'package:task1_todo_list_app/bloc/app_bloc.dart';
-import 'package:task1_todo_list_app/bloc/app_state.dart';
+import 'package:task1_todo_list_app/functions/bloc/app_bloc.dart';
+import 'package:task1_todo_list_app/functions/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/container_widget.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/elevatedbutton_widget.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/leading_back_arrow.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/lottie_view.dart';
-import 'package:task1_todo_list_app/widgets/other_widgets/instructions.dart';
+import 'package:task1_todo_list_app/animations/instructions.dart';
+import 'package:task1_todo_list_app/widgets/other_widgets/empty_widget.dart';
 import 'package:task1_todo_list_app/widgets/other_widgets/row_with_profile_picture.dart';
 import 'package:task1_todo_list_app/widgets/other_widgets/todo_listview.dart';
+import 'package:task1_todo_list_app/widgets/other_widgets/todo_summary.dart';
 // import 'dart:developer' as marach show log;
 
 
-
-class TodoHomeView extends StatelessWidget {
+class TodoHomeView extends HookWidget {
   const TodoHomeView({super.key});
 
   @override
   Widget build(BuildContext context){
+    final backend = AppBackend();
     final screenWidth = MediaQuery.of(context).size.width;
     final currentState = context.watch<AppBloc>()
       .state as InTodoHomeViewAppState;
-    final retrievedTodos = currentState.retrievedTodos;
+    //final retrievedTodos = currentState.retrievedTodos;
     final indexToShow = currentState.indexToShow;
     final isZoomed = currentState.isZoomed ?? false;
+
+    final completedTodosFuture = useMemoized(() => backend.getCompletedTodos());
+    final completedTodosSnapshot = useFuture(completedTodosFuture);
+    final completedTodos = completedTodosSnapshot.data ?? const Iterable.empty();
+
+    final pendingTodosFuture = useMemoized(() => backend.getPendingTodos());
+    final pendingTodosSnapshot = useFuture(pendingTodosFuture);
+    final pendingTodos = pendingTodosSnapshot.data ?? const Iterable.empty();
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
@@ -69,24 +81,41 @@ class TodoHomeView extends StatelessWidget {
                       builder: (_, constraints) => ContainerWidget(
                         children: [
                           RowWithProfilePicture(isZoomed: isZoomed),
+
+                          completedTodos.isNotEmpty && !isZoomed ? TodoSummaryWidget(
+                            noOfPendingTodos: pendingTodos.length,
+                            noOfCompletedTodos: completedTodos.length,
+                          ) : emptySizedBox,
+
                           SliderAnimationView(
-                            numberOfTodos: retrievedTodos.length.toString(),
+                            numberOfTodos: 
+                            ((completedTodos.length) + (pendingTodos.length)).toString(),
                             distance: constraints.maxWidth,
                           )
                         ]
                       ),
                     ),
                     const Gap(20),
-                      
+
+                    // completedTodos != null ? ContainerWidget(
+                    //   padding: const EdgeInsets.all(10),
+                    //   children: [
+                    //     TodoListView(userTodos: completedTodos)
+                    //   ]
+                    // ) : emptySizedBox,
+                    // const Gap(20),
+
                     ContainerWidget(
                       padding: const EdgeInsets.all(10),
-                      children: retrievedTodos.isEmpty ? [
+                      children: pendingTodos.isEmpty ? [
                         const SizeAnimation(),
                         const Gap(20),
                         const LottieView(lottiePath: lottie2Path)
                       ] : [
-                        const HomeViewInstructions(),
-                        TodoListView(userTodos: retrievedTodos)
+                        HomeViewInstructions(
+                          todoLength: pendingTodos.length
+                        ),
+                        TodoListView(userTodos: pendingTodos)
                       ]
                     ),
                     const Gap(50)

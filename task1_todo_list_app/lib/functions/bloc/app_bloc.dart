@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
-import 'package:task1_todo_list_app/bloc/app_backend.dart';
-import 'package:task1_todo_list_app/bloc/app_events.dart';
-import 'package:task1_todo_list_app/bloc/app_state.dart';
+import 'package:task1_todo_list_app/functions/app_backend.dart';
+import 'package:task1_todo_list_app/functions/bloc/app_events.dart';
+import 'package:task1_todo_list_app/functions/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
 import 'package:task1_todo_list_app/widgets/other_widgets/date_and_time_picker.dart';
 import 'dart:developer' as marach show log;
@@ -25,7 +25,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       );
       final username = await backend.getUsername();
       final userImageData = await backend.retrieveImageData();
-      final retrievedTodos = await backend.getTodods();
 
       if(username != null || userImageData != null){
         emit(
@@ -33,7 +32,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         );
 
         emit(
-          InTodoHomeViewAppState(retrievedTodos: retrievedTodos)
+          InTodoHomeViewAppState()
         );
       }
 
@@ -146,7 +145,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         || fileNameToDisplay == fileNameToDisplayWithoutTap;
 
       final usernameNotChanged = eventUsername == stateUsername ;
-      final retrievedTodos = await backend.getTodods();
 
       if(inEditUserDetailsMode){
 
@@ -162,10 +160,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
         if(photoNotChanged && usernameNotChanged){
           emit(
-            InTodoHomeViewAppState(
-              retrievedTodos: retrievedTodos,
-              error: noChange
-            )
+            InTodoHomeViewAppState(error: noChange)
           );
         }
 
@@ -179,10 +174,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
             await backend.setfileNameToDisplay(fileNameToDisplay!);
           }
           emit(
-            InTodoHomeViewAppState(
-              retrievedTodos: retrievedTodos,
-              error: detailsChanged
-            )
+            InTodoHomeViewAppState(error: detailsChanged)
           );
         }
       }
@@ -217,9 +209,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           await backend.setfileNameToDisplay(fileNameToDisplay!);
 
           emit(
-            InTodoHomeViewAppState(
-              retrievedTodos: retrievedTodos,
-            )
+            InTodoHomeViewAppState()
           );
         }
       }
@@ -261,10 +251,8 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     on<GoToTodoHomeAppEvent>((event, emit) async{
       //A case whereby user is coming into the TodoHomeView from the AddTodoView
       if(state is InAddTodoViewAppState){
-        final retrievedTodos = await backend.getTodods();
-
         emit(
-          InTodoHomeViewAppState(retrievedTodos: retrievedTodos)
+          InTodoHomeViewAppState()
         );
       }
 
@@ -290,9 +278,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           await backend.saveImageFile(imageFile);
           await backend.setfileNameToDisplay(fileNameToDisplay!);
         }
-
-        final retrievedTodos = await backend.getTodods();
-
         emit(
           InGetUserDataViewAppState(
             username: username,
@@ -301,9 +286,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         );
 
         emit(
-          InTodoHomeViewAppState(
-            retrievedTodos: retrievedTodos
-          )
+          InTodoHomeViewAppState()
         );
       }
 
@@ -314,7 +297,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
 
     
-    //This part deals with functions on the Todo Home Screen and their implementation
+    //This part deals with functions in the Todo Home Screen and their implementation
     on<GoToAddTodoViewAppEvent>((_, emit){
       emit(
         InAddTodoViewAppState(isInUpdateMode: false)
@@ -323,12 +306,8 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
 
     on<WantToGoToGetUserDataViewAppEvent>((_, emit){
-      final currentState = state as InTodoHomeViewAppState;
-      final retrievedTodos = currentState.retrievedTodos;
-
       emit(
         InTodoHomeViewAppState(
-          retrievedTodos: retrievedTodos,
           alert: updateDetails,
           alertContent: wantToUpdateDetails,
           wantsToUpdateUserDetails: true
@@ -340,13 +319,10 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       final indexToDelete = event.indexToDelete;
       final todoToDelete = todoString+indexToDelete;
 
-      final retrievedTodos = await backend.deleteTodo(todoToDelete)
-      .then((_) async{
-        return await backend.getTodods();
-      });  
+      await backend.deleteTodo(todoToDelete);
 
       emit(
-        InTodoHomeViewAppState(retrievedTodos: retrievedTodos)
+        InTodoHomeViewAppState()
       );
     });
 
@@ -356,10 +332,9 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       final newTodo = event.newTodo;
 
       await backend.updateTodo(newTodo, indexToUpdate);
-      final retrievedTodos = await backend.getTodods();
 
       emit(
-        InTodoHomeViewAppState(retrievedTodos: retrievedTodos)
+        InTodoHomeViewAppState()
       );
     });
 
@@ -378,13 +353,10 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
 
     on<ShowFullTodoDetailsAppEvent>((event, emit){
-      final currentState = state as InTodoHomeViewAppState;
-      final retrievedTodos = currentState.retrievedTodos;
       final indexToShow = event.indexToShow;
 
       emit(
         InTodoHomeViewAppState(
-          retrievedTodos: retrievedTodos,
           indexToShow: indexToShow
         )
       );
@@ -392,26 +364,23 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
 
     on<ResetIndexToShowAppEvent>((_, emit){
-      final currentState = state as InTodoHomeViewAppState;
-      final retrievedTodos = currentState.retrievedTodos;
-      
       emit(
-        InTodoHomeViewAppState(retrievedTodos: retrievedTodos)
+        InTodoHomeViewAppState()
       );
     });
 
 
     on<ZoomProfilePicAppEvent>((event, emit){
-      final currentState = state as InTodoHomeViewAppState;
-      final retrievedTodos = currentState.retrievedTodos;
       final isZoomed = event.isZoomed;
 
       emit(
-        InTodoHomeViewAppState(
-          retrievedTodos: retrievedTodos,
-          isZoomed: isZoomed
-        )
+        InTodoHomeViewAppState(isZoomed: isZoomed)
       );
+    });
+
+
+    on<ShowCompletedTodosAppEvent>((_, emit){
+
     });
 
 
@@ -460,10 +429,8 @@ class AppBloc extends Bloc<AppEvents, AppState>{
             );
           }
 
-          final retrievedTodos = await backend.getTodods();
-
           emit(
-            InTodoHomeViewAppState(retrievedTodos: retrievedTodos)
+            InTodoHomeViewAppState()
           );
           return;
         }

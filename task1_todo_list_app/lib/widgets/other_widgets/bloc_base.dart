@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:task1_todo_list_app/bloc/app_backend.dart';
-import 'package:task1_todo_list_app/bloc/app_bloc.dart';
-import 'package:task1_todo_list_app/bloc/app_events.dart';
-import 'package:task1_todo_list_app/bloc/app_state.dart';
+import 'package:task1_todo_list_app/functions/app_backend.dart';
+import 'package:task1_todo_list_app/functions/bloc/app_bloc.dart';
+import 'package:task1_todo_list_app/functions/bloc/app_events.dart';
+import 'package:task1_todo_list_app/functions/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/constants/maps.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
@@ -117,11 +117,15 @@ class BlocConsumerBase extends StatelessWidget {
         //For snackbar display            
         if(appState is InTodoHomeViewAppState){
           final indexToShow = appState.indexToShow;
+          final backend = AppBackend();
 
           if(indexToShow != null){
-            final username = await AppBackend().getUsername();
-            final retrievedTodos = appState.retrievedTodos;
-            final todoToShow = retrievedTodos.firstWhere(
+            final username = await backend.getUsername();
+            final pendingTodos = await backend.getPendingTodos();
+            final completedTodos = await backend.getCompletedTodos();
+            final totalTodos = [...pendingTodos.toList(), ...completedTodos.toList()];
+            
+            final todoToShow = totalTodos.firstWhere(
               (todo) => todo?.last == indexToShow, orElse: () => []
             );
             final title = todoToShow?[0];

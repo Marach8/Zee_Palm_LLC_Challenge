@@ -92,7 +92,7 @@ class AppBackend {
   }
 
 
-  Future<Iterable<List<String>?>> getTodods() async{
+  Future<Iterable<List<String>?>> getCompletedTodos() async{
     final prefs = await preferences;
     final latestCount = await getLatestTodoCount();
     
@@ -104,6 +104,25 @@ class AppBackend {
       }
     )
     .where((todo) => todo != null)
+    .where((todo) => todo![3] == trueString)
+    .takeWhile((todo) => todo != null);
+    return listOfTodos;
+  }
+
+
+  Future<Iterable<List<String>?>> getPendingTodos() async{
+    final prefs = await preferences;
+    final latestCount = await getLatestTodoCount();
+    
+    final listOfTodos = Iterable.generate(
+      latestCount,
+      (index) {
+        final stringIndex = '${index + 1}';
+        return prefs.getStringList(todoString+stringIndex);
+      }
+    )
+    .where((todo) => todo != null)
+    .where((todo) => todo![3] == falseString)
     .takeWhile((todo) => todo != null);
     return listOfTodos;
   }

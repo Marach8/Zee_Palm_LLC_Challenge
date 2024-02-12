@@ -24,13 +24,13 @@ Future<void> showFullTodoDetails(
   final snackBar = SnackBar(
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
-        topRight: Radius.circular(20), 
+        topRight: Radius.circular(20),
         topLeft: Radius.circular(20)
       )
     ),
     backgroundColor: purpleColorWithOpacity,
     content: ContainerWidget(
-      padding: const EdgeInsets.only(left: 5),
+      padding: const EdgeInsets.only(left: 5, right: 5),
       crossAxisAlignment: CrossAxisAlignment.start,
       backgroundColor: transparentColor,
       children: [

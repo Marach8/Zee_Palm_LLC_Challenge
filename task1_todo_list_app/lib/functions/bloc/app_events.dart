@@ -132,6 +132,11 @@ class ShowCompletedTodosAppEvent extends AppEvents{
   const ShowCompletedTodosAppEvent();
 }
 
+@immutable 
+class HideCompletedTodosAppEvent extends AppEvents{
+  const HideCompletedTodosAppEvent();
+}
+
 
 
 //Events in Add Todo View

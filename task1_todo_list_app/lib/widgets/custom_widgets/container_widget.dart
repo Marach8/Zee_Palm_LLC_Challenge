@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
+import 'package:task1_todo_list_app/constants/extensions.dart';
 
 class ContainerWidget extends StatelessWidget {
   final List<Widget> children;
   final CrossAxisAlignment? crossAxisAlignment;
   final Color? backgroundColor;
   final EdgeInsetsGeometry? padding;
+  final bool? addBorder;
 
   const ContainerWidget({
     super.key,
     required this.children,
     this.crossAxisAlignment,
     this.backgroundColor,
-    this.padding
+    this.padding,
+    this.addBorder
   });
 
   @override
@@ -33,6 +36,7 @@ class ContainerWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: backgroundColor ?? whiteColor,
           borderRadius: BorderRadius.circular(20),
+          border: addBorder ?? false ? Border.all().modify(purpleColor, 0.5) : null
         ),
         child: SingleChildScrollView(
           child: Column(

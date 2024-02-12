@@ -16,11 +16,11 @@ import 'package:task1_todo_list_app/widgets/custom_widgets/elevatedbutton_widget
 import 'package:task1_todo_list_app/widgets/custom_widgets/leading_back_arrow.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/lottie_view.dart';
 import 'package:task1_todo_list_app/animations/instructions.dart';
+import 'package:task1_todo_list_app/widgets/other_widgets/completed_todo_heading.dart';
 import 'package:task1_todo_list_app/widgets/other_widgets/empty_widget.dart';
 import 'package:task1_todo_list_app/widgets/other_widgets/row_with_profile_picture.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/todo_listview.dart';
 import 'package:task1_todo_list_app/widgets/other_widgets/todo_summary.dart';
-// import 'dart:developer' as marach show log;
 
 
 class TodoHomeView extends HookWidget {
@@ -99,7 +99,9 @@ class TodoHomeView extends HookWidget {
 
                     completedTodos.isNotEmpty && showCompletedTodos ? ContainerWidget(
                       padding: const EdgeInsets.all(10),
+                      addBorder: true,
                       children: [
+                        const CompletedTodosHeading(),
                         TodoListView(userTodos: completedTodos)
                       ]
                     ) : emptySizedBox,

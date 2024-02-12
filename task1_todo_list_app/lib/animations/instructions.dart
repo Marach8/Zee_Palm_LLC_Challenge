@@ -93,5 +93,7 @@ const instructions = [
   Text(operation3),
   Text(operation4),
   Text(emptyString),
+  Text(photoViewOperation),
+  Text(emptyString),
   Text(emptyString),
 ];

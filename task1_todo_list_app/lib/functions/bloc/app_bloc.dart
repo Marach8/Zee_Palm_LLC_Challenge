@@ -404,6 +404,13 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     });
 
 
+    on<HideCompletedTodosAppEvent>((_, emit){
+      emit(
+        InTodoHomeViewAppState(showCompletedTodos: false)
+      );
+    });
+
+
 
 
     //This part deals with the functions in the AddTodo Screen and its implementattions

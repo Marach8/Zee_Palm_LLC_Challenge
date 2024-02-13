@@ -1,2 +1,2 @@
-# CODSOFT
-This repository contains all projects/tasks during my internship period at Codsoft
+Zee Palm LLC Challenge.
+This repository contains my project for the Zee Palm LLC Challenge.

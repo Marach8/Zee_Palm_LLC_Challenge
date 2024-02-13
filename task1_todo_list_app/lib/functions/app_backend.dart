@@ -16,6 +16,18 @@ class AppBackend {
   Future<SharedPreferences> get preferences async 
     => await SharedPreferences.getInstance();
 
+  
+  Future<bool> setUserExists() async 
+    => await preferences.then(
+      (prefs) => prefs.setBool(userExists, true)
+    );
+
+
+  Future<bool?> getUserExists() async 
+    => await preferences.then(
+      (prefs) => prefs.getBool(userExists)
+    );
+
 
   Future<bool?> setLatestTodoCount(int latestCount) async{
     final prefs = await preferences;

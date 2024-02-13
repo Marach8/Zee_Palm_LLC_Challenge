@@ -9,6 +9,7 @@ const lottie8Path = 'assets/jsons/lottie_file8.json';
 const lottie9Path = 'assets/jsons/lottie_file9.json';
 
 const appName = 'OrganizeMe';
+const userExists = 'userExists';
 const appDescription = 'Manage your tasks and todos with OrganizeMe...';
 const getStarted = 'Get Started...';
 const permission = 'App Permission';

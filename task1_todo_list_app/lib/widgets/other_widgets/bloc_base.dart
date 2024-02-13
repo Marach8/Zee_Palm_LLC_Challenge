@@ -24,6 +24,7 @@ class BlocConsumerBase extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AppBloc, AppState>(
       listener: (context1, appState) async{
+        final backend = AppBackend();
 
         //For Loading indicator
         final loadingScreen = LoadingScreen();
@@ -73,19 +74,22 @@ class BlocConsumerBase extends StatelessWidget {
               await showGenericDialog<bool>(
                 context: context1, 
                 title: title, 
-                content: content, 
+                content: content,
                 options: inLandingPageState ? getPermissonMap :
                   inGetUserDataState || inAddTodoState || 
                   toUpdateUserDetails || toUpdateTodoIsCompleted
                   ? questionMap : deleteTodoMap
-              ).then((result){
+              ).then((result) async{
                 final yes = result == true;
                 final notNull = result != null;
 
                 if(inLandingPageState){
-                  yes ? context1.read<AppBloc>().add(
-                    const GoToGetUserDataViewAppEvent()
-                  ) : !yes && notNull ? {
+                  yes ? {
+                    context1.read<AppBloc>().add(
+                      const GoToGetUserDataViewAppEvent()
+                    ),
+                    await backend.setUserExists()
+                  } : !yes && notNull ? {
                     context1.read<AppBloc>().add(
                       const ShowAppPermissionReasonEvent()
                     )
@@ -126,7 +130,6 @@ class BlocConsumerBase extends StatelessWidget {
         //For snackbar display            
         if(appState is InTodoHomeViewAppState){
           final indexToShow = appState.indexToShow;
-          final backend = AppBackend();
 
           if(indexToShow != null){
             final username = await backend.getUsername();

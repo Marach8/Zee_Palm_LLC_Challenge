@@ -23,10 +23,10 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           operation: initializing
         )
       );
-      final username = await backend.getUsername();
-      final userImageData = await backend.retrieveImageData();
+      
+      final userExists = await backend.getUserExists();
 
-      if(username != null || userImageData != null){
+      if(userExists ?? false){
         emit(
           InLandingPageViewAppState()
         );

@@ -9,6 +9,7 @@ import 'package:task1_todo_list_app/constants/colors.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/annotated_region.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/divider_widget.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/elevatedbutton_widget.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/lottie_view.dart';
@@ -22,13 +23,7 @@ class LandingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        statusBarColor: whiteColor,
-        statusBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: whiteColor,
-        systemNavigationBarIconBrightness: Brightness.dark,
-      ),
+    return AnnotatedRegionWidget(
       child: Scaffold(
         backgroundColor: whiteColor,
         body: Padding(

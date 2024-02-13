@@ -11,6 +11,7 @@ import 'package:task1_todo_list_app/constants/strings.dart';
 import 'package:task1_todo_list_app/functions/bloc/app_bloc.dart';
 import 'package:task1_todo_list_app/functions/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/colors.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/annotated_region.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/container_widget.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/elevatedbutton_widget.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/leading_back_arrow.dart';
@@ -44,17 +45,8 @@ class TodoHomeView extends HookWidget {
     final pendingTodosSnapshot = useFuture(pendingTodosFuture);
     final pendingTodos = pendingTodosSnapshot.data ?? const Iterable.empty();
 
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-        statusBarColor: indexToShow == null ? whiteColor : purpleColor,
-        statusBarIconBrightness: indexToShow == null ?
-          Brightness.dark : Brightness.light,
-        systemNavigationBarColor: indexToShow == null ?
-          whiteColor : purpleColor,
-        systemNavigationBarIconBrightness: indexToShow == null ?
-          Brightness.dark : Brightness.light,
-      ),
-
+    return AnnotatedRegionWidget(
+      indexToShow: indexToShow,
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
         floatingActionButton: CustomFAB(

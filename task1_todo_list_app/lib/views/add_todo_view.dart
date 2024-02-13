@@ -11,6 +11,7 @@ import 'package:task1_todo_list_app/constants/extensions.dart';
 import 'package:task1_todo_list_app/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/constants/fontweights.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
+import 'package:task1_todo_list_app/widgets/custom_widgets/annotated_region.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/container_widget.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/decorated_text_widget.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/divider_widget.dart';
@@ -39,13 +40,7 @@ class AddTodoView extends HookWidget {
       .chooseText(selectedDateTime, oldDueDateTime);
     final contentController = useTextEditingController(text: oldContent);
 
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        statusBarColor: whiteColor,
-        statusBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: whiteColor,
-        systemNavigationBarIconBrightness: Brightness.dark,
-      ),
+    return AnnotatedRegionWidget(      
       child: SafeArea(
         child: Scaffold(
           floatingActionButtonLocation: FloatingActionButtonLocation.startTop,

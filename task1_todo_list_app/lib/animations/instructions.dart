@@ -78,7 +78,7 @@ class _HomeViewInstructionsState extends State<HomeViewInstructions>{
 
 
 
-const instructions = [
+const List<Widget> instructions = [
   Text(emptyString),
   Text(emptyString),
   DecoratedText(
@@ -92,6 +92,7 @@ const instructions = [
   Text(operation2),
   Text(operation3),
   Text(operation4),
+  Text(operation5),
   Text(emptyString),
   Text(photoViewOperation),
   Text(emptyString),

@@ -60,8 +60,8 @@ class SkipUserDataAppEvent extends AppEvents{
 
 //Events in Todo Home View
 @immutable 
-class ResetIndexToShowAppEvent extends AppEvents{
-  const ResetIndexToShowAppEvent();
+class ResetTodoIndexToShowAppEvent extends AppEvents{
+  const ResetTodoIndexToShowAppEvent();
 }
 
 @immutable 
@@ -106,10 +106,10 @@ class StartTodoUpdateAppEvent extends AppEvents{
 
 @immutable 
 class ShowFullTodoDetailsAppEvent extends AppEvents{
-  final String indexToShow;
+  final String todoIndexToShow;
   
   const ShowFullTodoDetailsAppEvent({
-    required this.indexToShow
+    required this.todoIndexToShow
   });
 }
 

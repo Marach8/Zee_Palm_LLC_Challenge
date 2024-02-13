@@ -11,6 +11,7 @@ import 'package:task1_todo_list_app/constants/strings.dart';
 import 'package:task1_todo_list_app/dialogs/generic_dialog.dart';
 import 'package:task1_todo_list_app/widgets/custom_widgets/decorated_text_widget.dart';
 import 'package:task1_todo_list_app/widgets/other_widgets/dismissible_background.dart';
+import 'package:task1_todo_list_app/widgets/other_widgets/list_tile_leading_widget.dart';
 import 'package:task1_todo_list_app/widgets/other_widgets/list_tile_trailing_widget.dart';
 
 class TodoListView extends StatelessWidget {
@@ -103,30 +104,12 @@ class TodoListView extends StatelessWidget {
                   ),
                   onTap: () => context.read<AppBloc>().add(
                     ShowFullTodoDetailsAppEvent(
-                      indexToShow: todoIndex
+                      todoIndexToShow: todoIndex
                     )
                   ),
-                  leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Container(
-                      height: 15,
-                      width: 15,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(
-                          color: isCompleted ?? false ? purpleColor: blackColor,
-                          width: 0.5,
-                        )
-                      ),
-                      child: Center(
-                        child: DecoratedText(
-                          color: isCompleted ?? false ? purpleColor: blackColor,
-                          fontSize: fontSize1,
-                          fontWeight: fontWeight9,
-                          text: (listIndex + 1).toString(),
-                        ),
-                      ),
-                    ),
+                  leading: ListTileLeadingWidget(
+                    isCompleted: isCompleted, 
+                    listIndex: listIndex
                   ),
                   minLeadingWidth: 0,
                 ),

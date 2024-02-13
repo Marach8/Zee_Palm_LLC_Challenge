@@ -9,7 +9,6 @@ Future<String?> selectedDueDateTime(BuildContext context) async{
     context: context, 
     firstDate: DateTime(2024),
     lastDate: DateTime(2050),
-    
   )
   .then((dateObject) async{
     await showTimePicker(
@@ -38,8 +37,10 @@ Future<String?> selectedDueDateTime(BuildContext context) async{
 
     });
   });
+
   if(date.isEmpty && time.isEmpty){
     return null;
   }
+  
   return '$date $time';
 }

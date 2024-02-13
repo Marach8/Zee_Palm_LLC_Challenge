@@ -4,8 +4,7 @@ import 'package:task1_todo_list_app/functions/app_backend.dart';
 import 'package:task1_todo_list_app/functions/bloc/app_events.dart';
 import 'package:task1_todo_list_app/functions/bloc/app_state.dart';
 import 'package:task1_todo_list_app/constants/strings.dart';
-import 'package:task1_todo_list_app/widgets/other_widgets/date_and_time_picker.dart';
-import 'dart:developer' as marach show log;
+import 'package:task1_todo_list_app/functions/date_and_time_picker.dart';
 
 
 
@@ -111,7 +110,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       
       final imageData = await backend.pickImage();
       if(imageData == null){
-        marach.log('imageData is null after picking image');
         return;
       }
       final imageFile = imageData.elementAt(0);
@@ -315,6 +313,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       );
     });
 
+
     on<DeleteTodoAppEvent>((event, emit) async{
       final indexToDelete = event.indexToDelete;
       final todoToDelete = todoString+indexToDelete;
@@ -327,18 +326,20 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     });
 
 
-
     on<ConfirmUpdateTodoIsCompletedAppEvent>((event, emit){
-      final indexToUpdate = event.indexToUpdate;
+      final currentState = state as InTodoHomeViewAppState;
+      final showCompletedTodos = currentState.showCompletedTodos;
+      final todoIndexToUpdate = event.indexToUpdate;
       final newTodo = event.newTodo;
       final isCompleted = event.isCompleted ?? false;
 
       emit(
         InTodoHomeViewAppState(
-          indexToUpdate: indexToUpdate,
+          todoIndexToUpdate: todoIndexToUpdate,
           newTodo: newTodo,
           alert: updateTodo,
           alertContent: isCompleted ? trueToFalse : falseToTrue,
+          showCompletedTodos: showCompletedTodos
         )
       );
     });
@@ -346,7 +347,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
     on<UpdateTodoIsCompletedStateAppEvent>((event, emit) async{
       final currentState = state as InTodoHomeViewAppState;
-      final indexToUpdate = currentState.indexToUpdate!;
+      final indexToUpdate = currentState.todoIndexToUpdate!;
       final newTodo = currentState.newTodo!;
 
       await backend.updateTodo(newTodo, indexToUpdate);
@@ -371,26 +372,36 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
 
     on<ShowFullTodoDetailsAppEvent>((event, emit){
-      final indexToShow = event.indexToShow;
+      final todoIndexToShow = event.todoIndexToShow;
 
       emit(
         InTodoHomeViewAppState(
-          indexToShow: indexToShow
+          todoIndexToShow: todoIndexToShow
         )
       );
     });
 
 
-    on<ResetIndexToShowAppEvent>((_, emit){
+    on<ResetTodoIndexToShowAppEvent>((_, emit){
       emit(
         InTodoHomeViewAppState()
       );
     });
 
 
-    on<ZoomProfilePicAppEvent>((event, emit){
-      final isZoomed = event.isZoomed;
+    on<ZoomProfilePicAppEvent>((event, emit) async{
+      final imageData = await backend.retrieveImageData();
 
+      if(imageData == null){
+        emit(
+          InTodoHomeViewAppState(
+            error: noPictureToZoom
+          )
+        );
+        return;
+      }
+
+      final isZoomed = event.isZoomed;
       emit(
         InTodoHomeViewAppState(isZoomed: isZoomed)
       );

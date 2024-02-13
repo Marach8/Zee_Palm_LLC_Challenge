@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
@@ -33,7 +32,7 @@ class TodoHomeView extends HookWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final currentState = context.watch<AppBloc>()
       .state as InTodoHomeViewAppState;
-    final indexToShow = currentState.indexToShow;
+    final indexToShow = currentState.todoIndexToShow;
     final isZoomed = currentState.isZoomed ?? false;
     final showCompletedTodos = currentState.showCompletedTodos ?? false;
 

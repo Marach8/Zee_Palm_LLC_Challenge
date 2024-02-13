@@ -80,9 +80,8 @@ class InLandingPageViewAppState extends AppState{
 @immutable 
 class InTodoHomeViewAppState extends AppState{
   final String? username,
-  indexToShow, indexToUpdate;
+  todoIndexToShow, todoIndexToUpdate;
   final Iterable<List<String>?>? retrievedTodos;
-  final Uint8List? imageBytes;
   final List<String>? newTodo;
   final bool? isZoomed, wantsToUpdateUserDetails,
   showCompletedTodos;
@@ -90,11 +89,10 @@ class InTodoHomeViewAppState extends AppState{
   InTodoHomeViewAppState({
     this.newTodo,
     this.retrievedTodos,
-    this.imageBytes,
     this.username,
-    this.indexToShow,
+    this.todoIndexToShow,
     this.isZoomed,
-    this.indexToUpdate,
+    this.todoIndexToUpdate,
     this.wantsToUpdateUserDetails,
     this.showCompletedTodos,
     bool? isLoading,

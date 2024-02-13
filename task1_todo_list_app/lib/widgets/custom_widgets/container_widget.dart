@@ -36,7 +36,7 @@ class ContainerWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: backgroundColor ?? whiteColor,
           borderRadius: BorderRadius.circular(20),
-          border: addBorder ?? false ? Border.all().modify(purpleColor, 0.5) : null
+          border: addBorder ?? false ? Border.all().modifyBorder(purpleColor, 0.5) : null
         ),
         child: SingleChildScrollView(
           child: Column(

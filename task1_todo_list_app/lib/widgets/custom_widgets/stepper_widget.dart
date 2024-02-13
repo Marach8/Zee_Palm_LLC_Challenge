@@ -25,7 +25,7 @@ class StepperWidget extends StatelessWidget {
             borderRadius: const BorderRadius.horizontal(
               left: Radius.circular(10)
             ),
-            border: const Border().modify(blackColor, 0.5)
+            border: const Border().modifyBorder(blackColor, 0.5)
           ), 
         ),
         const Gap(2),
@@ -36,7 +36,7 @@ class StepperWidget extends StatelessWidget {
             borderRadius: const BorderRadius.horizontal(
               right: Radius.circular(10)
             ),
-            border: const Border().modify(blackColor, 0.5)
+            border: const Border().modifyBorder(blackColor, 0.5)
           ), 
         )
       ],

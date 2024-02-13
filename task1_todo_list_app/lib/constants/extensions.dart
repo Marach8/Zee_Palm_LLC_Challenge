@@ -44,7 +44,7 @@ extension DecorateTextSpan on TextSpan{
 
 
 extension ModifyBorder on Border{
-  Border modify(Color color, double width) => Border.all(
+  Border modifyBorder(Color color, double width) => Border.all(
     color: color, width: width,
   );
 }

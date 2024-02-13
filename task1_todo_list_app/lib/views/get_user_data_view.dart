@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
@@ -87,7 +86,7 @@ class GetUserDataView extends HookWidget {
                       ),
                       child: DecoratedBox(
                         decoration: BoxDecoration(
-                          border: const Border().modify(purpleColor, 1),
+                          border: const Border().modifyBorder(purpleColor, 1),
                           borderRadius: BorderRadius.circular(10),
                         ),
 

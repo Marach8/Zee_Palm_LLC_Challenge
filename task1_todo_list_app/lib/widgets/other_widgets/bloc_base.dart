@@ -13,7 +13,7 @@ import 'package:task1_todo_list_app/dialogs/loading_screen/loading_screen.dart';
 import 'package:task1_todo_list_app/dialogs/show_todo_details.dart';
 import 'package:task1_todo_list_app/views/add_todo_view.dart';
 import 'package:task1_todo_list_app/views/get_user_data_view.dart';
-import 'package:task1_todo_list_app/views/landing_view.dart';
+import 'package:task1_todo_list_app/views/landing_page_view.dart';
 import 'package:task1_todo_list_app/views/todo_home_view.dart';
 
 
@@ -41,6 +41,7 @@ class BlocConsumerBase extends StatelessWidget {
           loadingScreen.hideOverlay();
         }
         
+
         //For MaterialBanner notification
         final error = appState.error;
         if(error != null){
@@ -51,6 +52,7 @@ class BlocConsumerBase extends StatelessWidget {
             purpleColor
           );
         }
+
 
         //For AlertDialog pop-up
         final title = appState.alert;
@@ -126,6 +128,7 @@ class BlocConsumerBase extends StatelessWidget {
             }
           );
         }
+
 
         //For snackbar display            
         if(appState is InTodoHomeViewAppState){

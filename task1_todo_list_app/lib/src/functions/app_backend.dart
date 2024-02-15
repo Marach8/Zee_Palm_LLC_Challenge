@@ -1,16 +1,64 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart' show Uint8List, kIsWeb;
+import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task1_todo_list_app/src/constants/strings.dart';
+import 'package:task1_todo_list_app/src/models/todo_model.dart';
+import 'package:task1_todo_list_app/src/models/user_details_model.dart';
 
 class AppBackend {
   AppBackend._sharedInstance();
   static final AppBackend _shared = AppBackend._sharedInstance();
   factory AppBackend() => _shared;
+
+
+  Future<Box<Todo>> _openTodoBox() async {
+    if(Hive.isBoxOpen('todos')){
+      return Hive.box('todo');
+    }
+    else{
+      return await Hive.openBox<Todo>('todos');
+    }
+  }
+
+  Future<Box<UserDetails>> _openUserDetailsBox() async {
+    if(Hive.isBoxOpen('todos')){
+      return Hive.box('todo');
+    }
+    else{
+      return await Hive.openBox<UserDetails>('todos');
+    }
+  }
+
+
+  Future<dynamic> addTodo() async
+    => await _openTodoBox().then(
+      (box) => box.add(
+        Todo(
+          
+        )
+      )
+    );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   Future<SharedPreferences> getPreference() async => 
     kIsWeb ? await SharedPreferences.getInstance() 

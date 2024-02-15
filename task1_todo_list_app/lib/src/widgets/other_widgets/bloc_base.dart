@@ -86,16 +86,13 @@ class BlocConsumerBase extends StatelessWidget {
                 final notNull = result != null;
 
                 if(inLandingPageState){
-                  yes ? {
-                    context1.read<AppBloc>().add(
+                  yes ? context1.read<AppBloc>().add(
                       const GoToGetUserDataViewAppEvent()
-                    ),
-                    // await backend.setUserExists()
-                  } : !yes && notNull ? {
-                    context1.read<AppBloc>().add(
+                    )
+                  : !yes && notNull ? context1.read<AppBloc>().add(
                       const ShowAppPermissionReasonEvent()
                     )
-                  } : {};
+                  : {};
                 }
 
                 else if(inGetUserDataState){

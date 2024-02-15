@@ -27,10 +27,12 @@ class TodoListView extends StatelessWidget {
     return SizedBox(
       height: 300,
       child: Scrollbar(
+        controller: PrimaryScrollController.of(context),
         interactive: true,
         radius: const Radius.circular(5),
         thickness: 10,
         child: ListView.builder(
+          controller: PrimaryScrollController.of(context),
           itemCount: userTodos.length,
           itemBuilder: (_, listIndex){
             final eachTodo = userTodos.elementAt(listIndex);

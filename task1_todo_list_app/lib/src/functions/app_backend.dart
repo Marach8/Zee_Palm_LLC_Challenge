@@ -26,22 +26,77 @@ class AppBackend {
   }
 
   Future<Box<UserDetails>> _openUserDetailsBox() async {
-    if(Hive.isBoxOpen('todos')){
-      return Hive.box('todo');
+    if(Hive.isBoxOpen('userDetails')){
+      return Hive.box('userDetails');
     }
     else{
-      return await Hive.openBox<UserDetails>('todos');
+      return await Hive.openBox<UserDetails>('userDetails');
     }
   }
 
 
-  Future<dynamic> addTodo() async
-    => await _openTodoBox().then(
-      (box) => box.add(
-        Todo(
-          
-        )
+
+  Future<bool> userExists() async => 
+    await _openUserDetailsBox().then(
+      (box) {
+        final detailsOfUser = box.get('userDetails');
+        return detailsOfUser != null;
+      }
+    );
+
+
+  Future<dynamic> createUserDetails(
+    bool userExists,
+    [
+      String? username,
+      Uint8List? imageData
+    ]
+  ) async => await _openUserDetailsBox().then(
+    (box) => box.add(
+      UserDetails(
+        userExists: userExists,
+        username: username,
+        imageData: imageData
       )
+    )
+  );
+
+
+  Future<List<dynamic>?> pickImage() async{
+    final imagePicker = ImagePicker();
+    final file = await imagePicker.pickImage(
+      source: ImageSource.gallery
+    );
+    if(file != null){
+      final imageFile = File(file.path);
+      final imageData = await imageFile.readAsBytes();
+      final fileNameToDisplay = imageFile.path.split(slashString).last;
+      return [imageData, fileNameToDisplay];
+    }
+    return null;
+  }
+
+  Future<int> addTodo({
+    required String todoTitle,
+    required String todoDueDateTime,
+    required String todoContent
+  }) async
+    => await _openTodoBox().then(
+      (box) {
+        final currentDateTime = DateTime.now();
+        final creationDateTime = DateFormat(dateFormatString)
+          .format(currentDateTime);
+        const defaultIsCompleted = false;        
+        return box.add(
+          Todo(
+            todoTitle: todoTitle, 
+            todoCreationDateTime: creationDateTime, 
+            todoContent: todoContent, 
+            todoDueDateTime: todoDueDateTime, 
+            todoIsCompleted: defaultIsCompleted
+          )
+        );
+      }
     );
 
 
@@ -71,13 +126,13 @@ class AppBackend {
   
   Future<bool> setUserExists() async 
     => await getPreference().then(
-      (prefs) => prefs.setBool(userExists, true)
+      (prefs) => prefs.setBool('', true)
     );
 
 
   Future<bool?> getUserExists() async 
     => await getPreference().then(
-      (prefs) => prefs.getBool(userExists)
+      (prefs) => prefs.getBool('')
     );
 
 
@@ -191,19 +246,6 @@ class AppBackend {
     return listOfTodos;
   }
 
-
-  Future<List<dynamic>?> pickImage() async{
-    final imagePicker = ImagePicker();
-    final file = await imagePicker.pickImage(
-      source: ImageSource.gallery
-    );
-    if(file != null){
-      final imageFile = File(file.path);
-      final fileNameToDisplay = imageFile.path.split(slashString).last;
-      return [imageFile, fileNameToDisplay];
-    }
-    return null;
-  }
 
 
   //Save image file to local directory

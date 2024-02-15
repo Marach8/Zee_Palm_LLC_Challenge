@@ -18,7 +18,7 @@ class UserDetailsAdapter extends TypeAdapter<UserDetails> {
     };
     return UserDetails(
       username: fields[0] as String?,
-      imageFilePath: fields[1] as String?,
+      imageData: fields[1] as Uint8List?,
       userExists: fields[2] as bool,
     );
   }
@@ -30,7 +30,7 @@ class UserDetailsAdapter extends TypeAdapter<UserDetails> {
       ..writeByte(0)
       ..write(obj.username)
       ..writeByte(1)
-      ..write(obj.imageFilePath)
+      ..write(obj.imageData)
       ..writeByte(2)
       ..write(obj.userExists);
   }

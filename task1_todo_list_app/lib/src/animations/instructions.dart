@@ -54,6 +54,7 @@ class _HomeViewInstructionsState extends State<HomeViewInstructions>{
       height: 40,
       child: SingleChildScrollView(
         controller: controller,
+        primary: true,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,

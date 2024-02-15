@@ -17,6 +17,7 @@ import 'package:task1_todo_list_app/src/widgets/custom_widgets/divider_widget.da
 import 'package:task1_todo_list_app/src/widgets/custom_widgets/elevatedbutton_widget.dart';
 import 'package:task1_todo_list_app/src/widgets/custom_widgets/leading_back_arrow.dart';
 import 'package:task1_todo_list_app/src/widgets/custom_widgets/lottie_view.dart';
+import 'package:task1_todo_list_app/src/widgets/custom_widgets/scrollbar_with_singlechildscrollview.dart';
 import 'package:task1_todo_list_app/src/widgets/custom_widgets/textfield_widget.dart';
 
 
@@ -67,55 +68,50 @@ class AddTodoView extends HookWidget {
           body: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Center(
-              child: Scrollbar(
-                interactive: true,
-                radius: const Radius.circular(5),                
-                thickness: 10,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: const LottieView(lottiePath: lottie6Path)
-                      ),
-                      const Gap(20),
+              child: ScrollBarWithSingleChildScrollView(                
+                child: Column(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: const LottieView(lottiePath: lottie6Path)
+                    ),
+                    const Gap(20),
 
-                      ContainerWidget(
-                        padding: const EdgeInsets.all(20),
-                        children: [
-                          const Gap(10),
-                          CustomTextField(
-                            title: enterTitle, 
-                            controller: titleController
-                          ),
-                          const Gap(10),
-                          const DividerWidget(color: purpleColor),
-                          const Gap(10),
-                          CustomTextField(
-                            title: enterDueDateTime, 
-                            controller: dueDateTimeController,
-                            onTap: () async{
-                              context.read<AppBloc>().add(
-                                GetDateAndTimeAppEvent(context: context)
-                              );
-                            }
-                          ),
-                          const Gap(10),
-                          const DividerWidget(color: purpleColor),
-                          const Gap(10),
-                          
-                          CustomTextField(
-                            title: enterContent, 
-                            controller: contentController
-                          ),
-                          const Gap(10),
-                          const DividerWidget(color: purpleColor),
-                          const Gap(10),
-                        ]
-                      )
-                    ],
-                  ),
-                ),
+                    ContainerWidget(
+                      padding: const EdgeInsets.all(20),
+                      children: [
+                        const Gap(10),
+                        CustomTextField(
+                          title: enterTitle, 
+                          controller: titleController
+                        ),
+                        const Gap(10),
+                        const DividerWidget(color: purpleColor),
+                        const Gap(10),
+                        CustomTextField(
+                          title: enterDueDateTime, 
+                          controller: dueDateTimeController,
+                          onTap: () async{
+                            context.read<AppBloc>().add(
+                              GetDateAndTimeAppEvent(context: context)
+                            );
+                          }
+                        ),
+                        const Gap(10),
+                        const DividerWidget(color: purpleColor),
+                        const Gap(10),
+                        
+                        CustomTextField(
+                          title: enterContent, 
+                          controller: contentController
+                        ),
+                        const Gap(10),
+                        const DividerWidget(color: purpleColor),
+                        const Gap(10),
+                      ]
+                    )
+                  ],
+                )
               ),
             ),
           ),

@@ -20,13 +20,15 @@ Future<void> showNotification(
   final currentState = context.read<AppBloc>().state;
   final completer = Completer<void>();
   final materialBanner = MaterialBanner(
-    content: Text(
-      text,
-      maxLines: 4,
-    ).decorateWithGoogleFont(
-      whiteColor,
-      fontWeight5,
-      fontSize2,
+    content: Center(
+      child: Text(
+        text,
+        maxLines: 4,
+      ).decorateWithGoogleFont(
+        whiteColor,
+        fontWeight5,
+        fontSize2,
+      ),
     ), 
     actions: [
       TextButton(

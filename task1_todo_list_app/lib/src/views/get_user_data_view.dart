@@ -15,6 +15,7 @@ import 'package:task1_todo_list_app/src/widgets/custom_widgets/divider_widget.da
 import 'package:task1_todo_list_app/src/widgets/custom_widgets/elevatedbutton_widget.dart';
 import 'package:task1_todo_list_app/src/widgets/custom_widgets/leading_back_arrow.dart';
 import 'package:task1_todo_list_app/src/widgets/custom_widgets/lottie_view.dart';
+import 'package:task1_todo_list_app/src/widgets/custom_widgets/scrollbar_with_singlechildscrollview.dart';
 import 'package:task1_todo_list_app/src/widgets/custom_widgets/stepper_widget.dart';
 import 'package:task1_todo_list_app/src/widgets/custom_widgets/decorated_text_widget.dart';
 import 'package:task1_todo_list_app/src/widgets/custom_widgets/textfield_widget.dart';
@@ -59,11 +60,7 @@ class GetUserDataView extends HookWidget {
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Center(
-            child: Scrollbar(
-              interactive: true,
-              radius: const Radius.circular(5),                
-              thickness: 10,
-              child: SingleChildScrollView(
+            child: ScrollBarWithSingleChildScrollView(
                 child: Column(
                   children: [
                     inEditUserDetailsMode ? const DecoratedText(
@@ -157,7 +154,6 @@ class GetUserDataView extends HookWidget {
                     const DividerWidget(color: purpleColor),
                   ]
                 )
-              ),
             )
           ),
         ),

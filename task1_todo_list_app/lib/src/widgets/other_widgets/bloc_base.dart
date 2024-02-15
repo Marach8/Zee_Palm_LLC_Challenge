@@ -90,7 +90,7 @@ class BlocConsumerBase extends StatelessWidget {
                     context1.read<AppBloc>().add(
                       const GoToGetUserDataViewAppEvent()
                     ),
-                    await backend.setUserExists()
+                    // await backend.setUserExists()
                   } : !yes && notNull ? {
                     context1.read<AppBloc>().add(
                       const ShowAppPermissionReasonEvent()

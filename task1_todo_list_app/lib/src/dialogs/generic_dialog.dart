@@ -14,16 +14,20 @@ Future<T?> showGenericDialog<T>({
 }) => showDialog<T>(
   context: context,
   builder: (_) => AlertDialog(
-    title: Text(title).decorateWithGoogleFont(
-      whiteColor,
-      fontWeight5, 
-      fontSize4, 
+    title: Center(
+      child: Text(title).decorateWithGoogleFont(
+        whiteColor,
+        fontWeight5, 
+        fontSize4, 
+      ),
     ),
-    content: DecoratedText(
-      text: content,
-      color: whiteColor,
-      fontSize: fontSize2, 
-      fontWeight: fontWeight3
+    content: Center(
+      child: DecoratedText(
+        text: content,
+        color: whiteColor,
+        fontSize: fontSize2, 
+        fontWeight: fontWeight3
+      ),
     ),
     actions: options.keys.map((optionKey){
       final optionValue = options[optionKey];

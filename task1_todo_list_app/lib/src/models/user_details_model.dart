@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:hive/hive.dart';
+
 part 'user_details_model.g.dart';
 
 
@@ -13,11 +14,15 @@ class UserDetails extends HiveObject{
   Uint8List? imageData;
 
   @HiveField(2)
+  String? imageFileName;
+
+  @HiveField(3)
   bool userExists;
 
   UserDetails({
     this.username,
     this.imageData,
+    this.imageFileName,
     required this.userExists
   });
 }

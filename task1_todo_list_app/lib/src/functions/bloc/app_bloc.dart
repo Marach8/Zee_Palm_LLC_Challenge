@@ -23,9 +23,10 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         )
       );
       
-      final userExists = await backend.userExists();
+      final userDetails = await backend.getUserDetails();
+      final userExists = userDetails?.userExists;
 
-      if(userExists){
+      if(userExists ?? false){
         emit(
           InLandingPageViewAppState()
         );

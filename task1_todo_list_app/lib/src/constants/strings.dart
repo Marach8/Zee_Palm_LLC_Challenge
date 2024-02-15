@@ -33,6 +33,7 @@ const shouldContinueWithoutUsernameOrPicture = '''
 Either your username and/or display picture was not provided. Do you still want to continue?
 ''';
 const updateDetails = 'User Details Update';
+const userDetailsString = 'userDetails';
 const wantToUpdateDetails = 'Do you want to update your Details?';
 const updateUserDetails = 'Update your details here...';
 const saving = 'Saving...';

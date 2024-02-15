@@ -19,19 +19,22 @@ class UserDetailsAdapter extends TypeAdapter<UserDetails> {
     return UserDetails(
       username: fields[0] as String?,
       imageData: fields[1] as Uint8List?,
-      userExists: fields[2] as bool,
+      imageFileName: fields[2] as String?,
+      userExists: fields[3] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserDetails obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.username)
       ..writeByte(1)
       ..write(obj.imageData)
       ..writeByte(2)
+      ..write(obj.imageFileName)
+      ..writeByte(3)
       ..write(obj.userExists);
   }
 

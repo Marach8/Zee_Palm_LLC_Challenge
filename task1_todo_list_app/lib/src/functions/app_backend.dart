@@ -15,10 +15,9 @@ class AppBackend {
   static final AppBackend _shared = AppBackend._sharedInstance();
   factory AppBackend() => _shared;
 
-
   Future<Box<Todo>> _openTodoBox() async {
     if(Hive.isBoxOpen('todos')){
-      return Hive.box('todo');
+      return Hive.box('todos');
     }
     else{
       return await Hive.openBox<Todo>('todos');
@@ -26,26 +25,18 @@ class AppBackend {
   }
 
   Future<Box<UserDetails>> _openUserDetailsBox() async {
-    if(Hive.isBoxOpen('userDetails')){
-      return Hive.box('userDetails');
+    if(Hive.isBoxOpen(userDetailsString)){
+      return Hive.box(userDetailsString);
     }
     else{
-      return await Hive.openBox<UserDetails>('userDetails');
+      return await Hive.openBox<UserDetails>(userDetailsString);
     }
   }
 
 
 
-  Future<bool> userExists() async => 
-    await _openUserDetailsBox().then(
-      (box) {
-        final detailsOfUser = box.get('userDetails');
-        return detailsOfUser != null;
-      }
-    );
 
-
-  Future<dynamic> createUserDetails(
+  Future<int> createUserDetails(
     bool userExists,
     [
       String? username,
@@ -62,6 +53,12 @@ class AppBackend {
   );
 
 
+  Future<UserDetails?> getUserDetails() async => 
+    await _openUserDetailsBox().then(
+      (box) => box.get(userDetailsString)
+    );
+
+
   Future<List<dynamic>?> pickImage() async{
     final imagePicker = ImagePicker();
     final file = await imagePicker.pickImage(
@@ -70,8 +67,8 @@ class AppBackend {
     if(file != null){
       final imageFile = File(file.path);
       final imageData = await imageFile.readAsBytes();
-      final fileNameToDisplay = imageFile.path.split(slashString).last;
-      return [imageData, fileNameToDisplay];
+      final imageFileName = imageFile.path.split(slashString).last;
+      return [imageData, imageFileName];
     }
     return null;
   }

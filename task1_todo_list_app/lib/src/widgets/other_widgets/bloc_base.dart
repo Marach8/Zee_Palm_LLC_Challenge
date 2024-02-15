@@ -129,7 +129,6 @@ class BlocConsumerBase extends StatelessWidget {
           );
         }
 
-
         //For snackbar display            
         if(appState is InTodoHomeViewAppState){
           final todoIndexToShow = appState.todoIndexToShow;
@@ -167,6 +166,8 @@ class BlocConsumerBase extends StatelessWidget {
           }
         }
       },
+
+
       listenWhen: (initialState, newState) 
         => initialState != newState,
   

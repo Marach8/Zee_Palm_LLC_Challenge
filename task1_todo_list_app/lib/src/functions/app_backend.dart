@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'dart:typed_data';
+import 'package:flutter/foundation.dart' show Uint8List, kIsWeb;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
@@ -7,66 +7,70 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task1_todo_list_app/src/constants/strings.dart';
 
-
 class AppBackend {
   AppBackend._sharedInstance();
   static final AppBackend _shared = AppBackend._sharedInstance();
   factory AppBackend() => _shared;
 
-  Future<SharedPreferences> get preferences async 
-    => await SharedPreferences.getInstance();
+  Future<SharedPreferences> getPreference() async => 
+    kIsWeb ? await SharedPreferences.getInstance() 
+    : await SharedPreferences.getInstance();
+
+
+  // Future<SharedPreferences> get preferences async 
+  //   => await SharedPreferences.getInstance();
 
   
   Future<bool> setUserExists() async 
-    => await preferences.then(
+    => await getPreference().then(
       (prefs) => prefs.setBool(userExists, true)
     );
 
 
   Future<bool?> getUserExists() async 
-    => await preferences.then(
+    => await getPreference().then(
       (prefs) => prefs.getBool(userExists)
     );
 
 
   Future<bool?> setLatestTodoCount(int latestCount) async{
-    final prefs = await preferences;
+    final prefs = await getPreference();
     return await prefs.setInt(latestTodoCount, latestCount);
   }
 
 
   Future<int> getLatestTodoCount() async{
-    final prefs = await preferences;
+    final prefs = await getPreference();
     return prefs.getInt(latestTodoCount) ?? 0;
   }
 
 
   Future<bool> setUsername(String username) async{
-    final prefs = await preferences;
+    final prefs = await getPreference();
     return await prefs.setString(usernameString, username);
   }
 
 
   Future<String?>? getUsername() async{
-    final prefs = await preferences;
+    final prefs = await getPreference();
     return prefs.getString(usernameString);
   }
 
 
   Future<bool> setfileNameToDisplay(String fileName) async{
-    final prefs = await preferences;
+    final prefs = await getPreference();
     return await prefs.setString(filenameString, fileName);
   }
 
 
   Future<String?> getfileNameToDisplay() async{
-    final prefs = await preferences;
+    final prefs = await getPreference();
     return prefs.getString(filenameString);
   }
   
 
   Future<bool> setTodo(List<String> todoDetails) async{
-    final prefs = await preferences;
+    final prefs = await getPreference();
     return await getLatestTodoCount().then((lastCount) async{
       lastCount ++;
 
@@ -87,25 +91,25 @@ class AppBackend {
 
 
   Future<bool> updateTodo(List<String> newTodo, String index) async{
-    final prefs = await preferences;
+    final prefs = await getPreference();
     return await prefs.setStringList(todoString+index, newTodo);
   }
 
 
   Future<bool> deleteTodo(String todoToDelete) async{
-    final prefs = await preferences;
+    final prefs = await getPreference();
     return prefs.remove(todoToDelete);
   }
 
 
   Future<List<String>?> getTodo(String index) async{
-    final prefs = await preferences;
+    final prefs = await getPreference();
     return prefs.getStringList(todoString+index);
   }
 
 
   Future<Iterable<List<String>?>> getCompletedTodos() async{
-    final prefs = await preferences;
+    final prefs = await getPreference();
     final latestCount = await getLatestTodoCount();
     
     final listOfTodos = Iterable.generate(
@@ -123,7 +127,7 @@ class AppBackend {
 
 
   Future<Iterable<List<String>?>> getPendingTodos() async{
-    final prefs = await preferences;
+    final prefs = await getPreference();
     final latestCount = await getLatestTodoCount();
     
     final listOfTodos = Iterable.generate(
@@ -156,7 +160,7 @@ class AppBackend {
 
   //Save image file to local directory
   Future<void> saveImageFile(File file) async{
-    final prefs = await preferences;
+    final prefs = await getPreference();
     final appDocDirectory = await getApplicationDocumentsDirectory();
     final fileExtension = file.path.split(dotString).last;
     final newFilePath = join(
@@ -170,7 +174,7 @@ class AppBackend {
 
   //Retrieve image data from local directory
   Future<Uint8List?>? retrieveImageData() async{
-    final prefs = await preferences;
+    final prefs = await getPreference();
     final newFilePath = prefs.getString(newFilePathString);
     if(newFilePath != null){
       final newFile = File(newFilePath);

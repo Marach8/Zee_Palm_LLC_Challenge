@@ -16,26 +16,12 @@ class AppBackend {
   static final AppBackend _shared = AppBackend._sharedInstance();
   factory AppBackend() => _shared;
 
-  Future<Box<Todo>> _openTodoBox() async {
-    if(Hive.isBoxOpen(todoString)){
-      return Hive.box(todoString);
-    }
-    else{
-      return await Hive.openBox<Todo>(todoString);
-    }
-  }
-
-  Future<Box<UserDetails>> _openUserDetailsBox() async {
-    if(Hive.isBoxOpen(userDetailsString)){
-      print('Box is already open');
-      return Hive.box(userDetailsString);
-    }
-    else{
-      print('box is not open');
-      return await Hive.openBox<UserDetails>(userDetailsString);
-    }
-  }
-
+  Future<Box<Todo>> _openTodoBox() async => 
+    await Hive.openBox<Todo>(todoString);
+    
+  Future<Box<UserDetails>> _openUserDetailsBox() async =>
+    await Hive.openBox<UserDetails>(userDetailsString);
+    
   Future<void> _closeBox() async => await Hive.close();
 
   
@@ -47,18 +33,15 @@ class AppBackend {
     String? imageFileName,
     Uint8List? imageData,
   }) async => await _openUserDetailsBox().then(
-    (box) async{ 
-      await box.put(
-        userDetailsString,
-        UserDetails(
-          userExists: userExists,
-          username: username,
-          imageData: imageData,
-          imageFileName: imageFileName
-        )
-      );
-      marach.log('result of creation is successfull');
-    }
+    (box) async => await box.put(
+      userDetailsString,
+      UserDetails(
+        userExists: userExists,
+        username: username,
+        imageData: imageData,
+        imageFileName: imageFileName
+      )
+    )
   ).then((_) async => await _closeBox());
 
 
@@ -79,7 +62,8 @@ class AppBackend {
     );
     if(file != null){
       final imageFile = File(file.path);
-      final imageData = await imageFile.readAsBytes();
+      final imageData = await file.readAsBytes();
+      marach.log('imageData was obtained');
       final imageFileName = imageFile.path.split(slashString).last;
       return [imageData, imageFileName];
     }

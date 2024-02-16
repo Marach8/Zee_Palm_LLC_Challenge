@@ -25,15 +25,20 @@ class RowWithProfilePicture extends HookWidget {
   Widget build(BuildContext context) {
     final backend = AppBackend();
 
-    //Cache the username and imageData.
+    //Retrieve and cache the username and imageData.
     final usernameFuture = useMemoized(
       () => backend.getUserDetails().then(
         (details) => details?.username
       )
     );
-    final imagedataFuture = useMemoized(() => backend.retrieveImageData());
+    final imageDataFuture = useMemoized(
+      () => backend.getUserDetails().then(
+        (details) => details?.imageData
+      )
+    );
     final usernameSnapshot = useFuture(usernameFuture);
-    final imageDataSnapshot = useFuture(imagedataFuture);
+    final imageDataSnapshot = useFuture(imageDataFuture);
+    marach.log('Image Data is ${imageDataSnapshot.data ?? 'null'}');
 
 
     return Padding(

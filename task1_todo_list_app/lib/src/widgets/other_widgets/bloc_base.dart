@@ -11,7 +11,6 @@ import 'package:task1_todo_list_app/src/dialogs/material_banner_alert.dart';
 import 'package:task1_todo_list_app/src/dialogs/generic_dialog.dart';
 import 'package:task1_todo_list_app/src/dialogs/loading_screen/loading_screen.dart';
 import 'package:task1_todo_list_app/src/dialogs/show_todo_details.dart';
-import 'package:task1_todo_list_app/src/models/user_details_model.dart';
 import 'package:task1_todo_list_app/src/views/add_todo_view.dart';
 import 'package:task1_todo_list_app/src/views/get_user_data_view.dart';
 import 'package:task1_todo_list_app/src/views/landing_page_view.dart';

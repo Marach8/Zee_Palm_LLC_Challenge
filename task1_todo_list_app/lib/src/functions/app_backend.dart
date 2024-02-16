@@ -33,6 +33,8 @@ class AppBackend {
     }
   }
 
+  
+
 
   Future<int> createUserDetails(
     bool userExists,
@@ -74,13 +76,32 @@ class AppBackend {
 
   Future<dynamic> updateUserDetails(
     dynamic update,
-    dynamic parameterToUpdate
+    String parameterToUpdate
   ) async => await _openUserDetailsBox().then(
     (box) {
       final detailsOfUser = box.get(userDetailsString);
-      if(parame)
+
+      if (detailsOfUser != null){
+        if(parameterToUpdate == usernameString){
+        detailsOfUser.username = update as String;
+        }
+        else if(parameterToUpdate == filenameString){
+          detailsOfUser.imageFileName = update as String;
+        }
+        else if(parameterToUpdate == imageDataString){
+          detailsOfUser.imageData = update as Uint8List;
+        }
+        else if(parameterToUpdate == userExistsString){
+          detailsOfUser.userExists = update as bool;
+        }
+
+        box.put(userDetailsString, detailsOfUser);
+      }
     }
   );
+
+
+
 
 
   Future<int> addTodo({
@@ -107,6 +128,10 @@ class AppBackend {
     );
 
 
+    @override
+    void dispose(){
+
+    }
 
 
 

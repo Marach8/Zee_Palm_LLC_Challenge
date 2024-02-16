@@ -12,6 +12,7 @@ import 'package:task1_todo_list_app/src/constants/fontweights.dart';
 import 'package:task1_todo_list_app/src/constants/strings.dart';
 import 'package:task1_todo_list_app/src/widgets/custom_widgets/decorated_text_widget.dart';
 import 'package:task1_todo_list_app/src/widgets/other_widgets/empty_widget.dart';
+import 'dart:developer' as marach show log;
 
 class RowWithProfilePicture extends HookWidget {
   final bool isZoomed;
@@ -25,10 +26,15 @@ class RowWithProfilePicture extends HookWidget {
     final backend = AppBackend();
 
     //Cache the username and imageData.
-    final usernameFuture = useMemoized(() => backend.getUsername());
+    final usernameFuture = useMemoized(
+      () => backend.getUserDetails().then(
+        (details) => details?.username
+      )
+    );
     final imagedataFuture = useMemoized(() => backend.retrieveImageData());
     final usernameSnapshot = useFuture(usernameFuture);
     final imageDataSnapshot = useFuture(imagedataFuture);
+
 
     return Padding(
       padding: const EdgeInsets.all(10.0),

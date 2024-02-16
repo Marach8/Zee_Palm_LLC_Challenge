@@ -30,5 +30,20 @@ class Todo extends HiveObject{
     required this.todoContent,
     required this.todoDueDateTime,
     required this.todoIsCompleted,
-  }) : todoKey = const Uuid().v4();
+    String? todoKey
+  }) : todoKey = todoKey ?? const Uuid().v4();
+
+  Todo copyTodo({
+    String? title,
+    String? dueDateTime,
+    String? content,
+    bool? isCompleted
+  }) => Todo(
+    todoTitle: title ?? todoTitle,
+    todoDueDateTime: dueDateTime ?? todoDueDateTime,
+    todoContent: content ?? todoContent,
+    todoIsCompleted: isCompleted ?? todoIsCompleted,
+    todoCreationDateTime: todoCreationDateTime,
+    todoKey: todoKey
+  );
 }

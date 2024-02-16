@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart' show Uint8List, kIsWeb;
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
@@ -99,10 +100,7 @@ class AppBackend {
   ).then((_) async => await _closeBox());
 
 
-
-
-
-  Future<void> addTodo({
+  Future<void> addNewTodo({
     required String todoTitle,
     required String todoDueDateTime,
     required String todoContent
@@ -125,6 +123,47 @@ class AppBackend {
         );
       }
     ).then((_) async => await _closeBox());
+
+
+  Future<String> updateExistingTodo ({
+    required String titleToUpdate,
+    required String dueDateTimeToUpdate,
+    required String contentToUpdate,
+    required String keyId
+  }) async => await _openTodoBox().then(
+    (box) async{
+      final todoToUpdate = box.values.firstWhere(
+        (todo) => todo.todoKey == keyId
+      );
+      
+      final oldTitle = todoToUpdate.todoTitle;
+      final oldDueDateTime = todoToUpdate.todoDueDateTime;
+      final oldContent = todoToUpdate.todoContent;
+      
+      final oldTodo = [oldTitle, oldDueDateTime, oldContent];
+      final newTodo = [titleToUpdate, dueDateTimeToUpdate, contentToUpdate];
+
+      final theyAreEqual = const DeepCollectionEquality().equals(oldTodo, newTodo);
+      if(theyAreEqual){
+        return noString;
+      }
+
+      else{
+        final newTodo = todoToUpdate.copyTodo(
+          title: titleToUpdate,
+          dueDateTime: dueDateTimeToUpdate,
+          content: contentToUpdate
+        );
+        await box.add(newTodo).then((_) async {
+          await todoToUpdate.delete();
+        });
+        return yesString;
+      }
+    }
+  ).then((result) async {
+    await _closeBox();
+    return result;
+  });
 
 
 

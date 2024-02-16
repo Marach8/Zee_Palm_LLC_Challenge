@@ -22,7 +22,8 @@ class TodoAdapter extends TypeAdapter<Todo> {
       todoContent: fields[2] as String,
       todoDueDateTime: fields[1] as String,
       todoIsCompleted: fields[3] as bool,
-    )..todoKey = fields[5] as String;
+      todoKey: fields[5] as String?,
+    );
   }
 
   @override

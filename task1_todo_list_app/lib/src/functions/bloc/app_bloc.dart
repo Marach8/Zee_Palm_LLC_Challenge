@@ -71,13 +71,14 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       final inLandingPageState = state is InLandingPageViewAppState;
       
       if(inHomeState){
-        final username = await backend.getUsername();
-        final fileNameToDisplay = await backend.getfileNameToDisplay();
+        final detailsOfUser = await backend.getUserDetails();
+        final username = detailsOfUser?.username;
+        final imageFileName = detailsOfUser?.imageFileName;
         
         emit(
           InGetUserDataViewAppState(
             username: username,
-            fileNameToDisplay: fileNameToDisplay,
+            fileNameToDisplay: imageFileName,
             inEditUserDetailsMode: true
           )
         );
@@ -113,13 +114,13 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       if(imageData == null){
         return;
       }
-      final imageFile = imageData.elementAt(0);
-      final fileNameToDisplay = imageData.elementAt(1);
+      final imageBytes = imageData.elementAt(0);
+      final imageFileName = imageData.elementAt(1);
 
       emit(
         InGetUserDataViewAppState(
-          fileNameToDisplay: fileNameToDisplay, 
-          imageFile: imageFile,
+          fileNameToDisplay: imageFileName, 
+          imageBytes: imageBytes,
           initialFileNameToDisplay: initialFileNameToDisplay,
           inEditUserDetailsMode: inEditUserDetailsMode
         )
@@ -130,7 +131,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       final currentState = state as InGetUserDataViewAppState;
       final stateUsername = currentState.username?.trim();
       final eventUsername = event.username.trim();
-      final imageFile = currentState.imageFile;
+      final imageBytes = currentState.imageBytes;
       final inEditUserDetailsMode = currentState.inEditUserDetailsMode ?? false;
       final fileNameToDisplay = currentState.fileNameToDisplay?.trim();
       //We want to get the new filename if the user did not tap on AddPhoto.

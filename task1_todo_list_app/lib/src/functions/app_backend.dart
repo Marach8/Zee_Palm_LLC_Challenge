@@ -16,11 +16,11 @@ class AppBackend {
   factory AppBackend() => _shared;
 
   Future<Box<Todo>> _openTodoBox() async {
-    if(Hive.isBoxOpen('todos')){
-      return Hive.box('todos');
+    if(Hive.isBoxOpen(todoString)){
+      return Hive.box(todoString);
     }
     else{
-      return await Hive.openBox<Todo>('todos');
+      return await Hive.openBox<Todo>(todoString);
     }
   }
 
@@ -32,8 +32,6 @@ class AppBackend {
       return await Hive.openBox<UserDetails>(userDetailsString);
     }
   }
-
-
 
 
   Future<int> createUserDetails(
@@ -72,6 +70,18 @@ class AppBackend {
     }
     return null;
   }
+
+
+  Future<dynamic> updateUserDetails(
+    dynamic update,
+    dynamic parameterToUpdate
+  ) async => await _openUserDetailsBox().then(
+    (box) {
+      final detailsOfUser = box.get(userDetailsString);
+      if(parame)
+    }
+  );
+
 
   Future<int> addTodo({
     required String todoTitle,

@@ -34,14 +34,14 @@ class InGetUserDataViewAppState extends AppState{
   final String? username,
   fileNameToDisplay,
   initialFileNameToDisplay;
-  final File? imageFile;
+  final Uint8List? imageBytes;
   final bool? inEditUserDetailsMode;
 
   InGetUserDataViewAppState({
     this.username,
     this.fileNameToDisplay,
     this.initialFileNameToDisplay,
-    this.imageFile,
+    this.imageBytes,
     this.inEditUserDetailsMode,
     bool? isLoading,
     String? error,

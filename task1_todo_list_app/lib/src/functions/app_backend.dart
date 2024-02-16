@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task1_todo_list_app/src/constants/strings.dart';
 import 'package:task1_todo_list_app/src/models/todo_model.dart';
 import 'package:task1_todo_list_app/src/models/user_details_model.dart';
+import 'dart:developer' as marach show log;
 
 class AppBackend {
   AppBackend._sharedInstance();
@@ -26,36 +27,48 @@ class AppBackend {
 
   Future<Box<UserDetails>> _openUserDetailsBox() async {
     if(Hive.isBoxOpen(userDetailsString)){
+      print('Box is already open');
       return Hive.box(userDetailsString);
     }
     else{
+      print('box is not open');
       return await Hive.openBox<UserDetails>(userDetailsString);
     }
   }
 
+  Future<void> _closeBox() async => await Hive.close();
+
   
 
 
-  Future<int> createUserDetails(
-    bool userExists,
-    [
-      String? username,
-      Uint8List? imageData
-    ]
-  ) async => await _openUserDetailsBox().then(
-    (box) => box.add(
-      UserDetails(
-        userExists: userExists,
-        username: username,
-        imageData: imageData
-      )
-    )
-  );
+  Future<void> createUserDetails({
+    required bool userExists,
+    String? username,
+    String? imageFileName,
+    Uint8List? imageData,
+  }) async => await _openUserDetailsBox().then(
+    (box) async{ 
+      await box.put(
+        userDetailsString,
+        UserDetails(
+          userExists: userExists,
+          username: username,
+          imageData: imageData,
+          imageFileName: imageFileName
+        )
+      );
+      marach.log('result of creation is successfull');
+    }
+  ).then((_) async => await _closeBox());
 
 
   Future<UserDetails?> getUserDetails() async => 
     await _openUserDetailsBox().then(
-      (box) => box.get(userDetailsString)
+      (box) async {
+        final detailsOfUser = box.get(userDetailsString);
+        await _closeBox();
+        return detailsOfUser;
+      }
     );
 
 
@@ -74,48 +87,50 @@ class AppBackend {
   }
 
 
-  Future<dynamic> updateUserDetails(
-    dynamic update,
-    String parameterToUpdate
-  ) async => await _openUserDetailsBox().then(
+  Future<void> updateUserDetails({
+    required dynamic update,
+    required String fieldToUpdate
+  }) async => await _openUserDetailsBox().then(
     (box) {
       final detailsOfUser = box.get(userDetailsString);
 
       if (detailsOfUser != null){
-        if(parameterToUpdate == usernameString){
-        detailsOfUser.username = update as String;
-        }
-        else if(parameterToUpdate == filenameString){
-          detailsOfUser.imageFileName = update as String;
-        }
-        else if(parameterToUpdate == imageDataString){
-          detailsOfUser.imageData = update as Uint8List;
-        }
-        else if(parameterToUpdate == userExistsString){
-          detailsOfUser.userExists = update as bool;
+        switch(fieldToUpdate){
+          case usernameField:
+            detailsOfUser.username = update as String;
+            break;
+          case imageFileNameField:
+            detailsOfUser.imageFileName = update as String;
+            break;
+          case imageDataField:
+            detailsOfUser.imageData = update as Uint8List;
+            break;
+          case userExistsField:
+            detailsOfUser.userExists = update as bool;
         }
 
         box.put(userDetailsString, detailsOfUser);
       }
     }
-  );
+  ).then((_) async => await _closeBox());
 
 
 
 
 
-  Future<int> addTodo({
+  Future<void> addTodo({
     required String todoTitle,
     required String todoDueDateTime,
     required String todoContent
   }) async
     => await _openTodoBox().then(
-      (box) {
+      (box) async {
         final currentDateTime = DateTime.now();
         final creationDateTime = DateFormat(dateFormatString)
           .format(currentDateTime);
-        const defaultIsCompleted = false;        
-        return box.add(
+        const defaultIsCompleted = false;
+
+        await box.add(
           Todo(
             todoTitle: todoTitle, 
             todoCreationDateTime: creationDateTime, 
@@ -125,13 +140,8 @@ class AppBackend {
           )
         );
       }
-    );
+    ).then((_) async => await _closeBox());
 
-
-    @override
-    void dispose(){
-
-    }
 
 
 
@@ -180,28 +190,6 @@ class AppBackend {
   }
 
 
-  Future<bool> setUsername(String username) async{
-    final prefs = await getPreference();
-    return await prefs.setString(usernameString, username);
-  }
-
-
-  Future<String?>? getUsername() async{
-    final prefs = await getPreference();
-    return prefs.getString(usernameString);
-  }
-
-
-  Future<bool> setfileNameToDisplay(String fileName) async{
-    final prefs = await getPreference();
-    return await prefs.setString(filenameString, fileName);
-  }
-
-
-  Future<String?> getfileNameToDisplay() async{
-    final prefs = await getPreference();
-    return prefs.getString(filenameString);
-  }
   
 
   Future<bool> setTodo(List<String> todoDetails) async{

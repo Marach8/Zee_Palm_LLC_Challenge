@@ -5,7 +5,7 @@ import 'package:task1_todo_list_app/src/functions/bloc/app_events.dart';
 import 'package:task1_todo_list_app/src/functions/bloc/app_state.dart';
 import 'package:task1_todo_list_app/src/constants/strings.dart';
 import 'package:task1_todo_list_app/src/functions/date_and_time_picker.dart';
-
+import 'dart:developer' as marach show log;
 
 
 class AppBloc extends Bloc<AppEvents, AppState>{
@@ -25,6 +25,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       
       final userDetails = await backend.getUserDetails();
       final userExists = userDetails?.userExists;
+      marach.log('userExists is $userExists');
 
       if(userExists ?? false){
         emit(
@@ -114,6 +115,8 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       if(imageData == null){
         return;
       }
+
+      //We are sure about the contents of imageBytes and imageFileName.
       final imageBytes = imageData.elementAt(0);
       final imageFileName = imageData.elementAt(1);
 
@@ -134,12 +137,15 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       final imageBytes = currentState.imageBytes;
       final inEditUserDetailsMode = currentState.inEditUserDetailsMode ?? false;
       final fileNameToDisplay = currentState.fileNameToDisplay?.trim();
-      //We want to get the new filename if the user did not tap on AddPhoto.
-      final fileNameToDisplayWithoutTap = await backend.getfileNameToDisplay();
 
+      //We want to get the new filename if the user did not tap on AddPhoto.
+      final detailsOfUser = await backend.getUserDetails();
+      final fileNameToDisplayWithoutTap = detailsOfUser?.imageFileName;
+
+      //This is the filename that is already in the current state.
       final initialFileNameToDisplay = currentState.initialFileNameToDisplay?.trim();
       
-      //A case where the user did select a new picture before clicking on Update
+      //A case where the user did select picture before clicking on Update
       final photoNotChanged = fileNameToDisplay == initialFileNameToDisplay
       //A case where the user did not select a new picture before clicking on Update
         || fileNameToDisplay == fileNameToDisplayWithoutTap;
@@ -166,13 +172,23 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
         else{
           if(!usernameNotChanged){
-            await backend.setUsername(eventUsername);
+            await backend.updateUserDetails(
+              update: event.username, 
+              fieldToUpdate: usernameField
+            );
           }
 
           if(!photoNotChanged){
-            await backend.saveImageFile(imageFile!);
-            await backend.setfileNameToDisplay(fileNameToDisplay!);
+            await backend.updateUserDetails(
+              update: imageBytes, 
+              fieldToUpdate: imageDataField
+            );
+            await backend.updateUserDetails(
+              update: fileNameToDisplay, 
+              fieldToUpdate: imageFileNameField
+            );
           }
+
           emit(
             InTodoHomeViewAppState(error: detailsChanged)
           );
@@ -180,7 +196,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       }
 
       
-      //We are not in edit or update mode
+      //We are not updating user details. A new user is registering.
       else{
         if(eventUsername.isEmpty){
           emit(
@@ -204,10 +220,13 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         }
 
         else{
-          await backend.setUsername(eventUsername);
-          await backend.saveImageFile(imageFile!);
-          await backend.setfileNameToDisplay(fileNameToDisplay!);
-
+          await backend.createUserDetails(
+            userExists: true,
+            imageData: imageBytes,
+            username: eventUsername,
+            imageFileName: fileNameToDisplay
+          );
+          
           emit(
             InTodoHomeViewAppState()
           );
@@ -219,28 +238,18 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     on<SkipUserDataAppEvent> ((event, emit) async{
       final currentState = state as InGetUserDataViewAppState;
       final fileNameToDisplay = currentState.fileNameToDisplay?.trim();
-      final imageFile = currentState.imageFile;
+      final imageBytes = currentState.imageBytes;
       final username = event.username;
 
-      if(username.isEmpty || fileNameToDisplay == null){
-        if(username.isNotEmpty){
-          await backend.setUsername(username);
-        }
-
-        if(imageFile != null){
-          await backend.saveImageFile(imageFile);
-          await backend.setfileNameToDisplay(fileNameToDisplay!);
-        }
-
-        emit(
-          InGetUserDataViewAppState(
-            username: username,
-            fileNameToDisplay: fileNameToDisplay,
-            alert: noUsernameOrPicture,
-            alertContent: shouldContinueWithoutUsernameOrPicture,
-          )
-        );
-      }
+      emit(
+        InGetUserDataViewAppState(
+          username: username,
+          fileNameToDisplay: fileNameToDisplay,
+          imageBytes: imageBytes,
+          alert: noUsernameOrPicture,
+          alertContent: shouldContinueWithoutUsernameOrPicture,
+        )
+      );
     });
     
 
@@ -259,25 +268,25 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       //A case whereby a user is coming into the TodoHomeView from the GetUserDataView
       else if(state is InGetUserDataViewAppState){
         final currentState = state as InGetUserDataViewAppState;
-        final imageFile = currentState.imageFile;
+        final imageBytes = currentState.imageBytes;
         final fileNameToDisplay = currentState.fileNameToDisplay;
         final username = currentState.username;
         
         emit(
           InGetUserDataViewAppState(
+            isLoading: true,
             username: username,
             fileNameToDisplay: fileNameToDisplay,
           )
         );
         
-        if(username != null && username.isNotEmpty){
-          await backend.setUsername(username);
-        }
+        await backend.createUserDetails(
+          userExists: true,
+          imageData: imageBytes,
+          imageFileName: fileNameToDisplay,
+          username: username
+        );
 
-        if(imageFile != null){
-          await backend.saveImageFile(imageFile);
-          await backend.setfileNameToDisplay(fileNameToDisplay!);
-        }
         emit(
           InGetUserDataViewAppState(
             username: username,

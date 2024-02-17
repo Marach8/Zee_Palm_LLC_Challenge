@@ -30,9 +30,9 @@ class AddTodoView extends HookWidget {
     final currentState = context.watch<AppBloc>().state as InAddTodoViewAppState;
     final isInUpdateMode = currentState.isInUpdateMode ?? false;
     final selectedDateTime = currentState.dueDateTime;
-    final oldtitle = currentState.initialTodo?[0];
-    final oldDueDateTime = currentState.initialTodo?[1];
-    final oldContent = currentState.initialTodo?[2];
+    final oldtitle = currentState.initialTodo?.todoTitle;
+    final oldDueDateTime = currentState.initialTodo?.todoDueDateTime;
+    final oldContent = currentState.initialTodo?.todoContent;
 
     
     final titleController = useTextEditingController(text: oldtitle);

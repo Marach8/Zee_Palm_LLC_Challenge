@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task1_todo_list_app/src/models/todo_model.dart';
 
 @immutable
 abstract class AppEvents{
@@ -71,21 +72,19 @@ class GoToAddTodoViewAppEvent extends AppEvents{
 
 @immutable 
 class DeleteTodoAppEvent extends AppEvents{
-  final String indexToDelete;
+  final String keyToDelete;
   const DeleteTodoAppEvent({
-    required this.indexToDelete
+    required this.keyToDelete
   });
 }
 
 @immutable
-class ConfirmUpdateTodoIsCompletedAppEvent extends AppEvents{
-  final String indexToUpdate;
-  final List<String> newTodo;
+class ConfirmToUpdateTodoIsCompletedAppEvent extends AppEvents{
+  final String todoKeyToUpdate;
   final bool? isCompleted;
 
-  const ConfirmUpdateTodoIsCompletedAppEvent({
-    required this.indexToUpdate,
-    required this.newTodo,
+  const ConfirmToUpdateTodoIsCompletedAppEvent({
+    required this.todoKeyToUpdate,
     this.isCompleted
   });
 }
@@ -97,19 +96,19 @@ class UpdateTodoIsCompletedStateAppEvent extends AppEvents{
 
 @immutable 
 class StartTodoUpdateAppEvent extends AppEvents{
-  final String indexToUpdate;
+  final Todo todoToUpdate;
 
   const StartTodoUpdateAppEvent({
-    required this.indexToUpdate,
+    required this.todoToUpdate
   });
 }
 
 @immutable 
 class ShowFullTodoDetailsAppEvent extends AppEvents{
-  final String todoIndexToShow;
+  final String todoKeyToShow;
   
   const ShowFullTodoDetailsAppEvent({
-    required this.todoIndexToShow
+    required this.todoKeyToShow
   });
 }
 

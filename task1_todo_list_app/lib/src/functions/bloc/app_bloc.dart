@@ -25,7 +25,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       
       final userDetails = await backend.getUserDetails();
       final userExists = userDetails?.userExists;
-      marach.log('userExists is $userExists');
 
       if(userExists ?? false){
         emit(
@@ -326,28 +325,25 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
 
     on<DeleteTodoAppEvent>((event, emit) async{
-      final indexToDelete = event.indexToDelete;
-      final todoToDelete = todoString+indexToDelete;
 
-      await backend.deleteTodo(todoToDelete);
-
+      final keyToDelete = event.keyToDelete;
+      await backend.deleteTodo(keyId: keyToDelete);
+      
       emit(
         InTodoHomeViewAppState()
       );
     });
 
 
-    on<ConfirmUpdateTodoIsCompletedAppEvent>((event, emit){
+    on<ConfirmToUpdateTodoIsCompletedAppEvent>((event, emit){
       final currentState = state as InTodoHomeViewAppState;
       final showCompletedTodos = currentState.showCompletedTodos;
-      final todoIndexToUpdate = event.indexToUpdate;
-      final newTodo = event.newTodo;
+      final todoKeyToUpdate = event.todoKeyToUpdate;
       final isCompleted = event.isCompleted ?? false;
 
       emit(
         InTodoHomeViewAppState(
-          todoIndexToUpdate: todoIndexToUpdate,
-          newTodo: newTodo,
+          todoKeyToUpdate: todoKeyToUpdate,
           alert: updateTodo,
           alertContent: isCompleted ? trueToFalse : falseToTrue,
           showCompletedTodos: showCompletedTodos
@@ -358,11 +354,10 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
     on<UpdateTodoIsCompletedStateAppEvent>((event, emit) async{
       final currentState = state as InTodoHomeViewAppState;
-      final indexToUpdate = currentState.todoIndexToUpdate!;
-      final newTodo = currentState.newTodo!;
-
-      await backend.updateTodo(newTodo, indexToUpdate);
-
+      final keyToUpdate = currentState.todoKeyToUpdate!;
+      
+      await backend.updateTodoIsCompletedState(keyId: keyToUpdate);
+      
       emit(
         InTodoHomeViewAppState()
       );
@@ -370,9 +365,8 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
 
     on<StartTodoUpdateAppEvent>((event, emit) async{
-      final indexToUpdate = event.indexToUpdate;
-      final todoToUpdate = await backend.getTodo(indexToUpdate);
-      
+      final todoToUpdate = event.todoToUpdate;
+
       emit(
         InAddTodoViewAppState(
           isInUpdateMode: true,
@@ -383,11 +377,11 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
 
     on<ShowFullTodoDetailsAppEvent>((event, emit){
-      final todoIndexToShow = event.todoIndexToShow;
+      final todoKeyToShow = event.todoKeyToShow;
 
       emit(
         InTodoHomeViewAppState(
-          todoIndexToShow: todoIndexToShow
+          todoKeyToShow: todoKeyToShow
         )
       );
     });
@@ -400,23 +394,23 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     });
 
 
-    on<ZoomProfilePicAppEvent>((event, emit) async{
-      final imageData = await backend.retrieveImageData();
+    // on<ZoomProfilePicAppEvent>((event, emit) async{
+    //   final imageData = await backend.retrieveImageData();
 
-      if(imageData == null){
-        emit(
-          InTodoHomeViewAppState(
-            error: noPictureToZoom
-          )
-        );
-        return;
-      }
+    //   if(imageData == null){
+    //     emit(
+    //       InTodoHomeViewAppState(
+    //         error: noPictureToZoom
+    //       )
+    //     );
+    //     return;
+    //   }
 
-      final isZoomed = event.isZoomed;
-      emit(
-        InTodoHomeViewAppState(isZoomed: isZoomed)
-      );
-    });
+    //   final isZoomed = event.isZoomed;
+    //   emit(
+    //     InTodoHomeViewAppState(isZoomed: isZoomed)
+    //   );
+    // });
 
 
     on<ShowCompletedTodosAppEvent>((_, emit){
@@ -441,38 +435,41 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       final title = event.titleController.text.trim();
       final dueDateTime = event.dueDateTimeController.text.trim();
       final content = event.contentController.text.trim();
+      final isInUpdateMode = currentState.isInUpdateMode ?? false;
       
       final fieldsNotEmpty = [title, dueDateTime, content]
         .every((field) => field.isNotEmpty);
 
       if(fieldsNotEmpty){
         //I want to Update Existing Todo
-        if(currentState.isInUpdateMode ?? false){
+        if(isInUpdateMode){
+
+          emit(
+            InAddTodoViewAppState(
+              isLoading: true,
+              operation: updating
+            )
+          );
+
           final oldTodo = currentState.initialTodo!;
-          final newTodo = [...oldTodo];
-          newTodo.replaceRange(0, 3, [title, dueDateTime, content]);
-          
-          final theyAreEqual = const DeepCollectionEquality()
-            .equals(newTodo, oldTodo);
+          final keyId = oldTodo.todoKey;
+
+          final updateIsSuccessfull = await backend.updateExistingTodo(
+            titleToUpdate: title, 
+            dueDateTimeToUpdate: dueDateTime, 
+            contentToUpdate: content, 
+            keyId: keyId
+          );
 
           //A case where the user did not actually change any of the fields
-          if(theyAreEqual){
+          if(!updateIsSuccessfull){
             emit(
               InAddTodoViewAppState(error: noChange)
             );
           }
+
           //A case where the user actually changed any of the fields
           else{
-            emit(
-              InAddTodoViewAppState(
-                isLoading: true,
-                operation: updating,
-              )
-            );
-
-            final index = oldTodo.last;
-            await backend.updateTodo(newTodo, index);
-
             emit(
               InAddTodoViewAppState(error: todoUpdated)
             );
@@ -481,38 +478,43 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           emit(
             InTodoHomeViewAppState()
           );
-          return;
         }
-        
-        emit(
-          InAddTodoViewAppState(
-            isLoading: true,
-            operation: saving
-          )
-        );
 
-        final todoDetails = [title, dueDateTime, content];
-        await backend.setTodo(todoDetails);
+        else{
+          emit(
+            InAddTodoViewAppState(
+              isLoading: true,
+              operation: saving
+            )
+          );
+
+          await backend.addNewTodo(
+            todoTitle: title, 
+            todoDueDateTime: dueDateTime, 
+            todoContent: content
+          );
+          
+          event.titleController.clear();
+          event.dueDateTimeController.clear();
+          event.contentController.clear();
         
-        event.titleController.clear();
-        event.dueDateTimeController.clear();
-        event.contentController.clear();
-        
-        emit(
-          InAddTodoViewAppState(
-            alert: todoSaved,
-            alertContent: addAgain
-          )
-        );
-        return;
+          emit(
+            InAddTodoViewAppState(
+              alert: todoSaved,
+              alertContent: addAgain
+            )
+          );
+        }        
       }
 
-      emit(
-        InAddTodoViewAppState(
-          error: fieldsEmpty,
-          dueDateTime: dueDateTime
-        )
-      );
+      else{
+        emit(
+          InAddTodoViewAppState(
+            error: fieldsEmpty,
+            dueDateTime: dueDateTime
+          )
+        );
+      }
     });
     
     

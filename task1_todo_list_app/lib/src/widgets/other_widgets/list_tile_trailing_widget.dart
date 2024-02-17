@@ -6,22 +6,24 @@ import 'package:task1_todo_list_app/src/functions/bloc/app_events.dart';
 import 'package:task1_todo_list_app/src/constants/colors.dart';
 import 'package:task1_todo_list_app/src/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/src/constants/fontweights.dart';
+import 'package:task1_todo_list_app/src/models/todo_model.dart';
 import 'package:task1_todo_list_app/src/widgets/custom_widgets/decorated_text_widget.dart';
 
 
 class ListTileTrailingWiget extends StatelessWidget {
-  final bool? isCompleted;
-  final List<String> todoToUpdate;
+  final Todo todoToUpdate;
 
   const ListTileTrailingWiget({
     super.key,
-    required this.isCompleted,
     required this.todoToUpdate
   });
 
   @override
   Widget build(BuildContext context) {
-    final dueDateTime = todoToUpdate[1];
+    final dueDateTime = todoToUpdate.todoDueDateTime;
+    final isCompleted = todoToUpdate.todoIsCompleted;
+    final todoKey = todoToUpdate.todoKey;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -45,13 +47,10 @@ class ListTileTrailingWiget extends StatelessWidget {
             activeColor: purpleColor,
             value: isCompleted, 
             onChanged: (value){
-              todoToUpdate.insert(3, value.toString());
-              final todoIndex = todoToUpdate.last;
               context.read<AppBloc>().add(
-                ConfirmUpdateTodoIsCompletedAppEvent(
-                  indexToUpdate: todoIndex,
-                  newTodo: todoToUpdate,
-                  isCompleted: isCompleted
+                ConfirmToUpdateTodoIsCompletedAppEvent(
+                  todoKeyToUpdate: todoKey,
+                  isCompleted: value
                 )
               );
             },

@@ -88,9 +88,9 @@ extension CheckEquality on List{
 }
 
 
-extension YesOrNo on String{
+extension YesOrNo on bool{
   String yesOrNo() => 
-    this == trueString ? yesString : noString;
+    this == true ? yesString : noString;
 }
 
 

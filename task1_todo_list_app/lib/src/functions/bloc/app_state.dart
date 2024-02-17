@@ -1,6 +1,6 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:task1_todo_list_app/src/models/todo_model.dart';
 import 'package:uuid/uuid.dart';
 
 
@@ -80,7 +80,7 @@ class InLandingPageViewAppState extends AppState{
 @immutable 
 class InTodoHomeViewAppState extends AppState{
   final String? username,
-  todoIndexToShow, todoIndexToUpdate;
+  todoKeyToShow, todoKeyToUpdate;
   final Iterable<List<String>?>? retrievedTodos;
   final List<String>? newTodo;
   final bool? isZoomed, wantsToUpdateUserDetails,
@@ -90,9 +90,9 @@ class InTodoHomeViewAppState extends AppState{
     this.newTodo,
     this.retrievedTodos,
     this.username,
-    this.todoIndexToShow,
+    this.todoKeyToShow,
     this.isZoomed,
-    this.todoIndexToUpdate,
+    this.todoKeyToUpdate,
     this.wantsToUpdateUserDetails,
     this.showCompletedTodos,
     bool? isLoading,
@@ -113,7 +113,7 @@ class InTodoHomeViewAppState extends AppState{
 @immutable 
 class InAddTodoViewAppState extends AppState{
   final bool? isInUpdateMode;
-  final List<String>? initialTodo;
+  final Todo? initialTodo;
   final String? dueDateTime;
   
   InAddTodoViewAppState({

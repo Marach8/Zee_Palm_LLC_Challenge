@@ -17,7 +17,7 @@ Future<void> showFullTodoDetails(
   String title,
   String content, 
   String dateTime,
-  String isCompleted,
+  bool isCompleted,
   String datetimeOfCreation,
   String username
 ){

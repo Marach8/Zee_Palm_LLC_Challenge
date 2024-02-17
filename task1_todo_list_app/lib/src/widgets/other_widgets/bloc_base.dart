@@ -67,7 +67,7 @@ class BlocConsumerBase extends StatelessWidget {
           final homeAppState = inHomeState ? appState : null;
           final wantsToUpdateUserDetails = homeAppState?.wantsToUpdateUserDetails ?? false;
           final toUpdateUserDetails = inHomeState && wantsToUpdateUserDetails;
-          final toUpdateTodoIsCompleted = inHomeState && (homeAppState?.todoIndexToUpdate != null);
+          final toUpdateTodoIsCompleted = inHomeState && (homeAppState?.todoKeyToUpdate != null);
 
           //I had to use Future.delayed here because I was avoiding using 
           //BuildContexts across async Gaps.
@@ -102,7 +102,7 @@ class BlocConsumerBase extends StatelessWidget {
                 }
                 
                 else if(inHomeState){
-                  if(appState.todoIndexToUpdate == null){
+                  if(appState.todoKeyToUpdate == null){
                     yes ? context1.read<AppBloc>().add(
                       const GoToGetUserDataViewAppEvent()
                     ) : {};
@@ -126,11 +126,12 @@ class BlocConsumerBase extends StatelessWidget {
           );
         }
 
+
         //For snackbar display            
         if(appState is InTodoHomeViewAppState){
-          final todoIndexToShow = appState.todoIndexToShow;
+          final todoKeyToShow = appState.todoKeyToShow;
 
-          if(todoIndexToShow != null){
+          if(todoKeyToShow != null){
             final username = await backend.getUserDetails().then(
               (details) => details?.username
             );
@@ -139,22 +140,22 @@ class BlocConsumerBase extends StatelessWidget {
             final totalTodos = [...pendingTodos.toList(), ...completedTodos.toList()];
             
             final todoToShow = totalTodos.firstWhere(
-              (todo) => todo?.last == todoIndexToShow, orElse: () => []
+              (todo) => todo.todoKey == todoKeyToShow, //orElse: () => Todo.empty()
             );
-            final title = todoToShow?[0];
-            final dueDateTime = todoToShow?[1];
-            final content = todoToShow?[2];
-            final isCompleted = todoToShow?[3];
-            final datetimeOfCreation = todoToShow?[4];
+            final title = todoToShow.todoTitle;
+            final dueDateTime = todoToShow.todoDueDateTime;
+            final content = todoToShow.todoContent;
+            final isCompleted = todoToShow.todoIsCompleted;
+            final datetimeOfCreation = todoToShow.todoCreationDateTime;
 
             await Future.delayed(const Duration(seconds: 0)).then(
               (value) => showFullTodoDetails(
                 context1,
-                title!,
-                content!,
-                dueDateTime!,
-                isCompleted!,
-                datetimeOfCreation!,
+                title,
+                content,
+                dueDateTime,
+                isCompleted,
+                datetimeOfCreation,
                 username ?? newUser
               )
             ).then(

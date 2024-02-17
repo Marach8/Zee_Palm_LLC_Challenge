@@ -9,13 +9,14 @@ import 'package:task1_todo_list_app/src/constants/fontweights.dart';
 import 'package:task1_todo_list_app/src/constants/maps.dart';
 import 'package:task1_todo_list_app/src/constants/strings.dart';
 import 'package:task1_todo_list_app/src/dialogs/generic_dialog.dart';
+import 'package:task1_todo_list_app/src/models/todo_model.dart';
 import 'package:task1_todo_list_app/src/widgets/custom_widgets/decorated_text_widget.dart';
 import 'package:task1_todo_list_app/src/widgets/other_widgets/dismissible_background.dart';
 import 'package:task1_todo_list_app/src/widgets/other_widgets/list_tile_leading_widget.dart';
 import 'package:task1_todo_list_app/src/widgets/other_widgets/list_tile_trailing_widget.dart';
 
 class TodoListView extends StatelessWidget {
-  final Iterable<List<String>?> userTodos;
+  final Iterable<Todo> userTodos;
 
   const TodoListView({
     super.key,
@@ -35,16 +36,13 @@ class TodoListView extends StatelessWidget {
           controller: PrimaryScrollController.of(context),
           itemCount: userTodos.length,
           itemBuilder: (_, listIndex){
-            final eachTodo = userTodos.elementAt(listIndex);
-            if(eachTodo == null){
-              return const SizedBox.shrink();
-            }      
-            final title = eachTodo[0];
-            final dueDateTime = eachTodo[1];
-            final content = eachTodo[2];
-            final isCompleted = bool.tryParse(eachTodo[3]);
-            final creationDateTime = eachTodo[4];
-            final todoIndex = eachTodo.last;
+
+            final eachTodo = userTodos.elementAt(listIndex); 
+
+            final title = eachTodo.todoTitle;
+            final content = eachTodo.todoContent;
+            final isCompleted = eachTodo.todoIsCompleted;
+            final todoKey = eachTodo.todoKey;
         
             return Dismissible(
               key: UniqueKey(),
@@ -64,14 +62,14 @@ class TodoListView extends StatelessWidget {
                   direction == DismissDirection.startToEnd
                 ){
                   context.read<AppBloc>().add(
-                    DeleteTodoAppEvent(indexToDelete: todoIndex)
+                    DeleteTodoAppEvent(keyToDelete: todoKey)
                   );
                 }
               },
               background: const BackgroundOfDissmissible(),
               child: Card(
                 elevation: 0,
-                color: isCompleted ?? false 
+                color: isCompleted
                   ? purpleColor.withOpacity(0.1) 
                   : blackColor.withOpacity(0.05),
                 child: ListTile(
@@ -89,24 +87,15 @@ class TodoListView extends StatelessWidget {
                     controlOverflow: true,
                     text: content,
                   ),
-                  trailing: ListTileTrailingWiget(
-                    isCompleted: isCompleted,
-                    todoToUpdate: [
-                      title, 
-                      dueDateTime,
-                      content,
-                      creationDateTime,
-                      todoIndex
-                    ],
-                  ),
+                  trailing: ListTileTrailingWiget(todoToUpdate: eachTodo,),
                   onLongPress: () => context.read<AppBloc>().add(
                     StartTodoUpdateAppEvent(
-                      indexToUpdate: todoIndex,
+                      todoToUpdate: eachTodo
                     )
                   ),
                   onTap: () => context.read<AppBloc>().add(
                     ShowFullTodoDetailsAppEvent(
-                      todoIndexToShow: todoIndex
+                      todoKeyToShow: todoKey
                     )
                   ),
                   leading: ListTileLeadingWidget(

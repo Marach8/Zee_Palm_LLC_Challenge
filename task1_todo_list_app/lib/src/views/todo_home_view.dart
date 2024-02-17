@@ -22,6 +22,7 @@ import 'package:task1_todo_list_app/src/widgets/other_widgets/empty_widget.dart'
 import 'package:task1_todo_list_app/src/widgets/other_widgets/row_with_profile_picture.dart';
 import 'package:task1_todo_list_app/src/widgets/custom_widgets/todo_listview.dart';
 import 'package:task1_todo_list_app/src/widgets/other_widgets/todo_summary.dart';
+import 'dart:developer' as marach show log;
 
 
 class TodoHomeView extends HookWidget {
@@ -30,10 +31,11 @@ class TodoHomeView extends HookWidget {
   @override
   Widget build(BuildContext context){
     final backend = AppBackend();
+
     final screenWidth = MediaQuery.of(context).size.width;
     final currentState = context.watch<AppBloc>()
       .state as InTodoHomeViewAppState;
-    final indexToShow = currentState.todoIndexToShow;
+    final keyToShow = currentState.todoKeyToShow;
     final isZoomed = currentState.isZoomed ?? false;
     final showCompletedTodos = currentState.showCompletedTodos ?? false;
 
@@ -41,12 +43,17 @@ class TodoHomeView extends HookWidget {
     final completedTodosSnapshot = useFuture(completedTodosFuture);
     final completedTodos = completedTodosSnapshot.data ?? const Iterable.empty();
 
-    final pendingTodosFuture = useMemoized(() => backend.getPendingTodos());
+    final pendingTodosFuture = useMemoized(
+      () async {
+        final you = await backend.getPendingTodos();
+        marach.log(you.toString());
+      }
+    );
     final pendingTodosSnapshot = useFuture(pendingTodosFuture);
     final pendingTodos = pendingTodosSnapshot.data ?? const Iterable.empty();
 
     return AnnotatedRegionWidget(
-      indexToShow: indexToShow,
+      keyToShow: keyToShow,
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
         floatingActionButton: CustomFAB(
@@ -106,7 +113,7 @@ class TodoHomeView extends HookWidget {
                       HomeViewInstructions(
                         todoLength: pendingTodos.length
                       ),
-                      TodoListView(userTodos: pendingTodos)
+                      //TodoListView(userTodos: pendingTodos)
                     ]
                   ),
                   const Gap(50)
@@ -123,9 +130,11 @@ class TodoHomeView extends HookWidget {
             foregroundColor: whiteColor, 
             borderColor: blackColor, 
             text: addTodo, 
-            function: () => context.read<AppBloc>().add(
+            function: () async{context.read<AppBloc>().add(
               const GoToAddTodoViewAppEvent()
-            )
+            );
+            final me = await backend.getPendingTodos();
+            marach.log('This is $me');}
           ),
         ),
       )

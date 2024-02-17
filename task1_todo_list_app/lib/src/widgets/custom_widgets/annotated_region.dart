@@ -3,25 +3,27 @@ import 'package:flutter/services.dart';
 import 'package:task1_todo_list_app/src/constants/colors.dart';
 
 class AnnotatedRegionWidget extends StatelessWidget {
-  final String? indexToShow;
+  final String? keyToShow;
   final Widget child;
 
   const AnnotatedRegionWidget({
     super.key,
-    this.indexToShow,
+    this.keyToShow,
     required this.child
   });
 
   @override
   Widget build(BuildContext context) {
+    final keyIsNull = keyToShow == null;
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-        statusBarColor: indexToShow == null ? whiteColor : purpleColor,
-        statusBarIconBrightness: indexToShow == null ?
+        statusBarColor: keyIsNull ? whiteColor : purpleColor,
+        statusBarIconBrightness: keyIsNull ?
           Brightness.dark : Brightness.light,
-        systemNavigationBarColor: indexToShow == null ?
+        systemNavigationBarColor: keyIsNull ?
           whiteColor : purpleColor,
-        systemNavigationBarIconBrightness: indexToShow == null ?
+        systemNavigationBarIconBrightness: keyIsNull ?
           Brightness.dark : Brightness.light,
       ),
       child: child

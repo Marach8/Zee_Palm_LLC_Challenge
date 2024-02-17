@@ -38,7 +38,6 @@ dependencies:
   lottie: ^3.0.0
   gap: ^3.0.1
   image_picker: ^1.0.7
-  shared_preferences: ^2.2.2
   font_awesome_flutter: ^10.7.0
   bloc: ^8.1.2
   flutter_bloc: ^8.1.3

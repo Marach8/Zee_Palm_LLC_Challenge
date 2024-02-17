@@ -443,14 +443,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       if(fieldsNotEmpty){
         //I want to Update Existing Todo
         if(isInUpdateMode){
-
-          emit(
-            InAddTodoViewAppState(
-              isLoading: true,
-              operation: updating
-            )
-          );
-
+          
           final oldTodo = currentState.initialTodo!;
           final keyId = oldTodo.todoKey;
 

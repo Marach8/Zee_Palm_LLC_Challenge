@@ -20,9 +20,9 @@ class AppBackend {
   Future<Box<UserDetails>> _openUserDetailsBox() async =>
     await Hive.openBox<UserDetails>(userDetailsString);
     
-  Future<void> _closeBox() async => await Hive.close();
+  //Future<void> _closeBox() async => await Hive.close();
 
-  
+  int? numberOfTodos;
 
 
   Future<void> createUserDetails({
@@ -40,14 +40,14 @@ class AppBackend {
         imageFileName: imageFileName
       )
     )
-  ).then((_) async => await _closeBox());
+  );//.then((_) async => await _closeBox());
 
 
   Future<UserDetails?> getUserDetails() async => 
     await _openUserDetailsBox().then(
       (box) async {
         final detailsOfUser = box.get(userDetailsString);
-        await _closeBox();
+        //await _closeBox();
         return detailsOfUser;
       }
     );
@@ -94,11 +94,12 @@ class AppBackend {
         box.put(userDetailsString, detailsOfUser);
       }
     }
-  ).then((_) async => await _closeBox());
+  );
 
   
-  //For Todos
 
+
+  //For Todos
   Future<void> addNewTodo({
     required String todoTitle,
     required String todoDueDateTime,
@@ -120,9 +121,12 @@ class AppBackend {
             todoIsCompleted: defaultIsCompleted
           )
         );
-        marach.log('todo was addedd');
+        numberOfTodos = box.values.length;
+        //await box.close();
+        // marach.log(box.values.length.toString());
+        //marach.log('todo was addedd');
       }
-    ).then((_) async => await _closeBox());
+    );
 
 
   Future<bool> updateExistingTodo ({
@@ -145,6 +149,7 @@ class AppBackend {
 
       final theyAreEqual = const DeepCollectionEquality().equals(oldTodo, newTodo);
       if(theyAreEqual){
+        //await box.close();
         return false;
       }
 
@@ -156,34 +161,38 @@ class AppBackend {
         );
         await box.add(updatedTodo).then((_) async {
           await todoToUpdate.delete();
+          //await box.close();
         });
         return true;
       }
     }
-  ).then((result) async {
-    await _closeBox();
-    return result;
-  });
+  );
 
   
   //This will return an empty iterable if there are no pending todos
-  Future<Iterable<Todo>> getPendingTodos() async {
-     final todos = await _openTodoBox().then(
-      (box) => box.values.where((todo) => todo.todoIsCompleted == false)
+  Future<Iterable<Todo>> getPendingTodos() async =>
+    await _openTodoBox().then(
+      (box) async {
+        final todos = box.values.where(
+          (todo) => todo.todoIsCompleted == false
+        );
+        //await box.close();
+        return todos;
+      }
     );
-    return todos;
-  }
 
 
   //This will return an empty iterable if there are no completed todos
   Future<Iterable<Todo>> getCompletedTodos() async =>
     await _openTodoBox().then(
-      (box) => box.values.where((todo) => todo.todoIsCompleted == true)
-    ).then((result) async{
-      await _closeBox();
-      return result;
-    });
-
+      (box) async {
+        final todos = box.values.where(
+          (todo) => todo.todoIsCompleted == true
+        );
+        //await box.close();
+        return todos;
+      }
+    );
 
   Future<void> updateTodoIsCompletedState({
     required String keyId
@@ -193,12 +202,13 @@ class AppBackend {
           (todo) => todo.todoKey == keyId
         );
 
-        final newisCompletedState = !todoToUpdate.todoIsCompleted;
+        final newIsCompletedState = !todoToUpdate.todoIsCompleted;
         final updatedTodo = todoToUpdate.copyTodo(
-          isCompleted: newisCompletedState
+          isCompleted: newIsCompletedState
         );
         await box.add(updatedTodo).then((_) async {
           await todoToUpdate.delete();
+          //await box.close();
         });
       }
     );
@@ -208,10 +218,10 @@ class AppBackend {
     await _openTodoBox().then(
       (box) => box.values.firstWhere(
         (todo) => todo.todoKey == keyId
-      ).delete()
-    ).then((_)async{
-      await _closeBox();
-    });
+      )
+      .delete()
+      //.then((_) async => await box.close())
+    );
 }
 
   // //Save image file to local directory

@@ -39,18 +39,21 @@ class TodoHomeView extends HookWidget {
     final isZoomed = currentState.isZoomed ?? false;
     final showCompletedTodos = currentState.showCompletedTodos ?? false;
 
-    final completedTodosFuture = useMemoized(() => backend.getCompletedTodos());
+    final completedTodosFuture = useMemoized(
+      () => backend.getCompletedTodos(),
+      //[backend.numberOfTodos]
+    );
+
     final completedTodosSnapshot = useFuture(completedTodosFuture);
     final completedTodos = completedTodosSnapshot.data ?? const Iterable.empty();
 
     final pendingTodosFuture = useMemoized(
-      () async {
-        final you = await backend.getPendingTodos();
-        marach.log(you.toString());
-      }
+      () => backend.getPendingTodos()
+      //[backend.numberOfTodos]
     );
     final pendingTodosSnapshot = useFuture(pendingTodosFuture);
     final pendingTodos = pendingTodosSnapshot.data ?? const Iterable.empty();
+
 
     return AnnotatedRegionWidget(
       keyToShow: keyToShow,
@@ -113,7 +116,7 @@ class TodoHomeView extends HookWidget {
                       HomeViewInstructions(
                         todoLength: pendingTodos.length
                       ),
-                      //TodoListView(userTodos: pendingTodos)
+                      TodoListView(userTodos: pendingTodos)
                     ]
                   ),
                   const Gap(50)
@@ -130,11 +133,9 @@ class TodoHomeView extends HookWidget {
             foregroundColor: whiteColor, 
             borderColor: blackColor, 
             text: addTodo, 
-            function: () async{context.read<AppBloc>().add(
+            function: () => context.read<AppBloc>().add(
               const GoToAddTodoViewAppEvent()
-            );
-            final me = await backend.getPendingTodos();
-            marach.log('This is $me');}
+            )
           ),
         ),
       )

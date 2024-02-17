@@ -38,7 +38,7 @@ class RowWithProfilePicture extends HookWidget {
     );
     final usernameSnapshot = useFuture(usernameFuture);
     final imageDataSnapshot = useFuture(imageDataFuture);
-    marach.log('Image Data is ${imageDataSnapshot.data ?? 'null'}');
+    //marach.log('Image Data is ${imageDataSnapshot.data ?? 'null'}');
 
 
     return Padding(

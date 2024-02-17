@@ -91,7 +91,8 @@ class MaterialAppWidget extends StatelessWidget {
         ),
         
         useMaterial3: true,
-        brightness: Brightness.light
+        brightness: Brightness.light,
+        
       ),
       home: const BlocConsumerBase()
     );

@@ -19,12 +19,9 @@ class AnnotatedRegionWidget extends StatelessWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarColor: keyIsNull ? whiteColor : purpleColor,
-        statusBarIconBrightness: keyIsNull ?
-          Brightness.dark : Brightness.light,
-        systemNavigationBarColor: keyIsNull ?
-          whiteColor : purpleColor,
-        systemNavigationBarIconBrightness: keyIsNull ?
-          Brightness.dark : Brightness.light,
+        statusBarIconBrightness: keyIsNull ? Brightness.dark : Brightness.light,
+        systemNavigationBarColor: keyIsNull ? whiteColor : purpleColor,
+        systemNavigationBarIconBrightness: keyIsNull ? Brightness.dark : Brightness.light
       ),
       child: child
     );

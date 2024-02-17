@@ -41,15 +41,15 @@ class TodoHomeView extends HookWidget {
 
     final completedTodosFuture = useMemoized(
       () => backend.getCompletedTodos(),
-      //[backend.numberOfTodos]
+      [backend.numberOfTodos]
     );
 
     final completedTodosSnapshot = useFuture(completedTodosFuture);
     final completedTodos = completedTodosSnapshot.data ?? const Iterable.empty();
 
     final pendingTodosFuture = useMemoized(
-      () => backend.getPendingTodos()
-      //[backend.numberOfTodos]
+      () => backend.getPendingTodos(),
+      [backend.numberOfTodos]
     );
     final pendingTodosSnapshot = useFuture(pendingTodosFuture);
     final pendingTodos = pendingTodosSnapshot.data ?? const Iterable.empty();
@@ -67,6 +67,7 @@ class TodoHomeView extends HookWidget {
         ),
         
         backgroundColor: whiteColorWithOpacity,
+        
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Center(

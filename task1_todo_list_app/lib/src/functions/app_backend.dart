@@ -20,7 +20,6 @@ class AppBackend {
   Future<Box<UserDetails>> _openUserDetailsBox() async =>
     await Hive.openBox<UserDetails>(userDetailsString);
     
-  //Future<void> _closeBox() async => await Hive.close();
 
   int? numberOfTodos;
 
@@ -40,14 +39,13 @@ class AppBackend {
         imageFileName: imageFileName
       )
     )
-  );//.then((_) async => await _closeBox());
+  );
 
 
   Future<UserDetails?> getUserDetails() async => 
     await _openUserDetailsBox().then(
       (box) async {
         final detailsOfUser = box.get(userDetailsString);
-        //await _closeBox();
         return detailsOfUser;
       }
     );
@@ -122,9 +120,6 @@ class AppBackend {
           )
         );
         numberOfTodos = box.values.length;
-        //await box.close();
-        // marach.log(box.values.length.toString());
-        //marach.log('todo was addedd');
       }
     );
 
@@ -149,7 +144,6 @@ class AppBackend {
 
       final theyAreEqual = const DeepCollectionEquality().equals(oldTodo, newTodo);
       if(theyAreEqual){
-        //await box.close();
         return false;
       }
 
@@ -161,7 +155,6 @@ class AppBackend {
         );
         await box.add(updatedTodo).then((_) async {
           await todoToUpdate.delete();
-          //await box.close();
         });
         return true;
       }
@@ -176,7 +169,6 @@ class AppBackend {
         final todos = box.values.where(
           (todo) => todo.todoIsCompleted == false
         );
-        //await box.close();
         return todos;
       }
     );
@@ -189,7 +181,6 @@ class AppBackend {
         final todos = box.values.where(
           (todo) => todo.todoIsCompleted == true
         );
-        //await box.close();
         return todos;
       }
     );
@@ -208,7 +199,6 @@ class AppBackend {
         );
         await box.add(updatedTodo).then((_) async {
           await todoToUpdate.delete();
-          //await box.close();
         });
       }
     );
@@ -218,9 +208,7 @@ class AppBackend {
     await _openTodoBox().then(
       (box) => box.values.firstWhere(
         (todo) => todo.todoKey == keyId
-      )
-      .delete()
-      //.then((_) async => await box.close())
+      ).delete()
     );
 }
 

@@ -59,102 +59,100 @@ class GetUserDataView extends HookWidget {
 
         body: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Center(
-            child: ScrollBarWithSingleChildScrollView(
-                child: Column(
-                  children: [
-                    inEditUserDetailsMode ? const DecoratedText(
-                      color: blackColor,
-                      fontSize: fontSize3,
-                      fontWeight: fontWeight6,
-                      text: updateUserDetails,
-                    ) : const SizedBox.shrink(),
-                    const Gap(10),
-                    const DividerWidget(color: purpleColor),
-                    const Gap(20),
-                    CustomTextField(
-                      title: enterUsername, 
-                      controller: controller
+          child: ScrollBarWithSingleChildScrollView(
+              child: Column(
+                children: [
+                  inEditUserDetailsMode ? const DecoratedText(
+                    color: blackColor,
+                    fontSize: fontSize3,
+                    fontWeight: fontWeight6,
+                    text: updateUserDetails,
+                  ) : const SizedBox.shrink(),
+                  const Gap(10),
+                  const DividerWidget(color: purpleColor),
+                  const Gap(20),
+                  CustomTextField(
+                    title: enterUsername, 
+                    controller: controller
+                  ),
+                  const Gap(20),
+                  GestureDetector(
+                    onTap: () => context.read<AppBloc>().add(
+                      const AddPhotoAppEvent()
                     ),
-                    const Gap(20),
-                    GestureDetector(
-                      onTap: () => context.read<AppBloc>().add(
-                        const AddPhotoAppEvent()
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        border: const Border().modifyBorder(purpleColor, 1),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          border: const Border().modifyBorder(purpleColor, 1),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-
-                        child: fileNameToDisplay == null ? const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Gap(15),
-                            DecoratedText(
-                              color: blackColor,
-                              fontSize: fontSize3,
-                              fontWeight: fontWeight5,
-                              text: addPhoto,
-                            ),
-                            Gap(10),
-                            Icon(Icons.photo_camera_outlined),
-                            Gap(15),
-                          ]
-                        ) : Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: DecoratedText(
+          
+                      child: fileNameToDisplay == null ? const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Gap(15),
+                          DecoratedText(
                             color: blackColor,
                             fontSize: fontSize3,
                             fontWeight: fontWeight5,
-                            text: fileNameToDisplay,
+                            text: addPhoto,
                           ),
+                          Gap(10),
+                          Icon(Icons.photo_camera_outlined),
+                          Gap(15),
+                        ]
+                      ) : Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: DecoratedText(
+                          color: blackColor,
+                          fontSize: fontSize3,
+                          fontWeight: fontWeight5,
+                          text: fileNameToDisplay,
                         ),
                       ),
                     ),
-                    const Gap(20),
-                        
-                    const LottieView(lottiePath: lottie1Path),
-                    const Gap(40),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: ElevatedButtonWidget(
-                            backgroundColor: whiteColor, 
-                            foregroundColor: blackColor, 
-                            borderColor: purpleColor, 
-                            text: inEditUserDetailsMode ? update : finish,
-                            function: () => context.read<AppBloc>().add(
-                              SaveUserDataAppEvent(username: controller.text)
-                            ),
+                  ),
+                  const Gap(20),
+                      
+                  const LottieView(lottiePath: lottie1Path),
+                  const Gap(40),
+          
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: ElevatedButtonWidget(
+                          backgroundColor: whiteColor, 
+                          foregroundColor: blackColor, 
+                          borderColor: purpleColor, 
+                          text: inEditUserDetailsMode ? update : finish,
+                          function: () => context.read<AppBloc>().add(
+                            SaveUserDataAppEvent(username: controller.text)
                           ),
                         ),
-                        const Gap(10),
-                        inEditUserDetailsMode ? const SizedBox.shrink() : Expanded(
-                          flex: 1,
-                          child: ElevatedButtonWidget(
-                            backgroundColor: whiteColor, 
-                            foregroundColor: blackColor, 
-                            borderColor: purpleColor, 
-                            text: skip, 
-                            function: () => context.read<AppBloc>().add(
-                              SkipUserDataAppEvent(username: controller.text)
-                            )
-                          ),
-                        )
-                      ]
-                    ),
-
-                    const Gap(20),
-                    const DividerWidget(color: purpleColor),
-                  ]
-                )
-            )
+                      ),
+                      const Gap(10),
+                      inEditUserDetailsMode ? const SizedBox.shrink() : Expanded(
+                        flex: 1,
+                        child: ElevatedButtonWidget(
+                          backgroundColor: whiteColor, 
+                          foregroundColor: blackColor, 
+                          borderColor: purpleColor, 
+                          text: skip, 
+                          function: () => context.read<AppBloc>().add(
+                            SkipUserDataAppEvent(username: controller.text)
+                          )
+                        ),
+                      )
+                    ]
+                  ),
+          
+                  const Gap(20),
+                  const DividerWidget(color: purpleColor),
+                ]
+              )
           ),
         ),
         bottomSheet: const StepperWidget(

@@ -345,7 +345,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         InTodoHomeViewAppState(
           todoKeyToUpdate: todoKeyToUpdate,
           alert: updateTodo,
-          alertContent: isCompleted ? trueToFalse : falseToTrue,
+          alertContent: isCompleted ? falseToTrue : trueToFalse,
           showCompletedTodos: showCompletedTodos
         )
       );
@@ -442,8 +442,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
       if(fieldsNotEmpty){
         //I want to Update Existing Todo
-        if(isInUpdateMode){
-          
+        if(isInUpdateMode){          
           final oldTodo = currentState.initialTodo!;
           final keyId = oldTodo.todoKey;
 

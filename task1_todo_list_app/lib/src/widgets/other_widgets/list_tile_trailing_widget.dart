@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';
 import 'package:task1_todo_list_app/src/functions/bloc/app_bloc.dart';
 import 'package:task1_todo_list_app/src/functions/bloc/app_events.dart';
 import 'package:task1_todo_list_app/src/constants/colors.dart';
@@ -30,7 +29,7 @@ class ListTileTrailingWiget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
-          width: 50,
+          width: 40,
           child: DecoratedText(
             text: dueDateTime, 
             color: blackColor.withOpacity(0.5), 
@@ -39,7 +38,6 @@ class ListTileTrailingWiget extends StatelessWidget {
             controlOverflow: true,
           ),
         ),
-        const Gap(5),
         SizedBox(
           height: 30,
           width: 30,

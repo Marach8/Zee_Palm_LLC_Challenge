@@ -76,7 +76,6 @@ class TodoHomeView extends HookWidget {
               child: Column(
                 children: [
                   const Gap(20),
-                  const Gap(20),
                   LayoutBuilder(
                     builder: (_, constraints) => ContainerWidget(
                       children: [

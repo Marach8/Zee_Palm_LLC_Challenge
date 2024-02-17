@@ -14,11 +14,23 @@ class AppBackend {
   static final AppBackend _shared = AppBackend._sharedInstance();
   factory AppBackend() => _shared;
 
-  Future<Box<Todo>> _openTodoBox() async => 
-    await Hive.openBox<Todo>(todoString);
+  Future<Box<Todo>> _openTodoBox() async{
+    if(Hive.isBoxOpen(todoString)){
+      return Hive.box<Todo>(todoString);
+    }
+    else{
+      return await Hive.openBox<Todo>(todoString);
+    }
+  }
     
-  Future<Box<UserDetails>> _openUserDetailsBox() async =>
-    await Hive.openBox<UserDetails>(userDetailsString);
+  Future<Box<UserDetails>> _openUserDetailsBox() async {
+    if(Hive.isBoxOpen(userDetailsString)){
+      return Hive.box<UserDetails>(userDetailsString);
+    }
+    else{
+      return await Hive.openBox<UserDetails>(userDetailsString);
+    }
+  }
     
 
   int? numberOfTodos;

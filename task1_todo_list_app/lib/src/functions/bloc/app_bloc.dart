@@ -1,12 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:collection/collection.dart';
 import 'package:task1_todo_list_app/src/functions/app_backend.dart';
 import 'package:task1_todo_list_app/src/functions/bloc/app_events.dart';
 import 'package:task1_todo_list_app/src/functions/bloc/app_state.dart';
 import 'package:task1_todo_list_app/src/constants/strings.dart';
 import 'package:task1_todo_list_app/src/functions/date_and_time_picker.dart';
-import 'dart:developer' as marach show log;
-
 
 class AppBloc extends Bloc<AppEvents, AppState>{
   AppBloc(): super(
@@ -394,23 +391,24 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     });
 
 
-    // on<ZoomProfilePicAppEvent>((event, emit) async{
-    //   final imageData = await backend.retrieveImageData();
+    on<ZoomProfilePicAppEvent>((event, emit) async{
+      final detailsOfUser = await backend.getUserDetails();
+      final imageData = detailsOfUser?.imageData;
 
-    //   if(imageData == null){
-    //     emit(
-    //       InTodoHomeViewAppState(
-    //         error: noPictureToZoom
-    //       )
-    //     );
-    //     return;
-    //   }
+      if(imageData == null){
+        emit(
+          InTodoHomeViewAppState(
+            error: noPictureToZoom
+          )
+        );
+        return;
+      }
 
-    //   final isZoomed = event.isZoomed;
-    //   emit(
-    //     InTodoHomeViewAppState(isZoomed: isZoomed)
-    //   );
-    // });
+      final isZoomed = event.isZoomed;
+      emit(
+        InTodoHomeViewAppState(isZoomed: isZoomed)
+      );
+    });
 
 
     on<ShowCompletedTodosAppEvent>((_, emit){

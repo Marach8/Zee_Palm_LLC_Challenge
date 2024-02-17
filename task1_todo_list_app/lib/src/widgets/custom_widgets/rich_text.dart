@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:task1_todo_list_app/src/constants/colors.dart';
 import 'package:task1_todo_list_app/src/constants/extensions.dart';
@@ -17,6 +18,9 @@ class TodoRichText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(
+        left: kIsWeb ? 10 : 0
+      ),
       padding: const EdgeInsets.all(10),                            
       decoration: BoxDecoration(
         color: purpleColor,

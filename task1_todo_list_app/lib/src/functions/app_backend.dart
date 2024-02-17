@@ -1,13 +1,13 @@
 import 'dart:io';
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart' show Uint8List, kIsWeb;
+import 'package:flutter/foundation.dart' show Uint8List;
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:task1_todo_list_app/src/constants/strings.dart';
 import 'package:task1_todo_list_app/src/models/todo_model.dart';
 import 'package:task1_todo_list_app/src/models/user_details_model.dart';
-import 'dart:developer' as marach show log;
+
 
 class AppBackend {
   AppBackend._sharedInstance();
@@ -71,7 +71,6 @@ class AppBackend {
     if(file != null){
       final imageFile = File(file.path);
       final imageData = await file.readAsBytes();
-      marach.log('imageData was obtained');
       final imageFileName = imageFile.path.split(slashString).last;
       return [imageData, imageFileName];
     }

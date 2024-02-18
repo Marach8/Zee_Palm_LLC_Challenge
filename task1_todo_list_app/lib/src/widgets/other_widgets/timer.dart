@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:task1_todo_list_app/src/constants/colors.dart';
 import 'package:task1_todo_list_app/src/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/src/constants/fontweights.dart';
+import 'package:task1_todo_list_app/src/constants/strings.dart';
 import 'package:task1_todo_list_app/src/widgets/custom_widgets/decorated_text_widget.dart';
 
 
@@ -21,7 +22,7 @@ class CountDownTimerView extends StatelessWidget {
       stream: Stream.periodic(
         const Duration(seconds: 1), 
         (time) => duration - time
-      ).take(duration + 1), 
+      ).take(duration + 1),
       builder: (_, snapshot) => CircleAvatar(
         backgroundColor: whiteColor,
         radius: 10,
@@ -33,7 +34,7 @@ class CountDownTimerView extends StatelessWidget {
               fontSize: fontSize2, 
               fontWeight: fontWeight5
             ),
-          ) : const Text('')
+          ) : const Text(emptyString)
       )
     );
   }

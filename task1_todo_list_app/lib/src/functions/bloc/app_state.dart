@@ -115,11 +115,13 @@ class InAddTodoViewAppState extends AppState{
   final bool? isInUpdateMode;
   final Todo? initialTodo;
   final String? dueDateTime;
+  final int? numberOfTodos;
   
   InAddTodoViewAppState({
     this.isInUpdateMode,
     this.initialTodo,
     this.dueDateTime,
+    this.numberOfTodos,
     bool? isLoading,
     String? error,
     String? operation,

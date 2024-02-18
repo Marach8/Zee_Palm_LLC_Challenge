@@ -303,9 +303,13 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
     
     //This part deals with functions in the Todo Home Screen and their implementation
-    on<GoToAddTodoViewAppEvent>((_, emit){
+    on<GoToAddTodoViewAppEvent>((_, emit) async{
+      final numberOfTodos = await backend.getNumberOfTodos();
+
       emit(
-        InAddTodoViewAppState(isInUpdateMode: false)
+        InAddTodoViewAppState(
+          numberOfTodos: numberOfTodos
+        )
       );
     });
 
@@ -434,6 +438,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       final dueDateTime = event.dueDateTimeController.text.trim();
       final content = event.contentController.text.trim();
       final isInUpdateMode = currentState.isInUpdateMode ?? false;
+      final initialNumberOfTodos = currentState.numberOfTodos;
       
       final fieldsNotEmpty = [title, dueDateTime, content]
         .every((field) => field.isNotEmpty);
@@ -470,11 +475,14 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           );
         }
 
+        //Adding a new Todo.
         else{
+
           emit(
             InAddTodoViewAppState(
               isLoading: true,
-              operation: saving
+              operation: saving,
+              numberOfTodos: initialNumberOfTodos
             )
           );
 
@@ -487,11 +495,14 @@ class AppBloc extends Bloc<AppEvents, AppState>{
           event.titleController.clear();
           event.dueDateTimeController.clear();
           event.contentController.clear();
-        
+
+          final newNumberOfTodos = await backend.getNumberOfTodos();
+
           emit(
             InAddTodoViewAppState(
               alert: todoSaved,
-              alertContent: addAgain
+              alertContent: addAgain,
+              numberOfTodos: newNumberOfTodos
             )
           );
         }        
@@ -512,6 +523,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       final currentState = state as InAddTodoViewAppState;
       final initialMode = currentState.isInUpdateMode;
       final initialTodo = currentState.initialTodo;
+      final numberOfTodos = currentState.numberOfTodos;
       final context = event.context;
       final dueDateTime = await selectedDueDateTime(context);
 
@@ -519,7 +531,8 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         InAddTodoViewAppState(
           dueDateTime: dueDateTime,
           isInUpdateMode: initialMode,
-          initialTodo: initialTodo
+          initialTodo: initialTodo,
+          numberOfTodos: numberOfTodos
         )
       );
     });

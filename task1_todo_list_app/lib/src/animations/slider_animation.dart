@@ -62,7 +62,7 @@ with SingleTickerProviderStateMixin{
           color: blackColor,
           fontSize: fontSize2,
           fontWeight: fontWeight3,
-          text: noOfTodos == 1 ? '$noOfTodos $todoAdded' :
+          text: noOfTodos == 1 ? '$noOfTodos $todosAdded' :
             '$noOfTodos $todosAdded'
         ),
     );

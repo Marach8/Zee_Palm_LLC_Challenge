@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart' show Uint8List;
 import 'package:hive/hive.dart';
@@ -31,9 +30,6 @@ class AppBackend {
       return await Hive.openBox<UserDetails>(userDetailsString);
     }
   }
-    
-
-  int? numberOfTodos;
 
 
   Future<void> createUserDetails({
@@ -69,9 +65,8 @@ class AppBackend {
       source: ImageSource.gallery
     );
     if(file != null){
-      final imageFile = File(file.path);
       final imageData = await file.readAsBytes();
-      final imageFileName = imageFile.path.split(slashString).last;
+      final imageFileName = file.path.split(slashString).last;
       return [imageData, imageFileName];
     }
     return null;
@@ -109,6 +104,12 @@ class AppBackend {
 
 
   //For Todos
+  Future<int> getNumberOfTodos() async => 
+    await _openTodoBox().then(
+      (box) => box.values.length
+    );
+
+  
   Future<void> addNewTodo({
     required String todoTitle,
     required String todoDueDateTime,
@@ -130,7 +131,6 @@ class AppBackend {
             todoIsCompleted: defaultIsCompleted
           )
         );
-        numberOfTodos = box.values.length;
       }
     );
 
@@ -222,32 +222,3 @@ class AppBackend {
       ).delete()
     );
 }
-
-  // //Save image file to local directory
-  // Future<void> saveImageFile(File file) async{
-  //   final prefs = await getPreference();
-  //   final appDocDirectory = await getApplicationDocumentsDirectory();
-  //   final fileExtension = file.path.split(dotString).last;
-  //   final newFilePath = join(
-  //     appDocDirectory.path, 
-  //     hello+dotString+fileExtension
-  //   );
-  //   await prefs.setString(newFilePathString, newFilePath);
-  //   await file.copy(newFilePath);
-  // }
-
-
-//   //Retrieve image data from local directory
-//   Future<Uint8List?>? retrieveImageData() async{
-//     final prefs = await getPreference();
-//     final newFilePath = prefs.getString(newFilePathString);
-//     if(newFilePath != null){
-//       final newFile = File(newFilePath);
-//       if(await newFile.exists()){
-//         final imageBytes = await newFile.readAsBytes();
-//         return imageBytes;
-//       }
-//     }
-//     return null;
-//   }
-// }

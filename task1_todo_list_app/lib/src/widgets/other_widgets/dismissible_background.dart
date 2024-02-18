@@ -7,7 +7,6 @@ class BackgroundOfDissmissible extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //padding: const EdgeInsets.only(left:10, right: 15),
       height: 30, 
       color: purpleColor, 
       alignment: Alignment.centerLeft,

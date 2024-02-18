@@ -19,6 +19,8 @@ import 'package:task1_todo_list_app/src/widgets/custom_widgets/leading_back_arro
 import 'package:task1_todo_list_app/src/widgets/custom_widgets/lottie_view.dart';
 import 'package:task1_todo_list_app/src/widgets/custom_widgets/scrollbar_with_singlechildscrollview.dart';
 import 'package:task1_todo_list_app/src/widgets/custom_widgets/textfield_widget.dart';
+import 'package:task1_todo_list_app/src/widgets/other_widgets/empty_widget.dart';
+import 'package:task1_todo_list_app/src/widgets/other_widgets/todo_number_indicator.dart';
 
 
 class AddTodoView extends HookWidget {
@@ -33,6 +35,7 @@ class AddTodoView extends HookWidget {
     final oldtitle = currentState.initialTodo?.todoTitle;
     final oldDueDateTime = currentState.initialTodo?.todoDueDateTime;
     final oldContent = currentState.initialTodo?.todoContent;
+    final numberOfTodos = currentState.numberOfTodos;
 
     
     final titleController = useTextEditingController(text: oldtitle);
@@ -80,7 +83,11 @@ class AddTodoView extends HookWidget {
                     ContainerWidget(
                       padding: const EdgeInsets.all(20),
                       children: [
-                        const Gap(10),
+                        numberOfTodos == null ? emptyContainer 
+                        : TodosNumberIndicator(
+                          numberOfTodos: numberOfTodos.toString()
+                        ),
+                        const Gap(20),
                         CustomTextField(
                           title: enterTitle, 
                           controller: titleController

@@ -8,7 +8,7 @@ part 'user_details_model.g.dart';
 class UserDetails extends HiveObject{
 
   @HiveField(0)
-  String? username;
+  String username;
 
   @HiveField(1)
   Uint8List? imageData;
@@ -20,7 +20,7 @@ class UserDetails extends HiveObject{
   bool userExists;
 
   UserDetails({
-    this.username,
+    required this.username,
     this.imageData,
     this.imageFileName,
     required this.userExists

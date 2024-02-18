@@ -17,7 +17,7 @@ class UserDetailsAdapter extends TypeAdapter<UserDetails> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return UserDetails(
-      username: fields[0] as String?,
+      username: fields[0] as String,
       imageData: fields[1] as Uint8List?,
       imageFileName: fields[2] as String?,
       userExists: fields[3] as bool,

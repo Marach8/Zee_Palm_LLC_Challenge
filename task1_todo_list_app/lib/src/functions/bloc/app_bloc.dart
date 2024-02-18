@@ -192,7 +192,7 @@ class AppBloc extends Bloc<AppEvents, AppState>{
       }
 
       
-      //We are not updating user details. A new user is registering.
+      //We are not updating user details. A new user is available.
       else{
         if(eventUsername.isEmpty){
           emit(
@@ -266,7 +266,11 @@ class AppBloc extends Bloc<AppEvents, AppState>{
         final currentState = state as InGetUserDataViewAppState;
         final imageBytes = currentState.imageBytes;
         final fileNameToDisplay = currentState.fileNameToDisplay;
-        final username = currentState.username;
+        var username = currentState.username;
+        
+        if(username == null || username.isEmpty){
+          username = newUser;
+        }
         
         emit(
           InGetUserDataViewAppState(

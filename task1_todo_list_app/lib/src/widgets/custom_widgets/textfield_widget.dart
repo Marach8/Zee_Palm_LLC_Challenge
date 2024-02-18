@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:task1_todo_list_app/src/constants/colors.dart';
 import 'package:task1_todo_list_app/src/constants/fontsizes.dart';
 import 'package:task1_todo_list_app/src/constants/fontweights.dart';
@@ -6,22 +7,20 @@ import 'package:task1_todo_list_app/src/constants/fontweights.dart';
 class CustomTextField extends StatelessWidget {
   final String title;
   final TextEditingController controller;
-  final Function(String)? onChanged;
   final Function()? onTap;
+  final bool? showSuffixIcon;
 
   const CustomTextField({
+    super.key,
     required this.title,
     required this.controller,
-    this.onChanged,
     this.onTap,
-    super.key
+    this.showSuffixIcon
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      onTap: onTap,
-      onChanged: onChanged,
       controller: controller,
       maxLines: null, 
       autocorrect: true, 
@@ -46,6 +45,10 @@ class CustomTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         label: Text(title),
+        suffixIcon: showSuffixIcon ?? false ? IconButton(
+          onPressed: onTap, 
+          icon: const FaIcon(FontAwesomeIcons.clock)
+        ) : null
       ),
       style: const TextStyle(
         fontSize: fontSize3,

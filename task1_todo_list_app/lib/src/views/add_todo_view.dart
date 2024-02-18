@@ -97,6 +97,7 @@ class AddTodoView extends HookWidget {
                         const DividerWidget(color: purpleColor),
                         const Gap(10),
                         CustomTextField(
+                          showSuffixIcon: true,
                           title: enterDueDateTime, 
                           controller: dueDateTimeController,
                           onTap: () async{

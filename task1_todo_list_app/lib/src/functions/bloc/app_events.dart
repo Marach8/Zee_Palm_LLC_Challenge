@@ -91,7 +91,11 @@ class ConfirmToUpdateTodoIsCompletedAppEvent extends AppEvents{
 
 @immutable 
 class UpdateTodoIsCompletedStateAppEvent extends AppEvents{
-  const UpdateTodoIsCompletedStateAppEvent();
+  final bool useMemoizedDependency;
+
+  const UpdateTodoIsCompletedStateAppEvent({
+    required this.useMemoizedDependency
+  });
 }
 
 @immutable 

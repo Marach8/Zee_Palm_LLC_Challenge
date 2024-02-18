@@ -84,7 +84,7 @@ class AddTodoView extends HookWidget {
                     ContainerWidget(
                       padding: const EdgeInsets.all(20),
                       children: [
-                        numberOfTodos == null ? emptyContainer 
+                        numberOfTodos == null || numberOfTodos == 0 ? emptyContainer 
                         : TodosNumberIndicator(
                           numberOfTodos: numberOfTodos.toString()
                         ),

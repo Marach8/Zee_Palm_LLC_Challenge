@@ -330,12 +330,15 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
 
     on<DeleteTodoAppEvent>((event, emit) async{
-
+      final currentState = state as InTodoHomeViewAppState;
+      final useMemoizedDependency = currentState.useMemoizedDependency ?? false;
       final keyToDelete = event.keyToDelete;
       await backend.deleteTodo(keyId: keyToDelete);
       
       emit(
-        InTodoHomeViewAppState()
+        InTodoHomeViewAppState(
+          useMemoizedDependency: !useMemoizedDependency
+        )
       );
     });
 
@@ -360,11 +363,14 @@ class AppBloc extends Bloc<AppEvents, AppState>{
     on<UpdateTodoIsCompletedStateAppEvent>((event, emit) async{
       final currentState = state as InTodoHomeViewAppState;
       final keyToUpdate = currentState.todoKeyToUpdate!;
+      final useMemoizedDependency = event.useMemoizedDependency;
       
       await backend.updateTodoIsCompletedState(keyId: keyToUpdate);
       
       emit(
-        InTodoHomeViewAppState()
+        InTodoHomeViewAppState(
+        useMemoizedDependency: useMemoizedDependency
+        )
       );
     });
 

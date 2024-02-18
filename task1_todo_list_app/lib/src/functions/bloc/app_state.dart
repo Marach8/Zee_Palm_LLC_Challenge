@@ -81,20 +81,17 @@ class InLandingPageViewAppState extends AppState{
 class InTodoHomeViewAppState extends AppState{
   final String? username,
   todoKeyToShow, todoKeyToUpdate;
-  final Iterable<List<String>?>? retrievedTodos;
-  final List<String>? newTodo;
   final bool? isZoomed, wantsToUpdateUserDetails,
-  showCompletedTodos;
+  showCompletedTodos, useMemoizedDependency;
 
   InTodoHomeViewAppState({
-    this.newTodo,
-    this.retrievedTodos,
     this.username,
     this.todoKeyToShow,
     this.isZoomed,
     this.todoKeyToUpdate,
     this.wantsToUpdateUserDetails,
     this.showCompletedTodos,
+    this.useMemoizedDependency,
     bool? isLoading,
     String? error,
     String? operation,

@@ -40,7 +40,8 @@ class BlocConsumerBase extends StatelessWidget {
         }
 
         else{
-          loadingScreen.hideOverlay();
+          Future.delayed(const Duration(milliseconds: 600))
+            .then((_) => loadingScreen.hideOverlay());
         }
         
 
@@ -111,8 +112,11 @@ class BlocConsumerBase extends StatelessWidget {
                     ) : {};
                   }
                   else{
+                    final useMemoizedDependency = appState.useMemoizedDependency ?? false;
                     yes ? context1.read<AppBloc>().add(
-                      const UpdateTodoIsCompletedStateAppEvent()
+                      UpdateTodoIsCompletedStateAppEvent(
+                        useMemoizedDependency: useMemoizedDependency ? true : false
+                      )
                     ) : {};
                   }
                 }
@@ -145,7 +149,7 @@ class BlocConsumerBase extends StatelessWidget {
             final totalTodos = [...pendingTodos.toList(), ...completedTodos.toList()];
             
             final todoToShow = totalTodos.firstWhere(
-              (todo) => todo.todoKey == todoKeyToShow, //orElse: () => Todo.empty()
+              (todo) => todo.todoKey == todoKeyToShow,
             );
             final title = todoToShow.todoTitle;
             final dueDateTime = todoToShow.todoDueDateTime;
@@ -169,9 +173,7 @@ class BlocConsumerBase extends StatelessWidget {
               (_) => context1.read<AppBloc>().add(
                 const ResetTodoIndexToShowAppEvent()
               )
-            ).then((_){
-              return;
-            });
+            );
           }
         }
       },

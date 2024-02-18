@@ -37,10 +37,12 @@ class TodoHomeView extends HookWidget {
       .state as InTodoHomeViewAppState;
     final keyToShow = currentState.todoKeyToShow;
     final isZoomed = currentState.isZoomed ?? false;
+    final useMemoizedDependency = currentState.useMemoizedDependency;
     final showCompletedTodos = currentState.showCompletedTodos ?? false;
 
     final completedTodosFuture = useMemoized(
       () => backend.getCompletedTodos(),
+      [useMemoizedDependency]
     );
 
     final completedTodosSnapshot = useFuture(completedTodosFuture);
@@ -48,6 +50,7 @@ class TodoHomeView extends HookWidget {
 
     final pendingTodosFuture = useMemoized(
       () => backend.getPendingTodos(),
+      [useMemoizedDependency]
     );
     final pendingTodosSnapshot = useFuture(pendingTodosFuture);
     final pendingTodos = pendingTodosSnapshot.data ?? const Iterable.empty();

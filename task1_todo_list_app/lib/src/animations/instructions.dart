@@ -8,6 +8,7 @@ import 'package:task1_todo_list_app/src/constants/fontweights.dart';
 import 'package:task1_todo_list_app/src/constants/strings.dart';
 import 'package:task1_todo_list_app/src/widgets/custom_widgets/decorated_text_widget.dart';
 
+
 class HomeViewInstructions extends StatefulWidget {
   final int todoLength;
 
@@ -22,12 +23,17 @@ class HomeViewInstructions extends StatefulWidget {
 
 class _HomeViewInstructionsState extends State<HomeViewInstructions>{
   late ScrollController controller;
+  late Timer timer;
 
   @override
   void initState(){
     super.initState();
     controller = ScrollController();
-    startAnimation();
+
+    timer = Timer.periodic(
+      const Duration(milliseconds: 100),
+      (_) => controller.jumpTo(controller.offset + 1)
+    );
 
     controller.addListener(() {
       if(controller.offset >= controller.position.maxScrollExtent){
@@ -36,15 +42,10 @@ class _HomeViewInstructionsState extends State<HomeViewInstructions>{
     });
   }
 
-  void startAnimation(){
-    Timer.periodic(const Duration(milliseconds: 100), (_) {
-      controller.jumpTo(controller.offset + 1);
-    });
-  }
-
   @override 
   void dispose(){
     controller.dispose();
+    timer.cancel();
     super.dispose();
   }
 

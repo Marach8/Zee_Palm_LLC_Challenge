@@ -1,8 +1,8 @@
-import 'package:collection/collection.dart';
+import 'package:collection/collection.dart' show DeepCollectionEquality;
 import 'package:flutter/foundation.dart' show Uint8List;
 import 'package:hive/hive.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart' show ImagePicker, ImageSource;
+import 'package:intl/intl.dart' show DateFormat;
 import 'package:task1_todo_list_app/src/constants/strings.dart';
 import 'package:task1_todo_list_app/src/models/todo_model.dart';
 import 'package:task1_todo_list_app/src/models/user_details_model.dart';

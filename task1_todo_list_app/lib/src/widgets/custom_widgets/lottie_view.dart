@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:lottie/lottie.dart' show Lottie;
 
 class LottieView extends StatelessWidget {
   final String lottiePath;

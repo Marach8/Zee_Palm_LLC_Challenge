@@ -1,5 +1,6 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart' show ReadContext, WatchContext;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:task1_todo_list_app/src/functions/bloc/app_bloc.dart';
@@ -47,7 +48,7 @@ class AddTodoView extends HookWidget {
       child: SafeArea(
         child: Scaffold(
           floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-          backgroundColor: whiteColorWithOpacity,
+          backgroundColor: kIsWeb ? blackColorForWeb : whiteColorWithOpacity,
           appBar: AppBar(
             title: DecoratedText(
               color: blackColor,

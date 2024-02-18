@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:task1_todo_list_app/src/constants/colors.dart';
 import 'package:task1_todo_list_app/src/constants/fontsizes.dart';
@@ -29,7 +30,9 @@ with SingleTickerProviderStateMixin{
     super.initState();
     sliderController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 15)
+      duration: const Duration(
+        seconds: kIsWeb ? 25 : 15
+      )
     )..repeat();
 
     sliderAnimation = Tween<Offset> (
@@ -62,7 +65,7 @@ with SingleTickerProviderStateMixin{
           color: blackColor,
           fontSize: fontSize2,
           fontWeight: fontWeight3,
-          text: noOfTodos == 1 ? '$noOfTodos $todosAdded' :
+          text: noOfTodos == 1 ? '$noOfTodos $todoAdded' :
             '$noOfTodos $todosAdded'
         ),
     );

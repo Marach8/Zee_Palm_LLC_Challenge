@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart' show FontWeight;
 
 const fontWeight1 = FontWeight.w100;
 const fontWeight2 = FontWeight.w200;

@@ -13,7 +13,6 @@ class ScrollBarWithSingleChildScrollView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
-      //interactive: true,
       radius: const Radius.circular(5), 
       controller: PrimaryScrollController.of(context),             
       thickness: thickness ?? 10,

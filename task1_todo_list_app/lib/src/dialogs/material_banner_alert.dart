@@ -1,4 +1,4 @@
-import 'dart:async';
+import 'dart:async' show Completer;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task1_todo_list_app/src/functions/bloc/app_bloc.dart';

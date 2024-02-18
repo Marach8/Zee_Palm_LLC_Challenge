@@ -45,6 +45,7 @@ const newUser = 'New User';
 const hello = 'Hello';
 const noTodos = 'No Pending Todos to display...';
 const todosAdded = 'Todos available in total ✍️';
+const todoAdded = 'Todo available in total✍️';
 const falseToTrue = 'Are you sure you want to mark this todo as completed?';
 const trueToFalse = 'Are you sure you want to mark this todo as uncompleted?';
 const enterTitle = 'Enter the title.';

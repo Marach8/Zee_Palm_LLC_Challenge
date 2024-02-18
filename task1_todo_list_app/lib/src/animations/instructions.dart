@@ -1,4 +1,4 @@
-import 'dart:async';
+import 'dart:async' show Timer;
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:task1_todo_list_app/src/constants/colors.dart';

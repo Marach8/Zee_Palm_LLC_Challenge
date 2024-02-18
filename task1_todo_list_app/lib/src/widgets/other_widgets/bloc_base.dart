@@ -40,8 +40,7 @@ class BlocConsumerBase extends StatelessWidget {
         }
 
         else{
-          Future.delayed(const Duration(milliseconds: 600))
-            .then((_) => loadingScreen.hideOverlay());
+          loadingScreen.hideOverlay();
         }
         
 

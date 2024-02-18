@@ -17,8 +17,16 @@ void main() async {
 }
 
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget with WidgetsBindingObserver{
   const MyApp({super.key});
+
+  @override 
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if(state != AppLifecycleState.resumed){
+      await Hive.close();
+    }
+    super.didChangeAppLifecycleState(state);
+  }
 
   @override
   Widget build(BuildContext context) {

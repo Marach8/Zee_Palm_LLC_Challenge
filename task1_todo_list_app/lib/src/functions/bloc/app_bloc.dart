@@ -490,8 +490,6 @@ class AppBloc extends Bloc<AppEvents, AppState>{
 
           emit(
             InAddTodoViewAppState(
-              isLoading: true,
-              operation: saving,
               numberOfTodos: initialNumberOfTodos
             )
           );

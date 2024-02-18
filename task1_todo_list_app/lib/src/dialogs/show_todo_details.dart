@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:task1_todo_list_app/src/constants/colors.dart';
@@ -84,7 +85,7 @@ Future<void> showFullTodoDetails(
           heading: creationDateTimeOfTodo,
           content: datetimeOfCreation
         ),
-        const Gap(10),
+        kIsWeb ? const Gap(50) : const Gap(10),
       ]
     ),
     duration: const Duration(seconds: 30),

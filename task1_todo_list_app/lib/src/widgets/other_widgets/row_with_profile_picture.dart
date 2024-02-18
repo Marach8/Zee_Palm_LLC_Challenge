@@ -38,6 +38,8 @@ class RowWithProfilePicture extends HookWidget {
     );
     final usernameSnapshot = useFuture(usernameFuture);
     final imageDataSnapshot = useFuture(imageDataFuture);
+    final usernameState = usernameSnapshot.connectionState;
+    final imageDataState = imageDataSnapshot.connectionState;
 
 
 
@@ -65,8 +67,10 @@ class RowWithProfilePicture extends HookWidget {
                 borderRadius: BorderRadius.circular(
                   isZoomed ? 130 : 40
                 ),
-                child: imageDataSnapshot.hasData && 
-                  imageDataSnapshot.data != null ? Image.memory(
+                child: imageDataState == ConnectionState.waiting ? 
+                  const Center(child: CircularProgressIndicator()) :
+                imageDataSnapshot.hasData && imageDataSnapshot.data != null ? 
+                  Image.memory(
                     imageDataSnapshot.data!,
                     fit: BoxFit.cover
                   ) : const Icon(Icons.person),
@@ -75,7 +79,9 @@ class RowWithProfilePicture extends HookWidget {
           ),
           const Gap(20),        
           isZoomed ? emptySizedBox
-          :Expanded(
+          : usernameState == ConnectionState.waiting ?
+            const Center(child: CircularProgressIndicator()) :
+            Expanded(
             child: DecoratedText(
               color: blackColor,
               fontSize: fontSize4,

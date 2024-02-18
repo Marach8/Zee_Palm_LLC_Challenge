@@ -53,6 +53,7 @@ class TodoHomeView extends HookWidget {
       [useMemoizedDependency]
     );
     final pendingTodosSnapshot = useFuture(pendingTodosFuture);
+    final state = pendingTodosSnapshot.connectionState;
     final pendingTodos = pendingTodosSnapshot.data ?? const Iterable.empty();
 
 
@@ -109,7 +110,9 @@ class TodoHomeView extends HookWidget {
 
                   ContainerWidget(
                     padding: const EdgeInsets.all(10),
-                    children: pendingTodos.isEmpty ? [
+                    children: state == ConnectionState.waiting ? [
+                      const CircularProgressIndicator()
+                    ] : pendingTodos.isEmpty ? [
                       const SizeAnimation(),
                       const Gap(20),
                       const LottieView(lottiePath: lottie2Path)

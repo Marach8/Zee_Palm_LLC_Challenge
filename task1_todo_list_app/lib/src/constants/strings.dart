@@ -13,7 +13,7 @@ const userExists = 'userExists';
 const appDescription = 'Manage your tasks and todos with OrganizeMe...';
 const getStarted = 'Get Started...';
 const permission = 'App Permission';
-const grantPermission = 'This app needs your permission to store and retrieve data from your device.';
+const grantPermission = 'OrganizeMe needs your permission to store and retrieve data from your device.';
 const fullPermissionReason = '''
 Dear esteemed user, We value your privacy and only collect data that helps us improve the app for your usage.
 ''';

@@ -19,7 +19,7 @@ class Todo extends HiveObject{
   bool todoIsCompleted;
 
   @HiveField(4)
-  String todoCreationDateTime;
+  DateTime todoCreationDateTime;
 
   @HiveField(5)
   String todoKey;

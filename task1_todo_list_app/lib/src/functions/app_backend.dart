@@ -1,4 +1,4 @@
-import 'package:collection/collection.dart' show DeepCollectionEquality;
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart' show Uint8List;
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart' show ImagePicker, ImageSource;
@@ -34,7 +34,7 @@ class AppBackend {
 
   Future<void> createUserDetails({
     required bool userExists,
-    String? username,
+    required String username,
     String? imageFileName,
     Uint8List? imageData,
   }) async => await _openUserDetailsBox().then(
@@ -117,9 +117,7 @@ class AppBackend {
   }) async
     => await _openTodoBox().then(
       (box) async {
-        final currentDateTime = DateTime.now();
-        final creationDateTime = DateFormat(dateFormatString)
-          .format(currentDateTime);
+        final creationDateTime = DateTime.now();
         const defaultIsCompleted = false;
 
         await box.add(
@@ -180,7 +178,11 @@ class AppBackend {
         final todos = box.values.where(
           (todo) => todo.todoIsCompleted == false
         );
-        return todos;
+        final sortedTodos = todos.sortedBy(
+          (todo) => todo.todoCreationDateTime
+        );
+        return Iterable.castFrom(sortedTodos);
+        //return todos;
       }
     );
 
@@ -192,7 +194,11 @@ class AppBackend {
         final todos = box.values.where(
           (todo) => todo.todoIsCompleted == true
         );
-        return todos;
+        final sortedTodos = todos.sortedBy(
+          (todo) => todo.todoCreationDateTime
+        );
+        return Iterable.castFrom(sortedTodos);
+        //return todos;
       }
     );
 

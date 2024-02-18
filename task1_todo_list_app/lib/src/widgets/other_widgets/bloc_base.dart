@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' show ReadContext, BlocConsumer;
+import 'package:intl/intl.dart';
 import 'package:task1_todo_list_app/src/functions/app_backend.dart';
 import 'package:task1_todo_list_app/src/functions/bloc/app_bloc.dart';
 import 'package:task1_todo_list_app/src/functions/bloc/app_events.dart';
@@ -35,6 +36,7 @@ class BlocConsumerBase extends StatelessWidget {
               context1, operation
             )
           );
+          return;
         }
 
         else{
@@ -45,12 +47,13 @@ class BlocConsumerBase extends StatelessWidget {
         //For MaterialBanner notification
         final error = appState.error;
         if(error != null){
-          await showNotification(
+          showNotification(
             context1, 
             error, 
             Icons.warning_rounded, 
             purpleColor
           );
+          return;
         }
 
 
@@ -123,7 +126,9 @@ class BlocConsumerBase extends StatelessWidget {
                 //Future alert dialog conditions can be added here with more else if(s).
               });
             }
-          );
+          ).then((_){
+            return;
+          });
         }
 
 
@@ -133,7 +138,7 @@ class BlocConsumerBase extends StatelessWidget {
 
           if(todoKeyToShow != null){
             final username = await backend.getUserDetails().then(
-              (details) => details?.username
+              (details) => details!.username
             );
             final pendingTodos = await backend.getPendingTodos();
             final completedTodos = await backend.getCompletedTodos();
@@ -146,7 +151,9 @@ class BlocConsumerBase extends StatelessWidget {
             final dueDateTime = todoToShow.todoDueDateTime;
             final content = todoToShow.todoContent;
             final isCompleted = todoToShow.todoIsCompleted;
-            final datetimeOfCreation = todoToShow.todoCreationDateTime;
+            final dateTimeOfCreation = todoToShow.todoCreationDateTime;
+            final dateTimeString = DateFormat(dateFormatString)
+              .format(dateTimeOfCreation);
 
             await Future.delayed(const Duration(seconds: 0)).then(
               (value) => showFullTodoDetails(
@@ -155,14 +162,16 @@ class BlocConsumerBase extends StatelessWidget {
                 content,
                 dueDateTime,
                 isCompleted,
-                datetimeOfCreation,
-                username ?? newUser
+                dateTimeString,
+                username
               )
             ).then(
               (_) => context1.read<AppBloc>().add(
                 const ResetTodoIndexToShowAppEvent()
               )
-            );
+            ).then((_){
+              return;
+            });
           }
         }
       },
